@@ -12,20 +12,77 @@ def compact_string_(array):
     
     return string
 
-# Returns a binary numpy array obtained by binarizing a specific combination of metrics values. Each metric value 
-# (except for the subtone) is converted to 1 if above the corresponding threshold or 0 if at or below said threshold.
+# Computes subtone (S) by comparing lips color with colors peach and purple according to the following rule:
+# if lips_color is closest to peach_color then subtone is 'warm'
+# else if lips_color is closest to purple_color then subtone is 'cold'
 # ---
-# thresholds: tuple of thresholds given by (contrast_thresh, intensity_thresh, value_thresh).
-def compute_metrics_vector(subtone, intensity, value, contrast, thresholds=(0.5, 0.5, 0.5)):
-    sequence = np.zeros((4), dtype=np.uint8)
-    contrast_thresh, intensity_thresh, value_thresh = thresholds
+# lips_color: numpy array of shape (1, 1, 3).
+def compute_subtone(lips_color): 
+    peach_color = np.array([255, 230, 182], dtype=np.float32).reshape((1, 1, 3)) / 255
+    purple_color = np.array([145, 0, 255], dtype=np.float32).reshape((1, 1, 3)) / 255
 
-    sequence[0] = 'warm' == subtone
-    sequence[1] = intensity > intensity_thresh
-    sequence[2] = value > value_thresh
-    sequence[3] = contrast > contrast_thresh
+    if color_distance(lips_color, peach_color) < color_distance(lips_color, purple_color):
+        return 'warm'
+    
+    return 'cold'
 
-    return sequence
+# Computes contrast (C), defined as the brightness difference between hair and eyes.
+# ---
+# hair_color, eyes_color: numpy arrays of shape (1, 1, 3).
+def compute_contrast(hair_color, eyes_color): 
+    hair_color_GRAYSCALE = cv2.cvtColor(hair_color, cv2.COLOR_RGB2GRAY).item()
+    eyes_color_GRAYSCALE = cv2.cvtColor(eyes_color, cv2.COLOR_RGB2GRAY).item()
+    return abs(hair_color_GRAYSCALE - eyes_color_GRAYSCALE) / 255
+
+# Computes intensity (I), defined as skin color saturation.
+# ---
+# skin_color: numpy array of shape (1, 1, 3).
+def compute_intensity(skin_color): 
+    skin_color_HSV = cv2.cvtColor((skin_color / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+    return skin_color_HSV[0, 0, 1]
+
+# Computes value (V), defined as the overall brightness of skin, hair and eyes.
+# ---
+# skin_color, hair_color, eyes_color: numpy arrays of shape (1, 1, 3).
+def compute_value(skin_color, hair_color, eyes_color): 
+    skin_color_GRAYSCALE = cv2.cvtColor((skin_color / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
+    hair_color_GRAYSCALE = cv2.cvtColor((hair_color / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
+    eyes_color_GRAYSCALE = cv2.cvtColor((eyes_color / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
+    return (skin_color_GRAYSCALE + hair_color_GRAYSCALE + eyes_color_GRAYSCALE) / 3
+    
+# Converts two RGB colors, represented by numpy arrays of shape (1, 1, 3), in CIELab and then computes
+# the euclidean distance between them.
+def color_distance(color1_RGB, color2_RGB):
+    assert(color1_RGB.shape == (1, 1, 3) and color2_RGB.shape == (1, 1, 3))
+    
+    color1_CIELab = cv2.cvtColor(color1_RGB, cv2.COLOR_RGB2Lab)
+    color2_CIELab = cv2.cvtColor(color2_RGB, cv2.COLOR_RGB2Lab)
+    return np.linalg.norm(color1_RGB - color2_RGB)
+
+# Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
+# between metrics vectors.
+def classify_palette(palette, reference_palettes):
+    assert(palette.has_metrics_vector())
+
+    min_hamming_distance = -1
+    season = PaletteRGB()
+    metrics_vector = palette.metrics_vector()
+    
+    for reference_palette in reference_palettes:
+        assert(reference_palette.has_metrics_vector())
+
+        reference_metrics_vector = reference_palette.metrics_vector()
+
+        if reference_metrics_vector[0] != metrics_vector[0]:
+            continue
+
+        hamming_distance = (metrics_vector != reference_metrics_vector).sum()
+
+        if min_hamming_distance == -1 or hamming_distance < min_hamming_distance:
+            min_hamming_distance = hamming_distance
+            season = reference_palette
+    
+    return season
 
 class PaletteRGB():
     def __init__(self, description='palette', colors=np.zeros((1, 1, 3))):
@@ -54,9 +111,20 @@ class PaletteRGB():
 
         return None
 
-    def set_metrics_vector(self, metrics_vector):
-        assert(metrics_vector.shape == (4,) and ((0 <= metrics_vector) * (metrics_vector <= 1)).all())
-        self.metrics_vector_ = metrics_vector.astype(np.uint8)
+    # Returns a binary numpy array obtained by binarizing a specific combination of metrics values. Each metric value 
+    # (except for the subtone) is converted to 1 if above the corresponding threshold or 0 if at or below said threshold.
+    # ---
+    # thresholds: tuple of thresholds given by (contrast_thresh, intensity_thresh, value_thresh).
+    def compute_metrics_vector(self, subtone, intensity, value, contrast, thresholds=(0.5, 0.5, 0.5)):
+        sequence = np.zeros((4), dtype=np.uint8)
+        contrast_thresh, intensity_thresh, value_thresh = thresholds
+
+        sequence[0] = 'warm' == subtone
+        sequence[1] = intensity > intensity_thresh
+        sequence[2] = value > value_thresh
+        sequence[3] = contrast > contrast_thresh
+
+        self.metrics_vector_ = sequence
 
     # filepath: directory in which to save the palette.
     def save(self, filepath='', delimiter=';'):
