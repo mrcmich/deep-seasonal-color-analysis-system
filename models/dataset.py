@@ -28,9 +28,10 @@ def get_paths(path):
 
 
 class MyDataset(Dataset):
-    def __init__(self, img_paths, label_paths):
+    def __init__(self, img_paths, label_paths, transform):
         self.img_paths = img_paths
         self.label_paths = label_paths
+        self.transform = transform
         
     def __len__(self):
         return len(self.img_paths)
@@ -38,9 +39,8 @@ class MyDataset(Dataset):
     def __getitem__(self, index):
         image = Image.open(self.img_paths[index]).convert('RGB')
         label = Image.open(self.label_paths[index]).convert('RGB')
-        transform = T.Compose([T.PILToTensor(), T.Resize((200, 200))])
-        image = transform(image).float()
-        label = transform(label).float()
+        image = self.transform(image).float()
+        label = self.transform(label).float()
         label = color_processing.compute_segmentation_masks(label, segmentation_labels.labels)
         
         return image, label
