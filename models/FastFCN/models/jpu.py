@@ -13,89 +13,11 @@ import torch
 import torch.nn as nn
 
 from torch.nn import functional as F
-from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d, BCELoss, CrossEntropyLoss
-
-from torch.autograd import Variable
+from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d
 
 torch_ver = torch.__version__[:3]
 
 __all__ = ['SegmentationLosses', 'PyramidPooling', 'JPU', 'JPU_X', 'Mean']
-
-class SegmentationLosses(CrossEntropyLoss):
-    """2D Cross Entropy Loss with Auxilary Loss"""
-    def __init__(self, se_loss=False, se_weight=0.2, nclass=-1,
-                 aux=False, aux_weight=0.4, weight=None,
-                 size_average=True, ignore_index=-1, reduction='mean'):
-        super(SegmentationLosses, self).__init__(weight, ignore_index=ignore_index, reduction=reduction)
-        self.se_loss = se_loss
-        self.aux = aux
-        self.nclass = nclass
-        self.se_weight = se_weight
-        self.aux_weight = aux_weight
-        self.bceloss = BCELoss(weight, reduction=reduction)
-
-    def forward(self, *inputs):
-        if not self.se_loss and not self.aux:
-            return super(SegmentationLosses, self).forward(*inputs)
-        elif not self.se_loss:
-            pred1, pred2, target = tuple(inputs)
-            loss1 = super(SegmentationLosses, self).forward(pred1, target)
-            loss2 = super(SegmentationLosses, self).forward(pred2, target)
-            return loss1 + self.aux_weight * loss2
-        elif not self.aux:
-            pred, se_pred, target = tuple(inputs)
-            se_target = self._get_batch_label_vector(target, nclass=self.nclass).type_as(pred)
-            loss1 = super(SegmentationLosses, self).forward(pred, target)
-            loss2 = self.bceloss(torch.sigmoid(se_pred), se_target)
-            return loss1 + self.se_weight * loss2
-        else:
-            pred1, se_pred, pred2, target = tuple(inputs)
-            se_target = self._get_batch_label_vector(target, nclass=self.nclass).type_as(pred1)
-            loss1 = super(SegmentationLosses, self).forward(pred1, target)
-            loss2 = super(SegmentationLosses, self).forward(pred2, target)
-            loss3 = self.bceloss(torch.sigmoid(se_pred), se_target)
-            return loss1 + self.aux_weight * loss2 + self.se_weight * loss3
-
-    @staticmethod
-    def _get_batch_label_vector(target, nclass):
-        # target is a 3D Variable BxHxW, output is 2D BxnClass
-        batch = target.size(0)
-        tvect = Variable(torch.zeros(batch, nclass))
-        for i in range(batch):
-            hist = torch.histc(target[i].cpu().data.float(), 
-                               bins=nclass, min=0,
-                               max=nclass-1)
-            vect = hist>0
-            tvect[i] = vect
-        return tvect
-
-
-class Normalize(Module):
-    r"""Performs :math:`L_p` normalization of inputs over specified dimension.
-
-    Does:
-
-    .. math::
-        v = \frac{v}{\max(\lVert v \rVert_p, \epsilon)}
-
-    for each subtensor v over dimension dim of input. Each subtensor is
-    flattened into a vector, i.e. :math:`\lVert v \rVert_p` is not a matrix
-    norm.
-
-    With default arguments normalizes over the second dimension with Euclidean
-    norm.
-
-    Args:
-        p (float): the exponent value in the norm formulation. Default: 2
-        dim (int): the dimension to reduce. Default: 1
-    """
-    def __init__(self, p=2, dim=1):
-        super(Normalize, self).__init__()
-        self.p = p
-        self.dim = dim
-
-    def forward(self, x):
-        return F.normalize(x, self.p, self.dim, eps=1e-8)
 
 
 class PyramidPooling(Module):
@@ -237,13 +159,3 @@ class JPU_X(nn.Module):
         feat = self.jum_2(inputs[3], feat)
 
         return inputs[0], inputs[1], inputs[2], feat
-
-
-class Mean(Module):
-    def __init__(self, dim, keep_dim=False):
-        super(Mean, self).__init__()
-        self.dim = dim
-        self.keep_dim = keep_dim
-
-    def forward(self, input):
-        return input.mean(self.dim, self.keep_dim)

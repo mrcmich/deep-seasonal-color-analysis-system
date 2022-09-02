@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 import torchvision.transforms as T
 from PIL import Image
 import xml.etree.ElementTree as ET
-from config import *
+from .config import *
 from utils import segmentation_labels
 from palette_classification import color_processing
 
