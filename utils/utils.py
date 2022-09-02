@@ -11,3 +11,7 @@ def from_DHW_to_HWD(img_DHW):
 # Returns the index of a certain key in a dictionary.
 def from_key_to_index(dictionary, key):
     return list(dictionary.keys()).index(key)
+
+# Counts the number of learnable parameters of model (parameters whose attribute requires_grad set to True).
+def count_learnable_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
