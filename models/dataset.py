@@ -5,7 +5,6 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 # ---
 
 from torch.utils.data import Dataset
-import torchvision.transforms as T
 from PIL import Image
 import xml.etree.ElementTree as ET
 from .config import *
