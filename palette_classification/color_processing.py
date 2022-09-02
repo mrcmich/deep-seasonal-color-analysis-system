@@ -10,6 +10,7 @@ import utils.utils as utils
 import cv2
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
+from sklearn.utils import shuffle
 
 # Converts two RGB colors, represented by pytorch tensors of shape (3, 1, 1), in CIELab and then computes
 # the euclidean distance between them.
@@ -57,49 +58,62 @@ def apply_masks(img, masks):
 
     img_masked = img * masks.unsqueeze(axis=1)
     return img_masked.to(torch.uint8)
-   
+
 # Given a masked image of shape (n_masks, 3, H, W) and a distance function computing a distance measure between two images, 
-# returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask.
+# returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask. When comparing candidates,
+# brighter colors are favored for skin, hair, lips dominants and darker colors are favored for the eyes dominant (this is done by appropriately)
+# weighting the provided distance measure).
 # ---
 # n_candidates: tuple of length n_masks specifying how many candidates to consider for each mask when looking for a dominant.
 def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
-    assert(img_masked.shape[0] == len(n_candidates))
+    assert(img_masked.shape[0] >= 4 and img_masked.shape[0] == len(n_candidates))
 
+    IMG_MASKED_EYES_IDX = 3
     n_masks, _, H, W = img_masked.shape
-    color_tensor = torch.zeros((3, 1, 1), dtype=torch.uint8)
     dominants = []
 
     for i in range(n_masks):
         img_masked_i = img_masked[i]
+        max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(img_masked_i).numpy(), cv2.COLOR_RGB2GRAY).max()
         kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
-        mask = np.logical_not(color_mask(img_masked_i))                
+        mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
-    
-        kmeans.fit(img_masked_i_flattened)
+        img_masked_i_flattened_sample = shuffle(img_masked_i_flattened, random_state=99, n_samples=round(0.6 * H * W))
+        kmeans.fit(img_masked_i_flattened_sample)
         candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
-    
+        reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
+
         min_reconstruction_error = -1 
         dominant = torch.zeros((3, 1, 1), dtype=torch.uint8)
 
-        for color_triplet in candidates:
-            color_tensor[:, 0, 0] = color_triplet
-            img_reconstructed_i = mask.unsqueeze(axis=0) * color_tensor
-            reconstruction_error = distance_fn(img_masked_i, img_reconstructed_i)
+        for j, reconstruction_j in enumerate(reconstructions):
+            if candidates[j].sum() < 20 or candidates[j].sum() > 600:
+                continue
+            
+            average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(reconstruction_j).numpy(), cv2.COLOR_RGB2GRAY).mean()
+            reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
+
+            if i == IMG_MASKED_EYES_IDX:
+                # decrease RMSE of darker colors when computing eyes dominant
+                reconstruction_error_j *= (average_brightness_j / max_brightness_i)
+            else:
+                # decrease RMSE of brighter colors when computing other dominants
+                reconstruction_error_j /= (average_brightness_j / max_brightness_i)
 
             # debug
             if debug is True:
-                r, g, b = color_triplet
-                print(f'Candidate: ({r},{g},{b}), RMSE: {reconstruction_error}')
+                r, g, b = candidates[j]
+                print(f'Candidate: ({r},{g},{b}), Weighted Reconstruction Error: {reconstruction_error_j}')
                 plt.figure(figsize=(20, 10))
                 plt.subplot(1, 2, 1)
-                plt.imshow(utils.from_DHW_to_HWD(img_reconstructed_i))
+                plt.imshow(utils.from_DHW_to_HWD(reconstruction_j))
                 plt.subplot(1, 2, 2)
                 plt.imshow(utils.from_DHW_to_HWD(img_masked_i))
                 plt.show() 
 
-            if min_reconstruction_error == -1 or reconstruction_error < min_reconstruction_error:
-                min_reconstruction_error = reconstruction_error
-                dominant = color_triplet
+            if min_reconstruction_error == -1 or reconstruction_error_j < min_reconstruction_error:
+                min_reconstruction_error = reconstruction_error_j
+                dominant = candidates[j]
             
         dominants.append(dominant.tolist())
     
