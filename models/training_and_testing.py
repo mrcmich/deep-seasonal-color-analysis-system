@@ -9,7 +9,7 @@ import math
 # leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary. Returns 
 # a tuple (average_loss, average_score) representing the average values of loss (zero if not defined) and score along data_loader's batches.
 # ---
-# device: the device on which to move inputs and target of data_loader.
+# device: device on which to load data ('cpu' for cpu).
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=None, training=False, optimizer=None):
     if training is True:
@@ -23,11 +23,10 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
             optimizer.zero_grad()
 
         batch_inputs = batch_inputs.to(device)
-        batch_targets = batch_targets.to(device)
-
-        batch_outputs = model(batch_inputs)[0] # possibly model-dependent???
+        batch_targets = batch_targets.float().to(device)
+        batch_outputs = model(batch_inputs)[0]
         channels_max, _ = torch.max(batch_outputs, axis=1)
-        batch_predictions = (batch_outputs == channels_max.unsqueeze(axis=1))
+        batch_predictions = (batch_outputs == channels_max.unsqueeze(axis=1)).float().to(device)
         
         if loss_fn is not None:
             loss = loss_fn(batch_outputs, batch_targets)
@@ -49,10 +48,10 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # printed to console during training. Returns a dictionary with keys average_train_loss, average_val_loss, average_train_score,
 # average_val_score, each identifying a python list which for each epoch stores the average loss/score along dataset's batches.
 # ---
+# device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def train_model(model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, evaluate=False, verbose=False):
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+def train_model(device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, evaluate=False, verbose=False):
     model_on_device = model.to(device)
 
     if evaluate is True:
@@ -111,10 +110,10 @@ def train_model(model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimiz
 
 # Function for testing model on dataset. Returns the average score along dataset's batches.
 # ---
+# device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def test_model(model, dataset, batch_size, score_fn):
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+def test_model(device, model, dataset, batch_size, score_fn):
     dl_test = DataLoader(dataset, batch_size=batch_size, num_workers=2)
     model_on_device = model.to(device)
     model_on_device.eval()
