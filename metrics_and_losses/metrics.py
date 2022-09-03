@@ -20,11 +20,16 @@ def rmse(img1, img2):
 
     return (((img1_CIELab - img2_CIELab) ** 2).sum() / (H * W)) ** 0.5
 
-# Computes the average mIoU over a batch of images.
+# Returns a pytorch tensor containing the average mIoU along a batch of images.
 # ---
 # predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
-def average_mIoU(predictions, targets):
+def batch_mIoU(predictions, targets):
     intersection_cardinality = torch.logical_and(predictions, targets).sum(axis=(2, 3)) 
     union_cardinality = torch.logical_or(predictions, targets).sum(axis=(2, 3)) 
     IoU = intersection_cardinality / union_cardinality
-    return IoU.mean().item()
+    
+    # if there aren't pixels of a certain class in an image, and the model correctly predicts so, 
+    # than the IoU should be 1 for that class
+    IoU[union_cardinality == 0] = 1.0
+
+    return IoU.mean()

@@ -18,7 +18,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
     cum_loss = 0.0
     cum_score = 0.0
 
-    for idx, (batch_inputs, batch_targets) in enumerate(data_loader):
+    for batch_inputs, batch_targets in data_loader:
         if training is True:
             optimizer.zero_grad()
 
@@ -32,7 +32,8 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
             loss = loss_fn(batch_outputs, batch_targets)
             cum_loss += loss.item()
 
-        cum_score += score_fn(batch_predictions, batch_targets)
+        score = score_fn(batch_predictions, batch_targets)
+        cum_score += score.item()
         
         if training is True:
             loss.backward()
