@@ -26,8 +26,9 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
         batch_targets = batch_targets.to(device)
 
         batch_outputs = model(batch_inputs)[0] # possibly model-dependent???
-        batch_predictions = torch.where(batch_outputs <= 0.5, 0, 1)
-
+        channels_max, _ = torch.max(batch_outputs, axis=1)
+        batch_predictions = (batch_outputs == channels_max.unsqueeze(axis=1))
+        
         if loss_fn is not None:
             loss = loss_fn(batch_outputs, batch_targets)
             cum_loss += loss.item()
@@ -51,7 +52,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 def train_model(model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, evaluate=False, verbose=False):
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model_on_device = model.to(device)
 
     if evaluate is True:
