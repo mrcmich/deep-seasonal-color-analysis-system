@@ -6,8 +6,8 @@ import time
 import math
 
 # A single epoch of training of model on data_loader. If training is set to False, validation/testing is carried out instead, 
-# leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary. Returns 
-# a tuple (average_loss, average_score) representing the average values of loss (zero if not defined) and score along data_loader's batches.
+# leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary. Returns a tuple 
+# (average_loss, average_score) representing the average values of loss (zero if not defined) and score along data_loader's batches.
 # ---
 # device: device on which to load data ('cpu' for cpu).
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
@@ -44,7 +44,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 
     return average_loss, average_score
 
-# Function for training model on dataset. If evaluate is set to True, the dataset is split 80/20 into a training set
+# Function for training model on dataset. If evaluate is set to True, the dataset is split 85/15 into a training set
 # and a validation set, otherwise the entire dataset is used for training. If verbose is set to True, additional info is
 # printed to console during training. Returns a dictionary with keys average_train_loss, average_val_loss, average_train_score,
 # average_val_score, each identifying a python list which for each epoch stores the average loss/score along dataset's batches.
@@ -52,13 +52,16 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def train_model(device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, evaluate=False, verbose=False):
+def train_model(
+    device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, evaluate=False, verbose=False):
+    
     model_on_device = model.to(device)
 
     if evaluate is True:
-        n_train_samples = round(0.80 * len(dataset))
+        n_train_samples = round(0.85 * len(dataset))
         n_val_samples = len(dataset) - n_train_samples
-        dataset_train, dataset_val = random_split(dataset, lengths=[n_train_samples, n_val_samples], generator=torch.Generator().manual_seed(99))
+        dataset_train, dataset_val = random_split(
+            dataset, lengths=[n_train_samples, n_val_samples], generator=torch.Generator().manual_seed(99))
         dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=4)
         dl_val = DataLoader(dataset_val, batch_size=batch_size, num_workers=2)
     else:
@@ -79,7 +82,8 @@ def train_model(device, model, dataset, batch_size, n_epochs, score_fn, loss_fn,
     for epoch in range(n_epochs):
         model_on_device.train()
 
-        average_train_loss, average_train_score = training_or_testing_epoch_(device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+        average_train_loss, average_train_score = training_or_testing_epoch_(
+            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
         training_results['average_train_loss'].append(average_train_loss)
         training_results['average_train_score'].append(average_train_score)
 
@@ -100,6 +104,9 @@ def train_model(device, model, dataset, batch_size, n_epochs, score_fn, loss_fn,
 
         if verbose is True:
             print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
+        
+        if lr_scheduler is not None:
+            lr_scheduler.step()
 
     clock_end = time.time()
 
@@ -133,9 +140,11 @@ def test_model(device, model, dataset, batch_size, score_fn):
 
 # Plots training results, as returned from function train_model.
 # ---
-# results_dict: dictionary with keys average_train_loss, average_val_loss, average_train_score, average_val_score, each identifying a python list of losses/scores.
+# results_dict: dictionary with keys average_train_loss, average_val_loss, average_train_score, average_val_score, 
+#               each identifying a python list of losses/scores.
 # plotsize: tuple representing the size (in inches) of the figure containing results_dict's plots.
-def plot_training_results(results_dict, plotsize):
+# train_fmt, val_fmt: format string for plots of training and validation metrics respectively.
+def plot_training_results(results_dict, plotsize, train_fmt='g', val_fmt='b'):
     assert(
         'average_train_loss' in results_dict and 
         'average_val_loss' in results_dict and 
@@ -151,7 +160,8 @@ def plot_training_results(results_dict, plotsize):
     
     # average losses
     plt.subplot(1, 2, 1)
-    plt.plot(range(1, n_epochs + 1), results_dict['average_train_loss'], 'r', range(1, n_epochs + 1), results_dict['average_val_loss'], 'g')
+    plt.plot(range(1, n_epochs + 1), results_dict['average_train_loss'], train_fmt, \
+        range(1, n_epochs + 1), results_dict['average_val_loss'], val_fmt)
     plt.title('Average Loss')
     plt.xlabel(xlabel)
     plt.ylabel('Loss')
@@ -159,7 +169,8 @@ def plot_training_results(results_dict, plotsize):
 
     # average scores
     plt.subplot(1, 2, 2)
-    plt.plot(range(1, n_epochs + 1), results_dict['average_train_score'], 'r', range(1, n_epochs + 1), results_dict['average_val_score'], 'g')
+    plt.plot(range(1, n_epochs + 1), results_dict['average_train_score'], train_fmt, \
+        range(1, n_epochs + 1), results_dict['average_val_score'], val_fmt)
     plt.title('Average Score')
     plt.xlabel(xlabel)
     plt.ylabel('Score')
