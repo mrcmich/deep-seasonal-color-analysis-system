@@ -24,6 +24,13 @@ def rmse(img1, img2):
 # ---
 # predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
 def batch_mIoU(predictions, targets):
+    return batch_IoU(predictions, targets).mean()
+
+# Returns a pytorch tensor of shape (n_labels,) containing the IoU for each
+# label along a batch of images.
+# ---
+# predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
+def batch_IoU(predictions, targets):
     intersection_cardinality = torch.logical_and(predictions, targets).sum(axis=(2, 3)) 
     union_cardinality = torch.logical_or(predictions, targets).sum(axis=(2, 3)) 
     IoU = intersection_cardinality / union_cardinality
@@ -32,4 +39,4 @@ def batch_mIoU(predictions, targets):
     # than the IoU should be 1 for that class
     IoU[union_cardinality == 0] = 1.0
 
-    return IoU.mean()
+    return IoU.mean(axis=0)
