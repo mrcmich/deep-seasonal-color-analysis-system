@@ -61,7 +61,7 @@ def colorize_segmentation_masks(segmentation_masks, labels):
     n_labels = segmentation_masks.shape[0]
     color_tensor = torch.tensor(list(labels.values()), dtype=torch.uint8).reshape((n_labels, 3))
     img_colorized = segmentation_masks.unsqueeze(axis=1) * color_tensor.unsqueeze(axis=2).unsqueeze(axis=3)
-    return img_colorized.sum(axis=0)
+    return img_colorized.sum(axis=0).to(torch.uint8)
 
 # Given an image of shape (3, H, W) and a set of masks represented by a boolean pytorch tensor of shape (n_masks, H, W), applies 
 # all masks to the image, resulting in a new image with shape (n_masks, 3, H, W).
