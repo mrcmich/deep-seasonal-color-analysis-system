@@ -50,6 +50,19 @@ def compute_segmentation_masks(img_segmented, labels):
 
     return masks
 
+# Given a boolean pytorch tensor of shape (n_labels, H, W) containing n_labels segmentation masks
+# and a dictionary of labels, returns a RGB image (as a pytorch tensor of shape (3, H, W)) obtained by 
+# assigning a color from labels to each mask.
+# ---
+# labels: dictionary of labels { label_name (string): color_triplet (list) }.
+def colorize_segmentation_masks(segmentation_masks, labels):
+    assert(segmentation_masks.shape[0] == len(labels))
+
+    n_labels = segmentation_masks.shape[0]
+    color_tensor = torch.tensor(list(labels.values()), dtype=torch.uint8).reshape((n_labels, 3))
+    img_colorized = segmentation_masks.unsqueeze(axis=1) * color_tensor.unsqueeze(axis=2).unsqueeze(axis=3)
+    return img_colorized.sum(axis=0)
+
 # Given an image of shape (3, H, W) and a set of masks represented by a boolean pytorch tensor of shape (n_masks, H, W), applies 
 # all masks to the image, resulting in a new image with shape (n_masks, 3, H, W).
 # ---
