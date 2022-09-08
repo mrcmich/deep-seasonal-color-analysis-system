@@ -65,7 +65,7 @@ def train_model(
         dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=4)
         dl_val = DataLoader(dataset_val, batch_size=batch_size, num_workers=2)
     else:
-        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=4)
         dl_val = None
 
     training_results = {
@@ -84,6 +84,7 @@ def train_model(
 
         average_train_loss, average_train_score = training_or_testing_epoch_(
             device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+        average_train_score = average_train_score.mean().item()
         training_results['average_train_loss'].append(average_train_loss)
         training_results['average_train_score'].append(average_train_score)
 
@@ -99,6 +100,7 @@ def train_model(
         with torch.no_grad():
             average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
         
+        average_val_score = average_val_score.mean().item()
         training_results['average_val_loss'].append(average_val_loss)
         training_results['average_val_score'].append(average_val_score)
 
