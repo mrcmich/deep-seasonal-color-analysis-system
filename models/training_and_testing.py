@@ -16,7 +16,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
         assert(optimizer is not None and loss_fn is not None)
 
     cum_loss = 0.0
-    cum_score = 0.0
+    cum_scores = torch.tensor(0.0, dtype=torch.float32)
 
     for batch_inputs, batch_targets in data_loader:
         if training is True:
@@ -33,14 +33,14 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
             cum_loss += loss.item()
 
         score = score_fn(batch_predictions, batch_targets)
-        cum_score += score.item()
+        cum_scores = cum_scores + score
         
         if training is True:
             loss.backward()
             optimizer.step()
     
     average_loss = cum_loss / len(data_loader)
-    average_score = cum_score / len(data_loader)
+    average_score = cum_scores / len(data_loader)
 
     return average_loss, average_score
 
