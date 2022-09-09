@@ -310,4 +310,4 @@ class LEDNet(nn.Module):
             return self.encoder.forward(input, predict=True)
         else:
             output = self.encoder(input)    
-            return self.decoder.forward(output)
+            return (self.decoder.forward(output), None)
