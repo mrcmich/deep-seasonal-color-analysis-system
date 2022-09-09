@@ -275,10 +275,11 @@ class APN_Module(nn.Module):
 
 
 class Decoder (nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes, output_size=(256, 256)):
         super().__init__()
 
-        self.apn = APN_Module(in_ch=128,out_ch=20)
+        self.output_size = output_size
+        self.apn = APN_Module(in_ch=128,out_ch=num_classes)
         # self.upsample = Interpolate(size=(512, 1024), mode="bilinear")
         # self.output_conv = nn.ConvTranspose2d(16, num_classes, kernel_size=4, stride=2, padding=1, output_padding=0, bias=True)
         # self.output_conv = nn.ConvTranspose2d(16, num_classes, kernel_size=3, stride=2, padding=1, output_padding=1, bias=True)
@@ -287,7 +288,7 @@ class Decoder (nn.Module):
     def forward(self, input):
         
         output = self.apn(input)
-        out = interpolate(output, size=(512, 1024), mode="bilinear", align_corners=True)
+        out = interpolate(output, size=self.output_size, mode="bilinear", align_corners=True)
         # out = self.upsample(output)
         # print(out.shape)
         return out
@@ -295,14 +296,14 @@ class Decoder (nn.Module):
 
 # LEDNet
 class LEDNet(nn.Module):
-    def __init__(self, num_classes, encoder=None):  
+    def __init__(self, num_classes, output_size=(256, 256), encoder=None):  
         super().__init__()
 
         if (encoder == None):
             self.encoder = Encoder(num_classes)
         else:
             self.encoder = encoder
-        self.decoder = Decoder(num_classes)
+        self.decoder = Decoder(num_classes, output_size=output_size)
 
     def forward(self, input, only_encode=False):
         if only_encode:
