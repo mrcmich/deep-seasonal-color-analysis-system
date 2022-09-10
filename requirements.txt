@@ -5,3 +5,4 @@ Pillow==9.2.0
 scikit_learn==1.1.2
 torch==1.12.1
 torchvision==0.13.1
+torch-summary==1.4.5
