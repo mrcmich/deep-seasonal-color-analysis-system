@@ -4,7 +4,7 @@
 # Copyright (c) 2017
 ###########################################################################
 
-# --- Needed to import modules from other packages
+# --- Needed to import modules from other packages - addition to original
 import sys
 from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
@@ -16,8 +16,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-__all__ = ['FastSCNN', 'get_fast_scnn']
-
+#__all__ = ['FastSCNN', 'get_fast_scnn'] # original
+__all__ = ['FastSCNN'] # modified
 
 class FastSCNN(nn.Module):
     def __init__(self, num_classes, aux=False, **kwargs):
@@ -238,25 +238,11 @@ class Classifer(nn.Module):
         x = self.conv(x)
         return x
 
+# removed function get_fast_scnn
 
-def get_fast_scnn(dataset='citys', pretrained=False, root='./weights', map_cpu=False, **kwargs):
-    acronyms = {
-        'pascal_voc': 'voc',
-        'pascal_aug': 'voc',
-        'ade20k': 'ade',
-        'coco': 'coco',
-        'citys': 'citys',
-    }
-    from data_loader import datasets
-    model = FastSCNN(datasets[dataset].NUM_CLASS, **kwargs)
-    if pretrained:
-        if(map_cpu):
-            model.load_state_dict(torch.load(os.path.join(root, 'fast_scnn_%s.pth' % acronyms[dataset]), map_location='cpu'))
-        else:
-            model.load_state_dict(torch.load(os.path.join(root, 'fast_scnn_%s.pth' % acronyms[dataset])))
-    return model
-
+"""
 if __name__ == '__main__':
     img = torch.randn(2, 3, 256, 512)
     model = get_fast_scnn('citys')
     outputs = model(img)
+"""
