@@ -53,19 +53,27 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 def train_model(
-    device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, evaluate=False, verbose=False):
+    device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False, verbose=False):
     
     model_on_device = model.to(device)
+    
+    num_workers_train = 0
+    num_workers_test = 0
+    if type(num_workers) is tuple:
+        num_workers_train = num_workers[0]
+        num_workers_test = num_workers[1]
+    else:
+        num_workers_train = num_workers_test = num_workers
 
     if evaluate is True:
         n_train_samples = round(0.85 * len(dataset))
         n_val_samples = len(dataset) - n_train_samples
         dataset_train, dataset_val = random_split(
             dataset, lengths=[n_train_samples, n_val_samples], generator=torch.Generator().manual_seed(99))
-        dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=4)
-        dl_val = DataLoader(dataset_val, batch_size=batch_size, num_workers=2)
+        dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=num_workers_train)
+        dl_val = DataLoader(dataset_val, batch_size=batch_size, num_workers=num_workers_test)
     else:
-        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=4)
+        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=num_workers_train)
         dl_val = None
 
     training_results = {
