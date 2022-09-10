@@ -52,6 +52,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
+# num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
 def train_model(
     device, model, dataset, batch_size, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False, verbose=False):
     
@@ -131,8 +132,9 @@ def train_model(
 # device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def test_model(device, model, dataset, batch_size, score_fn):
-    dl_test = DataLoader(dataset, batch_size=batch_size, num_workers=2)
+# num_workers: number of workers to use when loading test data.
+def test_model(device, model, dataset, batch_size, score_fn, num_workers=0):
+    dl_test = DataLoader(dataset, batch_size=batch_size, num_workers=num_workers)
     model_on_device = model.to(device)
     model_on_device.eval()
 
