@@ -19,9 +19,9 @@ def get_paths(path):
     label_paths = []
     for child in root:
         if child.tag == "srcimg":
-            img_paths.append(ROOT_DIR + "headsegmentation_dataset_ccncsa/" + child.attrib['name'])
+            img_paths.append("headsegmentation_dataset_ccncsa/" + child.attrib['name'])
         elif child.tag == "labelimg":
-            label_paths.append(ROOT_DIR + "headsegmentation_dataset_ccncsa/" + child.attrib['name'])
+            label_paths.append("headsegmentation_dataset_ccncsa/" + child.attrib['name'])
 
     assert(len(img_paths) == len(label_paths))
     return img_paths, label_paths
