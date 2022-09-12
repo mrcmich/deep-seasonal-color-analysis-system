@@ -12,6 +12,7 @@ from utils import segmentation_labels
 from palette_classification import color_processing
 import torchvision.transforms as T
 
+# file_name: filename of .xml file associating each image to the corresponding label
 def get_paths(dataset_path, file_name):
     tree = ET.parse(dataset_path + file_name)
     root = tree.getroot()
