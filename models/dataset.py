@@ -13,7 +13,7 @@ from palette_classification import color_processing
 import torchvision.transforms as T
 
 def get_paths(path):
-    tree = ET.parse(ROOT_DIR + path)
+    tree = ET.parse(path)
     root = tree.getroot()
     img_paths = []
     label_paths = []
