@@ -12,16 +12,16 @@ from utils import segmentation_labels
 from palette_classification import color_processing
 import torchvision.transforms as T
 
-def get_paths(path):
-    tree = ET.parse(ROOT_DIR + path)
+def get_paths(dataset_path, file_name):
+    tree = ET.parse(dataset_path + file_name)
     root = tree.getroot()
     img_paths = []
     label_paths = []
     for child in root:
         if child.tag == "srcimg":
-            img_paths.append(ROOT_DIR + "headsegmentation_dataset_ccncsa/" + child.attrib['name'])
+            img_paths.append(dataset_path + child.attrib['name'])
         elif child.tag == "labelimg":
-            label_paths.append(ROOT_DIR + "headsegmentation_dataset_ccncsa/" + child.attrib['name'])
+            label_paths.append(dataset_path + child.attrib['name'])
 
     assert(len(img_paths) == len(label_paths))
     return img_paths, label_paths
