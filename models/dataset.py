@@ -5,12 +5,10 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 # ---
 
 from torch.utils.data import Dataset
-from PIL import Image
 import xml.etree.ElementTree as ET
 from .config import *
 from utils import segmentation_labels, utils
 from palette_classification import color_processing
-import torchvision.transforms as T
 
 # file_name: filename of .xml file associating each image to the corresponding label
 def get_paths(dataset_path, file_name):
