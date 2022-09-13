@@ -13,7 +13,7 @@ def from_DHW_to_HWD(img_DHW):
 
 # Given an image (torch.Tensor instance) img of shape (3, H, W) returns the image obtained by applying gamma correction to img.
 def gamma_correction(img, gamma):
-    img_gamma_corrected = ((img / 255) ** gamma) * 255
+    img_gamma_corrected = ((img / 255) ** (1 / gamma)) * 255
     return torch.round(img_gamma_corrected).to(torch.uint8)
 
 # Loads a RGB image from disk given its filename. When gamma_decode is set to True, the image is gamma decoded with a gamma value
