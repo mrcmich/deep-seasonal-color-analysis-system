@@ -72,62 +72,66 @@ def apply_masks(img, masks):
     img_masked = img * masks.unsqueeze(axis=1)
     return img_masked.to(torch.uint8)
 
-# Given a masked image of shape (n_masks, 3, H, W) and a distance function computing a distance measure between two images, 
-# returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask. When comparing candidates,
-# brighter colors are favored for skin, hair, lips dominants and darker colors are favored for the eyes dominant (this is done by appropriately)
-# weighting the provided distance measure).
+# Given a masked image of shape (n_masks, 3, H, W), assumed to have been gamma decoded with a gamma value of 1/gamma_encoding, 
+# and a distance function computing a distance measure between two images, returns a pytorch tensor of shape (n_masks, 3, 1, 1) 
+# containing the dominant colors associated to each mask. When comparing candidates, brighter colors are favored for skin, lips 
+# dominants and darker colors are favored for the eyes, hair dominants (this is done by weighting the provided distance measure).
 # ---
 # n_candidates: tuple of length n_masks specifying how many candidates to consider for each mask when looking for a dominant.
-def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
+# gamma_encoding: gamma value to use when gamma encoding dominants and intermediate visual results.
+def compute_dominants(img_masked, n_candidates, distance_fn, gamma_encoding=1/2.2, verbose=False):
     assert(img_masked.shape[0] >= 4 and img_masked.shape[0] == len(n_candidates))
 
+    IMG_MASKED_HAIR_IDX = 1
     IMG_MASKED_EYES_IDX = 3
     n_masks, _, H, W = img_masked.shape
     dominants = []
 
     for i in range(n_masks):
         img_masked_i = img_masked[i]
+        dominant_i = torch.zeros((3, 1, 1), dtype=torch.uint8)
         max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(img_masked_i).numpy(), cv2.COLOR_RGB2GRAY).max()
+        
+        # using KMeans to find candidate dominants
         kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
         img_masked_i_flattened_sample = shuffle(img_masked_i_flattened, random_state=99, n_samples=round(0.6 * H * W))
         kmeans.fit(img_masked_i_flattened_sample)
         candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
-        reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
-
+        
         min_reconstruction_error = -1 
-        dominant = torch.zeros((3, 1, 1), dtype=torch.uint8)
-
+        reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
+        
         for j, reconstruction_j in enumerate(reconstructions):
-            if candidates[j].sum() < 20 or candidates[j].sum() > 600:
+            if candidates[j].sum() == 0:
                 continue
-            
+
+            candidate_j = utils.gamma_correction(candidates[j], gamma_encoding)
             average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(reconstruction_j).numpy(), cv2.COLOR_RGB2GRAY).mean()
             reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
 
-            if i == IMG_MASKED_EYES_IDX:
-                # decrease RMSE of darker colors when computing eyes dominant
+            if i == IMG_MASKED_EYES_IDX or i == IMG_MASKED_HAIR_IDX:
+                # decrease RMSE of darker colors when computing eyes, hair dominants
                 reconstruction_error_j *= (average_brightness_j / max_brightness_i)
             else:
                 # decrease RMSE of brighter colors when computing other dominants
                 reconstruction_error_j /= (average_brightness_j / max_brightness_i)
 
-            # debug
-            if debug is True:
-                r, g, b = candidates[j]
-                print(f'Candidate: ({r},{g},{b}), Weighted Reconstruction Error: {reconstruction_error_j}')
-                plt.figure(figsize=(20, 10))
+            if verbose is True:
+                print(f'Candidate: {candidate_j.tolist()}')
+                print(f'Weighted Reconstruction Error: {reconstruction_error_j}')
+                plt.figure(figsize=(16, 6))
                 plt.subplot(1, 2, 1)
-                plt.imshow(utils.from_DHW_to_HWD(reconstruction_j))
+                utils.show_image(reconstruction_j, gamma_encoding)
                 plt.subplot(1, 2, 2)
-                plt.imshow(utils.from_DHW_to_HWD(img_masked_i))
+                utils.show_image(img_masked_i, gamma_encoding)
                 plt.show() 
 
             if min_reconstruction_error == -1 or reconstruction_error_j < min_reconstruction_error:
                 min_reconstruction_error = reconstruction_error_j
-                dominant = candidates[j]
+                dominant_i = candidate_j
             
-        dominants.append(dominant.tolist())
+        dominants.append(dominant_i.tolist())
     
     return torch.tensor(dominants, dtype=torch.uint8).reshape((n_masks, 3, 1, 1))
