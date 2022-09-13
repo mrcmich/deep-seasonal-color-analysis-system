@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from PIL import Image
 import xml.etree.ElementTree as ET
 from .config import *
-from utils import segmentation_labels
+from utils import segmentation_labels, utils
 from palette_classification import color_processing
 import torchvision.transforms as T
 
@@ -34,16 +34,15 @@ class MyDataset(Dataset):
         self.label_paths = label_paths
         self.image_transform = image_transform
         self.label_transform = label_transform if label_transform is not None else self.image_transform
-        self.pil_to_tensor = T.Compose([T.PILToTensor()])
         
     def __len__(self):
         return len(self.img_paths)
     
     def __getitem__(self, index):
-        image = Image.open(self.img_paths[index]).convert('RGB')
-        label = Image.open(self.label_paths[index]).convert('RGB')
-        image = self.image_transform(self.pil_to_tensor(image) / 255)
-        label = self.label_transform(self.pil_to_tensor(label))
+        image, _ = utils.load_image(img_filename=self.img_paths[index])
+        label, _ = utils.load_image(img_filename=self.label_paths[index])
+        image = self.image_transform(image / 255)
+        label = self.label_transform(label)
         label_masks = color_processing.compute_segmentation_masks(label, segmentation_labels.labels)
         
         return image, label_masks
