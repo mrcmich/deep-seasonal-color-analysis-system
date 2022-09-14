@@ -90,7 +90,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, gamma_encoding=1/2.
     for i in range(n_masks):
         img_masked_i = img_masked[i]
         dominant_i = torch.zeros((3, 1, 1), dtype=torch.uint8)
-        max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(img_masked_i).numpy(), cv2.COLOR_RGB2GRAY).max()
+        max_brightness_i = cv2.cvtColor(
+            utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
         
         # using KMeans to find candidate dominants
         kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
@@ -108,7 +109,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, gamma_encoding=1/2.
                 continue
 
             candidate_j = utils.gamma_correction(candidates[j], gamma_encoding)
-            average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(reconstruction_j).numpy(), cv2.COLOR_RGB2GRAY).mean()
+            average_brightness_j = cv2.cvtColor(
+                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].mean()
             reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
 
             if i == IMG_MASKED_EYES_IDX or i == IMG_MASKED_HAIR_IDX:
