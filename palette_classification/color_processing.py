@@ -87,7 +87,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
 
     for i in range(n_masks):
         img_masked_i = img_masked[i]
-        max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(img_masked_i).numpy(), cv2.COLOR_RGB2GRAY).max()
+        max_brightness_i = cv2.cvtColor(
+            utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
         kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
@@ -103,7 +104,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
             if candidates[j].sum() < 20 or candidates[j].sum() > 600:
                 continue
             
-            average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(reconstruction_j).numpy(), cv2.COLOR_RGB2GRAY).mean()
+            average_brightness_j = cv2.cvtColor(
+                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].mean()
             reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
 
             if i == IMG_MASKED_EYES_IDX:
