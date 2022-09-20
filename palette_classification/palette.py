@@ -29,8 +29,8 @@ def compact_string_(array):
 def compute_subtone(lips_color): 
     assert(lips_color.shape == (3, 1, 1))
 
-    peach_color = torch.tensor([255, 230, 182], dtype=torch.float32).reshape(lips_color.shape) / 255
-    purple_color = torch.tensor([145, 0, 255], dtype=torch.float32).reshape(lips_color.shape) / 255
+    peach_color = torch.tensor([255, 230, 182], dtype=torch.uint8).reshape(lips_color.shape)
+    purple_color = torch.tensor([145, 0, 255], dtype=torch.uint8).reshape(lips_color.shape)
 
     if color_processing.color_distance(lips_color, peach_color) < color_processing.color_distance(lips_color, purple_color):
         return 'warm'
@@ -43,9 +43,10 @@ def compute_subtone(lips_color):
 def compute_contrast(hair_color, eyes_color): 
     hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
-    hair_color_GRAYSCALE = cv2.cvtColor(hair_color_np_HWD, cv2.COLOR_RGB2GRAY).item()
-    eyes_color_GRAYSCALE = cv2.cvtColor(eyes_color_np_HWD, cv2.COLOR_RGB2GRAY).item()
-    return abs(hair_color_GRAYSCALE - eyes_color_GRAYSCALE) / 255
+    hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+    eyes_color_HSV = cv2.cvtColor((eyes_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+
+    return abs(hair_color_HSV[0, 0, 2] - eyes_color_HSV[0, 0, 2])
 
 # Computes intensity (I), defined as skin color saturation.
 # ---
@@ -62,10 +63,11 @@ def compute_value(skin_color, hair_color, eyes_color):
     skin_color_np_HWD = utils.from_DHW_to_HWD(skin_color).numpy()
     hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
-    skin_color_GRAYSCALE = cv2.cvtColor((skin_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
-    hair_color_GRAYSCALE = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
-    eyes_color_GRAYSCALE = cv2.cvtColor((eyes_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2GRAY).item()
-    return (skin_color_GRAYSCALE + hair_color_GRAYSCALE + eyes_color_GRAYSCALE) / 3
+    skin_color_HSV = cv2.cvtColor((skin_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+    hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+    eyes_color_HSV = cv2.cvtColor((eyes_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+
+    return (skin_color_HSV[0, 0, 2] + hair_color_HSV[0, 0, 2] + eyes_color_HSV[0, 0, 2]) / 3
 
 # Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
 # between metrics vectors.

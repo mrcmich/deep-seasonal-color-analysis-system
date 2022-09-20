@@ -50,6 +50,19 @@ def compute_segmentation_masks(img_segmented, labels):
 
     return masks
 
+# Given a boolean pytorch tensor of shape (n_labels, H, W) containing n_labels segmentation masks
+# and a dictionary of labels, returns a RGB image (as a pytorch tensor of shape (3, H, W)) obtained by 
+# assigning a color from labels to each mask.
+# ---
+# labels: dictionary of labels { label_name (string): color_triplet (list) }.
+def colorize_segmentation_masks(segmentation_masks, labels):
+    assert(segmentation_masks.shape[0] == len(labels))
+
+    n_labels = segmentation_masks.shape[0]
+    color_tensor = torch.tensor(list(labels.values()), dtype=torch.uint8).reshape((n_labels, 3))
+    img_colorized = segmentation_masks.unsqueeze(axis=1) * color_tensor.unsqueeze(axis=2).unsqueeze(axis=3)
+    return img_colorized.sum(axis=0).to(torch.uint8)
+
 # Given an image of shape (3, H, W) and a set of masks represented by a boolean pytorch tensor of shape (n_masks, H, W), applies 
 # all masks to the image, resulting in a new image with shape (n_masks, 3, H, W).
 # ---
@@ -74,7 +87,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
 
     for i in range(n_masks):
         img_masked_i = img_masked[i]
-        max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(img_masked_i).numpy(), cv2.COLOR_RGB2GRAY).max()
+        max_brightness_i = cv2.cvtColor(
+            utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
         kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
@@ -90,7 +104,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
             if candidates[j].sum() < 20 or candidates[j].sum() > 600:
                 continue
             
-            average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(reconstruction_j).numpy(), cv2.COLOR_RGB2GRAY).mean()
+            average_brightness_j = cv2.cvtColor(
+                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].mean()
             reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
 
             if i == IMG_MASKED_EYES_IDX:
