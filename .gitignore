@@ -1,4 +1,6 @@
 .vscode/
 __pycache__/
 headsegmentation_dataset_ccncsa/
+changelog.txt
 .DS_Store
+debug.py
