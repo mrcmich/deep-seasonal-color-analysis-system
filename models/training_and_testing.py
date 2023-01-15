@@ -89,6 +89,7 @@ def train_model(
     print(f'Device: {device}.')
 
     clock_start = time.time()
+    
     class InterruptSignalError(Exception):
         pass
 
@@ -149,7 +150,7 @@ def train_model(
     
         return training_results
     
-    except InterruptSignalError:
+    except (InterruptSignalError, OSError):
         model_on_device.eval()
         return training_results
 
