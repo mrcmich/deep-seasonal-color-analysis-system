@@ -23,3 +23,8 @@ def parse_arguments_train_pipeline():
     parser.add_argument('--n_epochs', type=int, default=50, help='Number of epochs in the validation case', metavar='')
     parser.add_argument('--learning_rate', type=float, default=0.01, help='Learning rate', metavar='')
     return parser.parse_args()
+
+def parse_arguments_test_pipeline():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--weights_path', type=str, required=True, help='Path to the model weights to use for testing', metavar='')
+    return parser.parse_args()

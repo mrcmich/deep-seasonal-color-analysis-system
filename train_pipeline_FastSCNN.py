@@ -58,13 +58,3 @@ if __name__ == "__main__":
     else:
         # saving final model's weights
         torch.save(model.state_dict(), weights_path + model_name + '.pth')
-        
-        # testing model on test dataset
-        test_score_fn = metrics.batch_IoU
-        label_names = list(segmentation_labels.labels.keys())
-        batch_IoU = training_and_testing.test_model(device, model, test_dataset, batch_size, test_score_fn)
-        batch_IoU_with_labels = { label: score for label, score in list(zip(label_names, batch_IoU.tolist())) }
-        batch_mIoU = batch_IoU.mean().item()
-        for label in batch_IoU_with_labels:
-            print(f'batch_IoU_{label}: {batch_IoU_with_labels[label]}')
-        print(f'batch_mIoU={batch_mIoU}')
