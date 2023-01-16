@@ -19,10 +19,12 @@ def count_learnable_parameters(model):
 
 def parse_arguments_train_pipeline():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--evaluate', type=bool, default=False, help='If True, validation is used', metavar='')
+    parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
     parser.add_argument('--n_epochs', type=int, default=50, help='Number of epochs in the validation case', metavar='')
     parser.add_argument('--learning_rate', type=float, default=0.01, help='Learning rate', metavar='')
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.evaluate = args.evaluate == "True"
+    return args
 
 def parse_arguments_test_pipeline():
     parser = argparse.ArgumentParser()
