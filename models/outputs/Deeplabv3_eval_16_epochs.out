@@ -1,0 +1,99 @@
+==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+├─IntermediateLayerGetter: 1-1           [32, 2048, 32, 32]        --
+|    └─Conv2d: 2-1                       [32, 64, 128, 128]        9,408
+|    └─BatchNorm2d: 2-2                  [32, 64, 128, 128]        128
+|    └─ReLU: 2-3                         [32, 64, 128, 128]        --
+|    └─MaxPool2d: 2-4                    [32, 64, 64, 64]          --
+|    └─Sequential: 2-5                   [32, 256, 64, 64]         --
+|    |    └─Bottleneck: 3-1              [32, 256, 64, 64]         75,008
+|    |    └─Bottleneck: 3-2              [32, 256, 64, 64]         70,400
+|    |    └─Bottleneck: 3-3              [32, 256, 64, 64]         70,400
+|    └─Sequential: 2-6                   [32, 512, 32, 32]         --
+|    |    └─Bottleneck: 3-4              [32, 512, 32, 32]         379,392
+|    |    └─Bottleneck: 3-5              [32, 512, 32, 32]         280,064
+|    |    └─Bottleneck: 3-6              [32, 512, 32, 32]         280,064
+|    |    └─Bottleneck: 3-7              [32, 512, 32, 32]         280,064
+|    └─Sequential: 2-7                   [32, 1024, 32, 32]        --
+|    |    └─Bottleneck: 3-8              [32, 1024, 32, 32]        1,512,448
+|    |    └─Bottleneck: 3-9              [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-10             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-11             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-12             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-13             [32, 1024, 32, 32]        1,117,184
+|    └─Sequential: 2-8                   [32, 2048, 32, 32]        --
+|    |    └─Bottleneck: 3-14             [32, 2048, 32, 32]        6,039,552
+|    |    └─Bottleneck: 3-15             [32, 2048, 32, 32]        4,462,592
+|    |    └─Bottleneck: 3-16             [32, 2048, 32, 32]        4,462,592
+├─DeepLabHead: 1-2                       [32, 11, 32, 32]          --
+|    └─ASPP: 2-9                         [32, 256, 32, 32]         --
+|    |    └─Sequential: 3-17             [32, 256, 32, 32]         328,192
+|    └─Conv2d: 2-10                      [32, 256, 32, 32]         589,824
+|    └─BatchNorm2d: 2-11                 [32, 256, 32, 32]         512
+|    └─ReLU: 2-12                        [32, 256, 32, 32]         --
+|    └─Conv2d: 2-13                      [32, 11, 32, 32]          2,827
+==========================================================================================
+Total params: 24,429,387
+Trainable params: 24,429,387
+Non-trainable params: 0
+Total mult-adds (G): 23.09
+==========================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 14018.75
+Params size (MB): 93.19
+Estimated Total Size (MB): 14135.94
+==========================================================================================
+Device: cuda.
+--- Epoch 1/50 ---
+average_train_loss: 0.6727039020115834, average_train_score: 0.363901823759079
+average_val_loss: 0.5635316414492471, average_val_score: 0.389404833316803
+--- Epoch 2/50 ---
+average_train_loss: 0.4271514684046775, average_train_score: 0.3935381770133972
+average_val_loss: 0.38192495419865563, average_val_score: 0.43228355050086975
+--- Epoch 3/50 ---
+average_train_loss: 0.2797164378682433, average_train_score: 0.4907260835170746
+average_val_loss: 0.6045220508461907, average_val_score: 0.38751402497291565
+--- Epoch 4/50 ---
+average_train_loss: 0.2061085578298297, average_train_score: 0.5610736608505249
+average_val_loss: 0.20060125773861295, average_val_score: 0.5849508047103882
+--- Epoch 5/50 ---
+average_train_loss: 0.1645340730364506, average_train_score: 0.6058416962623596
+average_val_loss: 0.4755952415012178, average_val_score: 0.5269932746887207
+--- Epoch 6/50 ---
+average_train_loss: 0.14154981955503806, average_train_score: 0.6329766511917114
+average_val_loss: 0.28933770386945634, average_val_score: 0.5513284802436829
+--- Epoch 7/50 ---
+average_train_loss: 0.12485662601527325, average_train_score: 0.6536465287208557
+average_val_loss: 0.12706312501714342, average_val_score: 0.6699941158294678
+--- Epoch 8/50 ---
+average_train_loss: 0.11042944463951636, average_train_score: 0.6710809469223022
+average_val_loss: 0.15704794275382208, average_val_score: 0.6498239636421204
+--- Epoch 9/50 ---
+average_train_loss: 0.10568792978964979, average_train_score: 0.679184079170227
+average_val_loss: 0.10947235490358065, average_val_score: 0.6898304224014282
+--- Epoch 10/50 ---
+average_train_loss: 0.09434727476405622, average_train_score: 0.6926983594894409
+average_val_loss: 0.15909646522431148, average_val_score: 0.6608158349990845
+--- Epoch 11/50 ---
+average_train_loss: 0.09535712242508546, average_train_score: 0.6926702260971069
+average_val_loss: 0.2074170002625102, average_val_score: 0.6216419339179993
+--- Epoch 12/50 ---
+average_train_loss: 0.08039255645073037, average_train_score: 0.7090537548065186
+average_val_loss: 0.1016236153978204, average_val_score: 0.7041025757789612
+--- Epoch 13/50 ---
+average_train_loss: 0.07625067569421567, average_train_score: 0.7140869498252869
+average_val_loss: 0.09997201084144532, average_val_score: 0.7071183919906616
+--- Epoch 14/50 ---
+average_train_loss: 0.07441944222462143, average_train_score: 0.715970516204834
+average_val_loss: 0.10350184479639643, average_val_score: 0.7036442756652832
+--- Epoch 15/50 ---
+average_train_loss: 0.07121241377120005, average_train_score: 0.7196500301361084
+average_val_loss: 0.10618532437180715, average_val_score: 0.7155645489692688
+--- Epoch 16/50 ---
+average_train_loss: 0.06171791027286793, average_train_score: 0.7317948937416077
+average_val_loss: 0.14663788132251254, average_val_score: 0.6922577619552612
+
+Signal handler got signal 10
+Training interrupted after around 1439 minutes
+Returning the training results obtained since now

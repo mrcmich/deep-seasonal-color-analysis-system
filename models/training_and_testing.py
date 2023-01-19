@@ -2,8 +2,10 @@ import torch
 import matplotlib.pyplot as plt
 from torch.utils.data.dataset import random_split
 from torch.utils.data import DataLoader
+import signal
 import time
 import math
+
 
 # A single epoch of training of model on data_loader. If training is set to False, validation/testing is carried out instead, 
 # leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary. Returns a tuple 
@@ -87,45 +89,70 @@ def train_model(
     print(f'Device: {device}.')
 
     clock_start = time.time()
+    
+    class InterruptSignalError(Exception):
+        pass
 
-    for epoch in range(n_epochs):
-        model_on_device.train()
+    def handler(signum, frame):
+        '''
+        Function to catch stop signals which can occur when training in SLURM environment,
+        in order to save the progress done so far (either saving the weights or the training results),
+        avoiding terminating the training losing all the work.
+        '''
+        print(f"\nSignal handler got signal {signum}")
+        print(f"Training interrupted after around {math.ceil((time.time() - clock_start) / 60)} minutes")
+        if evaluate:
+            print("Returning the training results obtained since now")
+        else:
+            print("Saving model weights trained since now")
+        raise InterruptSignalError()
+    
+    signal.signal(signal.SIGUSR1, handler)
+    signal.signal(signal.SIGTERM, handler)
+    signal.signal(signal.SIGINT, handler)
+    try:
+        for epoch in range(n_epochs):
+            model_on_device.train()
 
-        average_train_loss, average_train_score = training_or_testing_epoch_(
-            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
-        average_train_score = average_train_score.mean().item()
-        training_results['average_train_loss'].append(average_train_loss)
-        training_results['average_train_score'].append(average_train_score)
+            average_train_loss, average_train_score = training_or_testing_epoch_(
+                device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+            average_train_score = average_train_score.mean().item()
+            training_results['average_train_loss'].append(average_train_loss)
+            training_results['average_train_score'].append(average_train_score)
 
-        if verbose is True:
-            print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
-            print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
-        
-        if dl_val is None:
-            continue
-        
+            if verbose is True:
+                print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
+                print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
+
+            if dl_val is None:
+                continue
+            
+            model_on_device.eval()
+
+            with torch.no_grad():
+                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
+
+            average_val_score = average_val_score.mean().item()
+            training_results['average_val_loss'].append(average_val_loss)
+            training_results['average_val_score'].append(average_val_score)
+
+            if verbose is True:
+                print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
+
+            if lr_scheduler is not None:
+                lr_scheduler.step()
+
+        clock_end = time.time()
+
         model_on_device.eval()
 
-        with torch.no_grad():
-            average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
-        
-        average_val_score = average_val_score.mean().item()
-        training_results['average_val_loss'].append(average_val_loss)
-        training_results['average_val_score'].append(average_val_score)
-
-        if verbose is True:
-            print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
-        
-        if lr_scheduler is not None:
-            lr_scheduler.step()
-
-    clock_end = time.time()
-
-    model_on_device.eval()
-
-    print(f'\nTraining completed in around {math.ceil((clock_end - clock_start) / 60)} minutes.')
+        print(f'\nTraining completed in around {math.ceil((clock_end - clock_start) / 60)} minutes.')
     
-    return training_results
+        return training_results
+    
+    except (InterruptSignalError, OSError):
+        model_on_device.eval()
+        return training_results
 
 # Function for testing model on dataset. Returns the average score along dataset's batches.
 # ---
@@ -156,7 +183,7 @@ def test_model(device, model, dataset, batch_size, score_fn, num_workers=0):
 #               each identifying a python list of losses/scores.
 # plotsize: tuple representing the size (in inches) of the figure containing results_dict's plots.
 # train_fmt, val_fmt: format string for plots of training and validation metrics respectively.
-def plot_training_results(results_dict, plotsize, train_fmt='g', val_fmt='b'):
+def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', val_fmt='b'):
     assert(
         'average_train_loss' in results_dict and 
         'average_val_loss' in results_dict and 
@@ -188,4 +215,7 @@ def plot_training_results(results_dict, plotsize, train_fmt='g', val_fmt='b'):
     plt.ylabel('Score')
     plt.legend(legend)
 
-    plt.show()
+    if filepath is not None:
+        plt.savefig(filepath)
+    else:
+        plt.show()
