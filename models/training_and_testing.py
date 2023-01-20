@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data.dataset import random_split
 from torch.utils.data import DataLoader
 import signal
+import sys
 import time
 import math
 
@@ -107,9 +108,10 @@ def train_model(
             print("Saving model weights trained since now")
         raise InterruptSignalError()
     
-    signal.signal(signal.SIGUSR1, handler)
-    signal.signal(signal.SIGTERM, handler)
-    signal.signal(signal.SIGINT, handler)
+    if "win" not in sys.platform:
+        signal.signal(signal.SIGUSR1, handler)
+        signal.signal(signal.SIGTERM, handler)
+        signal.signal(signal.SIGINT, handler)
     try:
         for epoch in range(n_epochs):
             model_on_device.train()
