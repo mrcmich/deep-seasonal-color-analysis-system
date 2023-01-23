@@ -2,6 +2,7 @@ import cv2
 import torch
 import torchvision.transforms.functional as TF
 import random
+from utils import utils
 
 # Custom transform taking a torch.tensor as input and applying a bilateral filter 
 # (function cv2.bilateralFilter) to it.
@@ -13,8 +14,8 @@ class BilateralFilter:
         self.sigmas = sigma_space
 
     def __call__(self, img: torch.Tensor):
-        img_filtered = cv2.bilateralFilter(img.numpy(), self.d, self.sigmac, self.sigmas)
-        return torch.from_numpy(img_filtered)
+        img_filtered = cv2.bilateralFilter(utils.from_DHW_to_HWD(img).numpy(), self.d, self.sigmac, self.sigmas)
+        return utils.from_HWD_to_DHW(torch.from_numpy(img_filtered))
 
 # Custom tranform which randomly flips an image (horizontally) with probability p.
 # Differently from RandomHorizontalFlip, the same transform is applied for max_seed_count consecutive calls, meaning
