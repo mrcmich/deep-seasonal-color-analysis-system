@@ -40,7 +40,6 @@ class PartiallyDeterministicHorizontalFlip:
         n = random.randint(1, 100) / 100
         random.setstate(random_state)
         self.counter += 1
-        print(n)
 
         if n > 1 - self.p:
             return TF.hflip(img)
