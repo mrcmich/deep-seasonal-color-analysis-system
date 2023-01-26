@@ -198,20 +198,17 @@ def handler(signum, frame, evaluate, clock_start):
 def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers=(0, 0), evaluate=False, verbose=False):
     
     model_on_device = model.to(device)
-
     # parameters to tune
     optimizer = torch.optim.Adam(model_on_device.parameters(), lr=config["lr"])
     lr_scheduler = torch.optim.lr_scheduler.LinearLR(optimizer, start_factor=config["start_factor"])
     batch_size = config["batch_size"]
 
-    # restore a checkpoint
+    # start from a checkpoint
     if config["from_checkpoint"]:
-        loaded_checkpoint = session.get_checkpoint()
-        if loaded_checkpoint:
-            with loaded_checkpoint.as_directory() as loaded_checkpoint_dir:
-                model_state, optimizer_state = torch.load(os.path.join(loaded_checkpoint_dir, "checkpoint.pt"))
-            model_on_device.load_state_dict(model_state)
-            optimizer.load_state_dict(optimizer_state)
+        model_state, optimizer_state, lr_scheduler_state = torch.load(os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+        model_on_device.load_state_dict(model_state)
+        optimizer.load_state_dict(optimizer_state)
+        lr_scheduler.load_state_dict(lr_scheduler_state)
 
     num_workers_train = 0
     num_workers_test = 0
@@ -239,62 +236,52 @@ def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers
         'average_val_score': []
     }
 
-    print(f'Device: {device}.')
-
     clock_start = time.time()
-    
-    if "win" not in sys.platform:
-        signal.signal(signal.SIGUSR1, partial(handler, evaluate=evaluate, clock_start=clock_start))
-        signal.signal(signal.SIGTERM, partial(handler, evaluate=evaluate, clock_start=clock_start))
-        signal.signal(signal.SIGINT, partial(handler, evaluate=evaluate, clock_start=clock_start))
 
-    try:
-        for epoch in range(n_epochs):
-            model_on_device.train()
+    for epoch in range(n_epochs):
+        model_on_device.train()
 
-            average_train_loss, average_train_score = training_or_testing_epoch_(
-                device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
-            average_train_score = average_train_score.mean().item()
-            training_results['average_train_loss'].append(average_train_loss)
-            training_results['average_train_score'].append(average_train_score)
+        average_train_loss, average_train_score = training_or_testing_epoch_(
+            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+        average_train_score = average_train_score.mean().item()
+        training_results['average_train_loss'].append(average_train_loss)
+        training_results['average_train_score'].append(average_train_score)
 
-            if verbose is True:
-                print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
-                print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
+        if verbose is True:
+            print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
+            print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
 
-            if dl_val is None:
-                continue
-            
-            model_on_device.eval()
-
-            with torch.no_grad():
-                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
-
-            average_val_score = average_val_score.mean().item()
-            training_results['average_val_loss'].append(average_val_loss)
-            training_results['average_val_score'].append(average_val_score)
-
-            # save a checkpoint
-            os.makedirs("FastSCNN", exist_ok=True)
-            torch.save(
-                (model_on_device.state_dict(), optimizer.state_dict()), "FastSCNN/checkpoint.pt")
-            checkpoint = Checkpoint.from_directory("FastSCNN")
-            session.report({"loss": average_val_loss, "score": average_val_score}, checkpoint=checkpoint)  # TODO: keywords must be strings
-
-            if verbose is True:
-                print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
-
-            if lr_scheduler is not None:
-                lr_scheduler.step()
-
-        clock_end = time.time()
-
+        if dl_val is None:
+            continue
+        
         model_on_device.eval()
 
-        print(f'\nTraining completed in around {math.ceil((clock_end - clock_start) / 60)} minutes.')
-    
-    except (InterruptSignalError, OSError):
-        model_on_device.eval()
+        with torch.no_grad():
+            average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
+
+        average_val_score = average_val_score.mean().item()
+        training_results['average_val_loss'].append(average_val_loss)
+        training_results['average_val_score'].append(average_val_score)
+
+        # save a checkpoint
+        torch.save(
+            (model_on_device.state_dict(), optimizer.state_dict(), lr_scheduler.state_dict()), 
+            os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+
+        # report metrics to Ray Tune
+        session.report({"loss": average_val_loss, "score": average_val_score})
+
+        if verbose is True:
+            print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
+
+        if lr_scheduler is not None:
+            lr_scheduler.step()
+
+    clock_end = time.time()
+
+    model_on_device.eval()
+
+    print(f'\nTraining completed in around {math.ceil((clock_end - clock_start) / 60)} minutes.')
 
 
 # Function for testing model on dataset. Returns the average score along dataset's batches.
