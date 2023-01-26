@@ -157,7 +157,8 @@ def train_model(
     
         return training_results
     
-    except (InterruptSignalError, OSError):
+    except (InterruptSignalError, OSError) as e:
+        print(e)
         model_on_device.eval()
         return training_results
 
