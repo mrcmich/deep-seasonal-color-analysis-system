@@ -173,12 +173,13 @@ def train_model(
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 # num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
 # from_checkpoint: bool that establishes whether to resume a previous hpo run from the last checkpoint saved
-def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers=(0, 0), evaluate=False, verbose=False):
+def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False):
     
     model_on_device = model.to(device)
-    # parameters to tune
-    optimizer = torch.optim.Adam(model_on_device.parameters(), lr=config["lr"])
-    lr_scheduler = torch.optim.lr_scheduler.LinearLR(optimizer, start_factor=config["start_factor"])
+
+    # model parameters
+    optimizer = optimizer(model_on_device.parameters(), lr=config["lr"])
+    lr_scheduler = lr_scheduler(optimizer, start_factor=config["start_factor"])
     batch_size = config["batch_size"]
 
     # start from a checkpoint
