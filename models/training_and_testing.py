@@ -12,6 +12,23 @@ from ray.air import session
 from ray.air.checkpoint import Checkpoint
 import os
 
+class InterruptSignalError(Exception):
+        pass
+
+def handler(signum, frame, evaluate, clock_start):
+    '''
+    Function to catch stop signals which can occur when training in SLURM environment,
+    in order to save the progress done so far (either saving the weights or the training results),
+    avoiding terminating the training losing all the work.
+    '''
+    print(f"\nSignal handler got signal {signum}")
+    print(f"Training interrupted after around {math.ceil((time.time() - clock_start) / 60)} minutes")
+    if evaluate:
+        print("Returning the training results obtained since now")
+    else:
+        print("Saving model weights trained since now")
+    raise InterruptSignalError()
+
 
 # A single epoch of training of model on data_loader. If training is set to False, validation/testing is carried out instead, 
 # leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary. Returns a tuple 
@@ -96,27 +113,10 @@ def train_model(
 
     clock_start = time.time()
     
-    class InterruptSignalError(Exception):
-        pass
-
-    def handler(signum, frame):
-        '''
-        Function to catch stop signals which can occur when training in SLURM environment,
-        in order to save the progress done so far (either saving the weights or the training results),
-        avoiding terminating the training losing all the work.
-        '''
-        print(f"\nSignal handler got signal {signum}")
-        print(f"Training interrupted after around {math.ceil((time.time() - clock_start) / 60)} minutes")
-        if evaluate:
-            print("Returning the training results obtained since now")
-        else:
-            print("Saving model weights trained since now")
-        raise InterruptSignalError()
-    
     if "win" not in sys.platform:
-        signal.signal(signal.SIGUSR1, handler)
-        signal.signal(signal.SIGTERM, handler)
-        signal.signal(signal.SIGINT, handler)
+        signal.signal(signal.SIGUSR1, partial(handler, evaluate=evaluate, clock_start=clock_start))
+        signal.signal(signal.SIGTERM, partial(handler, evaluate=evaluate, clock_start=clock_start))
+        signal.signal(signal.SIGINT, partial(handler, evaluate=evaluate, clock_start=clock_start))
     try:
         for epoch in range(n_epochs):
             model_on_device.train()
@@ -163,28 +163,6 @@ def train_model(
         return training_results
 
 
-# TODO: take out class InterruptSignalError and function handler from function train_model above
-# and keep the ones below (defined out of the function)
-
-
-class InterruptSignalError(Exception):
-        pass
-
-def handler(signum, frame, evaluate, clock_start):
-    '''
-    Function to catch stop signals which can occur when training in SLURM environment,
-    in order to save the progress done so far (either saving the weights or the training results),
-    avoiding terminating the training losing all the work.
-    '''
-    print(f"\nSignal handler got signal {signum}")
-    print(f"Training interrupted after around {math.ceil((time.time() - clock_start) / 60)} minutes")
-    if evaluate:
-        print("Returning the training results obtained since now")
-    else:
-        print("Saving model weights trained since now")
-    raise InterruptSignalError()
-
-
 # Function for performing hpo of model on dataset. If evaluate is set to True, the dataset is split 85/15 into a training set
 # and a validation set, otherwise the entire dataset is used for training. If verbose is set to True, additional info is
 # printed to console during training.
@@ -229,27 +207,11 @@ def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers
         dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=num_workers_train)
         dl_val = None
 
-    training_results = {
-        'average_train_loss': [],
-        'average_val_loss': [],
-        'average_train_score': [],
-        'average_val_score': []
-    }
-
-    clock_start = time.time()
-
-    for epoch in range(n_epochs):
+    for _ in range(n_epochs):
         model_on_device.train()
 
         average_train_loss, average_train_score = training_or_testing_epoch_(
             device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
-        average_train_score = average_train_score.mean().item()
-        training_results['average_train_loss'].append(average_train_loss)
-        training_results['average_train_score'].append(average_train_score)
-
-        if verbose is True:
-            print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
-            print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
 
         if dl_val is None:
             continue
@@ -260,8 +222,6 @@ def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers
             average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
 
         average_val_score = average_val_score.mean().item()
-        training_results['average_val_loss'].append(average_val_loss)
-        training_results['average_val_score'].append(average_val_score)
 
         # save a checkpoint
         torch.save(
@@ -271,17 +231,10 @@ def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, num_workers
         # report metrics to Ray Tune
         session.report({"loss": average_val_loss, "score": average_val_score})
 
-        if verbose is True:
-            print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
-
         if lr_scheduler is not None:
             lr_scheduler.step()
 
-    clock_end = time.time()
-
     model_on_device.eval()
-
-    print(f'\nTraining completed in around {math.ceil((clock_end - clock_start) / 60)} minutes.')
 
 
 # Function for testing model on dataset. Returns the average score along dataset's batches.
