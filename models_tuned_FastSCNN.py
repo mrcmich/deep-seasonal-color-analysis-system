@@ -56,7 +56,6 @@ batch_size = 32
 n_epochs = 30
 
 # model, loss, score function
-model_name = 'fast_scnn_ccncsa_tuned'
 model = fast_scnn.FastSCNN(n_classes)
 device = "cpu"
 if torch.cuda.is_available():
