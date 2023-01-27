@@ -58,7 +58,7 @@ config = {
     "batch_size": tune.grid_search([16, 32, 64]),
     "start_factor": tune.grid_search([0.3, 0.5]),
     "from_checkpoint": False,
-    "checkpoint_dir": os.path.abspath("./models/hpo/FastFCNN")
+    "checkpoint_dir": os.path.abspath("./models/hpo/FastSCNN")
 }
 n_epochs = 5
 score_fn = metrics.batch_mIoU
@@ -74,7 +74,7 @@ reporter = CLIReporter(
         max_report_frequency=300)
 
 # launching HPO
-hpo_results = tune.run(partial(training_and_testing.hpo,
+hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=torch.optim.Adam, lr_scheduler=torch.optim.lr_scheduler.LinearLR, num_workers=(0,0), evaluate=True),
     config=config,
@@ -86,4 +86,4 @@ hpo_results = tune.run(partial(training_and_testing.hpo,
     progress_reporter=reporter,
     checkpoint_at_end=True,
     checkpoint_freq=1,
-    local_dir="models/hpo/FastFCNN")
+    local_dir="models/hpo/FastSCNN")
