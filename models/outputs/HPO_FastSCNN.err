@@ -1,0 +1,4 @@
+2023-01-26 17:54:49,367	INFO worker.py:1538 -- Started a local Ray instance.
+2023-01-26 17:55:00,403	INFO tensorboardx.py:170 -- pip install "ray[tune]" to see TensorBoard files.
+2023-01-26 17:55:00,403	WARNING callback.py:108 -- The TensorboardX logger cannot be instantiated because either TensorboardX or one of it's dependencies is not installed. Please make sure you have the latest version of TensorboardX installed: `pip install -U tensorboardx`
+2023-01-27 00:45:25,517	INFO tune.py:762 -- Total run time: 24625.49 seconds (24624.83 seconds for the tuning loop).
