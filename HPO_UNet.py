@@ -74,7 +74,7 @@ reporter = CLIReporter(
         max_report_frequency=300)
 
 # launching HPO
-hpo_results = tune.run(partial(training_and_testing.hpo,
+hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=torch.optim.AdamW, lr_scheduler=torch.optim.lr_scheduler.LinearLR, num_workers=(0,0), evaluate=True),
     config=config,
