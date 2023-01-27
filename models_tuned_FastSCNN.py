@@ -20,7 +20,7 @@ from models.config import *
 weights_path = 'models/weights/'
 dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
 
-# === defining transforms ===
+# defining transforms
 tH, tW = 512, 512
 mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225] # from ImageNet
 bilateral_filter = custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7)
@@ -99,7 +99,7 @@ reporter = CLIReporter(
         max_report_frequency=600)
 
 # launching training
-results = tune.run(partial(training_and_testing.hpo,
+results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=False),
     config=config,
