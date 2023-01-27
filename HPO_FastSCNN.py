@@ -87,3 +87,19 @@ hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     checkpoint_at_end=True,
     checkpoint_freq=1,
     local_dir="models/hpo/FastSCNN")
+
+# retrieve best results
+# Get best trial
+best_trial = hpo_results.best_trial
+print(f"Best trial: {hpo_results.best_trial}")
+
+# Get best trial's hyperparameters
+pprint.pprint(f"Best trial configuration: {hpo_results.best_config}")
+
+# Get best trial's log directory
+print(f"Best trial log directory: {hpo_results.best_logdir}")
+
+print("Best trial final validation loss: {}".format(
+    best_trial.last_result["loss"]))
+print("Best trial final validation score: {}".format(
+    best_trial.last_result["score"]))
