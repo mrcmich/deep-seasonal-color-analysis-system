@@ -75,7 +75,7 @@ learning_rate = 0.01
 optimizer = optim.Adam
 
 # scheduler
-start_factor=0.3
+start_factor = 0.3
 lr_scheduler = optim.lr_scheduler.LinearLR
 
 # printing model summary
