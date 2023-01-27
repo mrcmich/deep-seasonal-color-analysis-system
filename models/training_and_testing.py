@@ -163,17 +163,16 @@ def train_model(
         return training_results
 
 
-# Function for performing hpo of model on dataset. If evaluate is set to True, the dataset is split 85/15 into a training set
-# and a validation set, otherwise the entire dataset is used for training. If verbose is set to True, additional info is
-# printed to console during training.
+# Function for performing either hpo or training of model on dataset. If evaluate is set to True, the dataset is split 85/15 into a training set
+# and a validation set, otherwise the entire dataset is used.
 # ---
-# config: dict with hyperparameters search space
+# config: dict with hyperparameters
 # device: device on which to load data and model ('cpu' for cpu).
 # dataset: instance of class extending torch.utils.data.Dataset.
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 # num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
-# from_checkpoint: bool that establishes whether to resume a previous hpo run from the last checkpoint saved
-def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False):
+# from_checkpoint: bool that establishes whether to resume a previous run from the last checkpoint saved
+def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False):
     
     model_on_device = model.to(device)
 
@@ -230,7 +229,10 @@ def hpo(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, 
             os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
 
         # report metrics to Ray Tune
-        session.report({"loss": average_val_loss, "score": average_val_score})
+        if evaluate:
+            session.report({"loss": average_val_loss, "score": average_val_score})
+        else:
+            session.report({"loss": average_train_loss, "score": average_train_score})
 
         if lr_scheduler is not None:
             lr_scheduler.step()
