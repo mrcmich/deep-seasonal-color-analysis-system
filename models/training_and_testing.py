@@ -7,9 +7,7 @@ import sys
 import time
 import math
 from functools import partial
-from ray import tune
 from ray.air import session
-from ray.air.checkpoint import Checkpoint
 import os
 
 class InterruptSignalError(Exception):
@@ -233,10 +231,10 @@ def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, los
 
         # report metrics to Ray Tune
         if evaluate:
-            session.report({"loss": average_val_loss, "score": average_val_score})
+            session.report({"train_loss": average_train_loss, "train_score": average_train_score,
+                            "val_loss": average_val_loss, "val_score": average_val_score})
         else:
-            session.report({"loss": average_train_loss, "score": average_train_score})
-            
+            session.report({"train_loss": average_train_loss, "train_score": average_train_score})            
 
     model_on_device.eval()
 

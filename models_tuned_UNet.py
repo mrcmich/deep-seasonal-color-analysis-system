@@ -5,14 +5,11 @@ from sklearn.model_selection import train_test_split
 from models import dataset, training_and_testing
 from models.cloud.UNet import unet
 from metrics_and_losses import metrics
-from utils import segmentation_labels, utils, custom_transforms
-import matplotlib.pyplot as plt
-from palette_classification import color_processing
+from utils import segmentation_labels, custom_transforms
 import torchsummary
 from functools import partial
 from ray import tune
 from ray.tune import CLIReporter
-import pprint
 from models.config import *
 
 
@@ -20,7 +17,7 @@ from models.config import *
 dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
 
 # defining transforms
-tH, tW = 512, 512
+tH, tW = 256, 256
 mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225] # from ImageNet
 bilateral_filter = custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7)
 
@@ -80,17 +77,20 @@ config = {
 cpus_per_trial = 0
 gpus_per_trial = torch.cuda.device_count()
 num_samples = 1  # Number of times each combination is sampled (n_epochs are done per sample)
+evaluate = False
+if evaluate:
+    metrics_columns = ["train_loss", "train_score", "val_loss", "val_score", "training_iteration"]
+else:
+    metrics_columns = ["train_loss", "train_score", "training_iteration"]
 reporter = CLIReporter(
-        metric_columns=["loss", "score", "training_iteration"],
+        metric_columns=metrics_columns,
         max_report_frequency=600)
 
 # launching training
 results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
-    optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=False),
+    optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=evaluate),
     config=config,
-    metric="loss", # This metric should be reported with `session.report()`
-    mode="min",
     num_samples=num_samples,
     resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
     progress_reporter=reporter,
