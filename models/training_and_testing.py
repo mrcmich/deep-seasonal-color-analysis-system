@@ -209,6 +209,7 @@ def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, los
 
         average_train_loss, average_train_score = training_or_testing_epoch_(
             device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+        average_train_score = average_train_score.mean().item()
 
         if dl_val is not None:
             model_on_device.eval()
