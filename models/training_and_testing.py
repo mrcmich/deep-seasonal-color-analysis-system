@@ -131,20 +131,18 @@ def train_model(
                 print(f'--- Epoch {epoch + 1}/{n_epochs} ---')
                 print(f'average_train_loss: {average_train_loss}, average_train_score: {average_train_score}')
 
-            if dl_val is None:
-                continue
-            
-            model_on_device.eval()
+            if dl_val is not None:
+                model_on_device.eval()
 
-            with torch.no_grad():
-                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
+                with torch.no_grad():
+                    average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
 
-            average_val_score = average_val_score.mean().item()
-            training_results['average_val_loss'].append(average_val_loss)
-            training_results['average_val_score'].append(average_val_score)
+                average_val_score = average_val_score.mean().item()
+                training_results['average_val_loss'].append(average_val_loss)
+                training_results['average_val_score'].append(average_val_score)
 
-            if verbose is True:
-                print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
+                if verbose is True:
+                    print(f'average_val_loss: {average_val_loss}, average_val_score: {average_val_score}')
 
             if lr_scheduler is not None:
                 lr_scheduler.step()
@@ -178,7 +176,8 @@ def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, los
 
     # model parameters
     optimizer = optimizer(model_on_device.parameters(), lr=config["lr"])
-    lr_scheduler = lr_scheduler(optimizer, start_factor=config["start_factor"])
+    if lr_scheduler is not None:
+        lr_scheduler = lr_scheduler(optimizer, start_factor=config["start_factor"])
     batch_size = config["batch_size"]
 
     # start from a checkpoint
@@ -213,29 +212,31 @@ def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, los
         average_train_loss, average_train_score = training_or_testing_epoch_(
             device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
 
-        if dl_val is None:
-            continue
-        
-        model_on_device.eval()
+        if dl_val is not None:
+            model_on_device.eval()
 
-        with torch.no_grad():
-            average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
+            with torch.no_grad():
+                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
 
-        average_val_score = average_val_score.mean().item()
+            average_val_score = average_val_score.mean().item()
 
         # save a checkpoint
-        torch.save(
-            (model_on_device.state_dict(), optimizer.state_dict(), lr_scheduler.state_dict()), 
-            os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+        if lr_scheduler is not None:
+            torch.save(
+                (model_on_device.state_dict(), optimizer.state_dict(), lr_scheduler.state_dict()), 
+                os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+            lr_scheduler.step()
+        else:
+            torch.save(
+                (model_on_device.state_dict(), optimizer.state_dict(),
+                 os.path.join(config["checkpoint_dir"], "checkpoint.pt")))
 
         # report metrics to Ray Tune
         if evaluate:
             session.report({"loss": average_val_loss, "score": average_val_score})
         else:
             session.report({"loss": average_train_loss, "score": average_train_score})
-
-        if lr_scheduler is not None:
-            lr_scheduler.step()
+            
 
     model_on_device.eval()
 

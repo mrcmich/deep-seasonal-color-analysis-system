@@ -17,7 +17,6 @@ from models.config import *
 
 
 # local configuration
-weights_path = 'models/weights/'
 dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
 
 # defining transforms
