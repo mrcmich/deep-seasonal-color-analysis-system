@@ -49,7 +49,7 @@ test_dataset = dataset.MyDataset(X_test, Y_test, test_image_transform, test_targ
 
 # training hyperparameters
 batch_size = 32
-n_epochs = 30
+n_epochs = 20
 
 # model, loss, score function
 model = fast_scnn.FastSCNN(n_classes)
