@@ -103,8 +103,6 @@ results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=evaluate),
     config=config,
-    metric="loss", # This metric should be reported with `session.report()`
-    mode="min",
     num_samples=num_samples,
     resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
     progress_reporter=reporter,

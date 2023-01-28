@@ -1,15 +1,11 @@
 import torch
 from torch import nn
-from torchvision import ops
 import torchvision.transforms as T
 from sklearn.model_selection import train_test_split
 from models import dataset, training_and_testing
 from models.local.FastSCNN.models import fast_scnn
 from metrics_and_losses import metrics
-from utils import segmentation_labels, utils
-import matplotlib.pyplot as plt
-from palette_classification import color_processing
-import torchsummary
+from utils import segmentation_labels
 from models.config import *
 from functools import partial
 from ray import tune
@@ -69,16 +65,23 @@ cpus_per_trial = 0
 gpus_per_trial = torch.cuda.device_count()
 num_samples = 1  # Number of times each combination is sampled (n_epochs are done per sample)
 scheduler = ASHAScheduler(grace_period=2)
+evaluate = True
+if evaluate:
+    metric = "val_loss"
+    metrics_columns = ["train_loss", "train_score", "val_loss", "val_score", "training_iteration"]
+else:
+    metric = "train_loss"
+    metrics_columns = ["train_loss", "train_score", "training_iteration"]
 reporter = CLIReporter(
-        metric_columns=["loss", "score", "training_iteration"],
+        metric_columns=metrics_columns,
         max_report_frequency=300)
 
 # launching HPO
 hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
-    optimizer=torch.optim.Adam, lr_scheduler=torch.optim.lr_scheduler.LinearLR, num_workers=(0,0), evaluate=True),
+    optimizer=torch.optim.Adam, lr_scheduler=torch.optim.lr_scheduler.LinearLR, num_workers=(0,0), evaluate=evaluate),
     config=config,
-    metric="loss", # This metric should be reported with `session.report()`
+    metric=metric, # This metric should be reported with `session.report()`
     mode="min",
     num_samples=num_samples,
     resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
@@ -99,7 +102,13 @@ pprint.pprint(f"Best trial configuration: {hpo_results.best_config}")
 # Get best trial's log directory
 print(f"Best trial log directory: {hpo_results.best_logdir}")
 
-print("Best trial final validation loss: {}".format(
-    best_trial.last_result["loss"]))
-print("Best trial final validation score: {}".format(
-    best_trial.last_result["score"]))
+if evaluate:
+    print("Best trial final validation loss: {}".format(
+        best_trial.last_result["val_loss"]))
+    print("Best trial final validation score: {}".format(
+        best_trial.last_result["val_score"]))
+else:
+    print("Best trial final training loss: {}".format(
+        best_trial.last_result["train_loss"]))
+    print("Best trial final training score: {}".format(
+        best_trial.last_result["train_score"]))
