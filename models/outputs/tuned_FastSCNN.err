@@ -1,0 +1,2 @@
+2023-01-28 15:52:44,526	INFO worker.py:1538 -- Started a local Ray instance.
+2023-01-28 22:08:37,120	INFO tune.py:762 -- Total run time: 22541.93 seconds (22541.34 seconds for the tuning loop).
