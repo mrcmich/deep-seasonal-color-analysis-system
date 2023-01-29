@@ -2,6 +2,7 @@ import torch
 import argparse
 
 # Computes weighted average of specified pytorch tensor. Both tensors should have shape (n, ).
+# Returns a pytorch tensor of shape (1,) containing the weighted average as result.
 def tensor_weighted_average(tensor, weights):
     assert(type(tensor) == torch.Tensor and type(weights) == torch.Tensor and tensor.shape == weights.shape)
 
