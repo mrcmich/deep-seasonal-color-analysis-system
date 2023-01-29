@@ -20,11 +20,20 @@ def rmse(img1, img2):
 
     return (((img1_CIELab - img2_CIELab) ** 2).sum() / (H * W)) ** 0.5
 
-# Returns a pytorch tensor containing the average mIoU along a batch of images.
+# Returns a pytorch tensor containing the average mIoU along a batch of images, or
+# the weighted average if a pytorch tensor of weights is provided.
 # ---
 # predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
-def batch_mIoU(predictions, targets):
-    return batch_IoU(predictions, targets).mean()
+# weights: pytorch tensor of shape (n_labels,).
+def batch_mIoU(predictions, targets, weights=None):
+    assert(weights is None or (type(weights) == torch.Tensor and weights.shape == (targets.shape[1],)))
+
+    iou = batch_IoU(predictions, targets)
+
+    if weights is None:
+        return iou.mean()
+    
+    return (iou * weights).sum() / weights.sum()
 
 # Returns a pytorch tensor of shape (n_labels,) containing the IoU for each
 # label along a batch of images.
