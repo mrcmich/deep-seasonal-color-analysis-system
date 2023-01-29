@@ -1,6 +1,12 @@
 import torch
 import argparse
 
+# Computes weighted average of specified pytorch tensor. Both tensors should have shape (n, ).
+def tensor_weighted_average(tensor, weights):
+    assert(type(tensor) == torch.Tensor and type(weights) == torch.Tensor and tensor.shape == weights.shape)
+
+    return (tensor * weights).sum() / weights.sum() 
+
 # Converts image (torch.Tensor instance) from (H, W, D) to (D, H, W) by swapping its axes.
 def from_HWD_to_DHW(img_HWD):
     return img_HWD.swapaxes(0, 2).swapaxes(1, 2)

@@ -33,7 +33,7 @@ def batch_mIoU(predictions, targets, weights=None):
     if weights is None:
         return iou.mean()
     
-    return (iou * weights).sum() / weights.sum()
+    return utils.tensor_weighted_average(iou, weights)
 
 # Returns a pytorch tensor of shape (n_labels,) containing the IoU for each
 # label along a batch of images.
