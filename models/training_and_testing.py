@@ -9,6 +9,7 @@ import math
 from functools import partial
 from ray.air import session
 import os
+from utils import utils, segmentation_labels
 
 class InterruptSignalError(Exception):
         pass
@@ -305,3 +306,22 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
         plt.savefig(filepath)
     else:
         plt.show()
+
+# Given the batch_IoU (as computed by function test_model when score_fn is set to metrics.batch_IoU),
+# prints a report of the IoU of each class and the computed mIoU. If class_weights is passed, the function
+# also computes the weighted mIoU.
+# ---
+# class_weights: optional pytorch tensor of shape (n_classes,) for the computation of the weighted mIoU.
+def print_IoU_report(batch_IoU, class_weights=None):
+    label_names = list(segmentation_labels.labels.keys())
+    batch_IoU_with_labels = { label: score for label, score in list(zip(label_names, batch_IoU.tolist())) }
+    batch_mIoU = batch_IoU.mean().item()
+    
+    for label in batch_IoU_with_labels:
+        print(f'batch_IoU_{label}: {batch_IoU_with_labels[label]}')
+
+    print(f'batch_mIoU={batch_mIoU}')
+
+    if class_weights is not None:
+        batch_weighted_mIoU = utils.tensor_weighted_average(batch_IoU, class_weights).item()
+        print(f'batch_weighted_mIoU={batch_weighted_mIoU}')
