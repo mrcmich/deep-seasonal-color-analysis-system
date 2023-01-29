@@ -6,36 +6,36 @@ from models import dataset, training_and_testing
 from models.local.FastSCNN.models import fast_scnn
 from metrics_and_losses import metrics
 from utils import segmentation_labels
-from models.config import *
+from models import config
 from functools import partial
 from ray import tune
 from ray.tune import CLIReporter
 from ray.tune.schedulers import ASHAScheduler
 import pprint
+import os
 
 
 executing_on_colab = False
 
 # local configuration
 if executing_on_colab is False:
-    weights_path = 'models/weights/'
-    dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'  
+    weights_path = config.WEIGHTS_PATH
+    dataset_path = config.DATASET_PATH
 
 # defining transforms
 tH, tW = 256, 256
-mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225] # from ImageNet
-image_transform = T.Compose([T.Resize((tH, tW)), T.Normalize(mean, std)])
+image_transform = T.Compose([T.Resize((tH, tW)), T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)])
 target_transform = T.Compose([T.Resize((tH, tW))])
 
 # fetching dataset
 n_classes = len(segmentation_labels.labels)
-img_paths, label_paths = dataset.get_paths(dataset_path, file_name='training.xml')
+img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
 X_train, X_test, Y_train, Y_test = train_test_split(img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
 train_dataset = dataset.MyDataset(X_train, Y_train, image_transform, target_transform)
 test_dataset = dataset.MyDataset(X_test, Y_test, image_transform, target_transform)
 
 # setting up model and fixed (initially) hyperparameters
-class_weights = torch.tensor([0.3762, 0.9946, 0.9974, 0.9855, 0.7569, 0.9140, 0.9968, 0.9936, 0.9989, 0.9893, 0.9968])
+class_weights = torch.tensor(config.CLASS_WEIGHTS)
 
 # === hyperparameters optimization (HPO) ===
 
@@ -49,12 +49,12 @@ if torch.cuda.is_available():
         model = nn.DataParallel(model)
 
 # model parameters
-config = {
+cfg = {
     "lr": tune.grid_search([1e-4, 1e-2]),
     "batch_size": tune.grid_search([16, 32, 64]),
     "start_factor": tune.grid_search([0.3, 0.5]),
     "from_checkpoint": False,
-    "checkpoint_dir": os.path.abspath("./models/hpo/FastSCNN")
+    "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH + "FastSCNN")
 }
 n_epochs = 5
 score_fn = metrics.batch_mIoU
@@ -80,7 +80,7 @@ reporter = CLIReporter(
 hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=torch.optim.Adam, lr_scheduler=torch.optim.lr_scheduler.LinearLR, num_workers=(0,0), evaluate=evaluate),
-    config=config,
+    config=cfg,
     metric=metric, # This metric should be reported with `session.report()`
     mode="min",
     num_samples=num_samples,
@@ -89,7 +89,7 @@ hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
     progress_reporter=reporter,
     checkpoint_at_end=True,
     checkpoint_freq=1,
-    local_dir="models/hpo/FastSCNN")
+    local_dir=config.HPO_PATH+"FastSCNN")
 
 # retrieve best results
 # Get best trial

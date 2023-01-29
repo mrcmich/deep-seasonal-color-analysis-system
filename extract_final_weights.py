@@ -4,10 +4,11 @@ from torch import nn
 from models.local.FastSCNN.models import fast_scnn
 from models.cloud.UNet import unet
 from utils import segmentation_labels
+from models import config
 
-weights_path = 'models/weights/'
-fast_scnn_checkpoint_dir = 'models/tuned_training/FastSCNN'
-unet_checkpoint_dir = 'models/tuned_training/UNet'
+weights_path = config.WEIGHTS_PATH
+fast_scnn_checkpoint_dir = config.CHECKPOINTS_PATH + 'FastSCNN'
+unet_checkpoint_dir = config.CHECKPOINTS_PATH + 'UNet'
 
 fast_scnn_name = 'fast_scnn_ccncsa_tuned'
 unet_name = 'unet_ccncsa_tuned'

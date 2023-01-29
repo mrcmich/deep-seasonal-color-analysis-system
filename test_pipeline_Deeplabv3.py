@@ -5,22 +5,21 @@ from models import dataset, training_and_testing
 from models.cloud.Deeplabv3 import deeplabv3
 from metrics_and_losses import metrics
 from utils import segmentation_labels, utils
-from models.config import *
+from models import config
 
 
 if __name__ == "__main__":
     args = utils.parse_arguments_test_pipeline()
-    dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
+    dataset_path = config.DATASET_PATH
     
     # defining transforms
     tH, tW = 256, 256
-    mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225] # from ImageNet
-    image_transform = T.Compose([T.Resize((tH, tW)), T.Normalize(mean, std)])
+    image_transform = T.Compose([T.Resize((tH, tW)), T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)])
     target_transform = T.Compose([T.Resize((tH, tW))])
 
     # fetching dataset
     n_classes = len(segmentation_labels.labels)
-    img_paths, label_paths = dataset.get_paths(dataset_path, file_name='training.xml')
+    img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
     _, X_test, _, Y_test = train_test_split(img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
     test_dataset = dataset.MyDataset(X_test, Y_test, image_transform, target_transform)
 

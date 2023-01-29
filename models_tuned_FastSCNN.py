@@ -10,15 +10,14 @@ import torchsummary
 from functools import partial
 from ray import tune
 from ray.tune import CLIReporter
-from models.config import *
-
+from models import config
+import os
 
 # local configuration
-dataset_path = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
+dataset_path = config.DATASET_PATH
 
 # defining transforms
 tH, tW = 512, 512
-mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225] # from ImageNet
 bilateral_filter = custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7)
 center_crop = custom_transforms.PartiallyDeterministicCenterCrop(p=0.5)
 
@@ -27,7 +26,7 @@ train_image_transform = T.Compose([
     T.ColorJitter(brightness=0.25, contrast=0.25), 
     T.Resize((tH, tW)), 
     bilateral_filter,
-    T.Normalize(mean, std)])
+    T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)])
 
 train_target_transform = T.Compose([
     center_crop,
@@ -36,13 +35,13 @@ train_target_transform = T.Compose([
 test_image_transform = T.Compose([
     T.Resize((tH, tW)), 
     bilateral_filter,
-    T.Normalize(mean, std)])
+    T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)])
 
 test_target_transform = T.Compose([T.Resize((tH, tW))])
 
 # fetching dataset
 n_classes = len(segmentation_labels.labels)
-img_paths, label_paths = dataset.get_paths(dataset_path, file_name='training.xml')
+img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
 X_train, X_test, Y_train, Y_test = train_test_split(img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
 train_dataset = dataset.MyDataset(X_train, Y_train, train_image_transform, train_target_transform)
 test_dataset = dataset.MyDataset(X_test, Y_test, test_image_transform, test_target_transform)
@@ -59,8 +58,7 @@ if torch.cuda.is_available():
     if torch.cuda.device_count() > 1:  # if possible, exploit multiple GPUs
         model = nn.DataParallel(model)
 
-class_weights = torch.tensor(
-    [0.3762, 0.9946, 0.9974, 0.9855, 0.7569, 0.9140, 0.9968, 0.9936, 0.9989, 0.9893, 0.9968], device=device)
+class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
 loss_fn = nn.CrossEntropyLoss(weight=class_weights)
 score_fn = metrics.batch_mIoU
 
@@ -77,12 +75,12 @@ model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), 
 print(model_summary)
 
 # model parameters
-config = {
+cfg = {
     "lr": learning_rate,
     "batch_size": batch_size,
     "start_factor": start_factor,
     "from_checkpoint": False,
-    "checkpoint_dir": os.path.abspath("./models/tuned_training/FastSCNN")
+    "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH +"FastSCNN")
 }
 
 # Ray Tune parameters
@@ -102,10 +100,10 @@ reporter = CLIReporter(
 results = tune.run(partial(training_and_testing.train_model_with_ray,
     device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
     optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=evaluate),
-    config=config,
+    config=cfg,
     num_samples=num_samples,
     resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
     progress_reporter=reporter,
     checkpoint_at_end=True,
     checkpoint_freq=1,
-    local_dir="models/tuned_training/FastSCNN")
+    local_dir=config.CHECKPOINTS_PATH+"FastSCNN")
