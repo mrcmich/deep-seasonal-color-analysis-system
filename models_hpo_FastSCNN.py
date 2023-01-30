@@ -15,7 +15,6 @@ import pprint
 import os
 
 
-
 weights_path = config.WEIGHTS_PATH
 dataset_path = config.DATASET_PATH
 
