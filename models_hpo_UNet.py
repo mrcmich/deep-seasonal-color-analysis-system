@@ -15,12 +15,8 @@ import pprint
 import os
 
 
-executing_on_colab = False
-
-# local configuration
-if executing_on_colab is False:
-    weights_path = config.WEIGHTS_PATH
-    dataset_path = config.DATASET_PATH
+weights_path = config.WEIGHTS_PATH
+dataset_path = config.DATASET_PATH
 
 # defining transforms
 tH, tW = 256, 256
