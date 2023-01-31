@@ -87,10 +87,3 @@ if __name__ == "__main__":
         checkpoint_at_end=True,
         checkpoint_freq=1,
         local_dir=config.CHECKPOINTS_PATH+"Deeplabv3")
-    
-    if args.evaluate:
-        # plotting training results?
-        pass
-    else:
-        # saving final model's weights
-        torch.save(model.state_dict(), weights_path + model_name + '.pth')
