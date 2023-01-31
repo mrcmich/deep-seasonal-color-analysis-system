@@ -228,8 +228,8 @@ def train_model_with_ray(config, device, model, dataset, n_epochs, score_fn, los
             lr_scheduler.step()
         else:
             torch.save(
-                (model_on_device.state_dict(), optimizer.state_dict(),
-                 os.path.join(config["checkpoint_dir"], "checkpoint.pt")))
+                (model_on_device.state_dict(), optimizer.state_dict()),
+                 os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
 
         # report metrics to Ray Tune
         if evaluate:
