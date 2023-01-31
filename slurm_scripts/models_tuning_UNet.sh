@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_tuning_UNet.err
 #SBATCH --output=models/outputs/models_tuning_UNet.out
 
-python models_tuning_UNet.py
+python models_tuning.py unet
