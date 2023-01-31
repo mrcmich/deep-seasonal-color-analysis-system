@@ -17,6 +17,7 @@ import sys
 
 def run_hpo(model_name):
     dataset_path = config.DATASET_PATH
+    n_classes = len(segmentation_labels.labels)
     
     if model_name == 'fastscnn':
         model = fast_scnn.FastSCNN(n_classes) 
@@ -28,7 +29,6 @@ def run_hpo(model_name):
     target_transform = model_config['target_transform']
 
     # fetching dataset
-    n_classes = len(segmentation_labels.labels)
     img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
     X_train, _, Y_train, _ = train_test_split(
         img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
