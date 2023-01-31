@@ -7,7 +7,7 @@ from models.local.FastSCNN.models import fast_scnn
 from metrics_and_losses import metrics
 from utils import segmentation_labels
 from models import config
-from slurm_scripts import slurm_hpo_config
+from slurm_scripts import slurm_config
 from functools import partial
 from ray import tune
 from ray.tune import CLIReporter
@@ -23,7 +23,7 @@ def run_hpo(model_name):
     elif model_name == 'unet':
         model = unet.UNet(out_channels=n_classes)
 
-    model_config = slurm_hpo_config.SLURM_CFG_01[model_name]
+    model_config = slurm_config.SLURM_CFG_HPO[model_name]
     image_transform = model_config['image_transform']
     target_transform = model_config['target_transform']
 
