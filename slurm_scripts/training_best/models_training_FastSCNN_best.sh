@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_training_FastSCNN_best.err
 #SBATCH --output=models/outputs/models_training_FastSCNN_best.out
 
-python models_training_best.py --model_name=fastscnn --evaluate=False
+python models_training_or_hpo.py --config=best --model_name=fastscnn --evaluate=False
