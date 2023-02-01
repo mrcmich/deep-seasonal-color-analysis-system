@@ -17,8 +17,12 @@ from ray import tune
 from ray.tune import CLIReporter
 import os
 
-MODEL_DICT = {
-    "fastscnn": "FastSCNN"
+MODEL_NAMES = {
+    "fastscnn": "FastSCNN",
+    "cgnet": "CGNet",
+    "lednet": "LEDNet",
+    "unet": "UNet",
+    "deeplab": "Deeplabv3",
 }
 
 def run_training_demo(args):
@@ -78,7 +82,7 @@ def run_training_demo(args):
         "lr": learning_rate,
         "batch_size": batch_size,
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.DEMO_PATH + args.model_name)
+        "checkpoint_dir": os.path.abspath("./" + config.DEMO_PATH + MODEL_NAMES[args.model_name])
     }
 
     # Ray Tune parameters
@@ -102,7 +106,7 @@ def run_training_demo(args):
                        progress_reporter=reporter,
                        checkpoint_at_end=True,
                        checkpoint_freq=1,
-                       local_dir=config.CHECKPOINTS_PATH+args.model_name)
+                       local_dir=config.CHECKPOINTS_PATH+MODEL_NAMES[args.model_name])
 
 
 if __name__ == "__main__":
