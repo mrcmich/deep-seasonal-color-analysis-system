@@ -41,13 +41,10 @@ def run_training_demo(args):
     train_dataset = dataset.CcncsaDataset(X_train, Y_train, image_transform, target_transform)
 
     # training hyperparameters
-    # if possible, exploit multiple GPUs
     batch_size = 32
-    n_epochs = args.n_epochs
+    n_epochs = args.n_epochs if args.evaluate else (args.n_epochs // 2)
 
     # model, loss, score function
-    class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
-    
     if args.model_name == "fastscnn":
         model = fast_scnn.FastSCNN(n_classes)
     elif args.model_name == "cgnet":
@@ -60,15 +57,18 @@ def run_training_demo(args):
         model = deeplabv3.deeplabv3_resnet50(num_classes=n_classes)
     else:
         raise Exception("model not supported.")
-    
+
     loss_fn = nn.CrossEntropyLoss()
     score_fn = metrics.batch_mIoU
-    
+
+    # if possible, exploit multiple GPUs
     device = "cpu"
     if torch.cuda.is_available():
         device = "cuda:0"
         if torch.cuda.device_count() > 1:
             model = nn.DataParallel(model)
+
+    class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
 
     # optimizer
     learning_rate = 0.01
