@@ -66,7 +66,7 @@ Current time: 2023-01-28 15:52:56 (running for 00:00:00.64)
 Memory usage on this node: 22.2/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+
 | Trial name                       | status   | loc                 |
@@ -80,7 +80,7 @@ Current time: 2023-01-28 16:02:59 (running for 00:10:03.60)
 Memory usage on this node: 20.4/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+
 | Trial name                       | status   | loc                 |
@@ -94,7 +94,7 @@ Current time: 2023-01-28 16:13:01 (running for 00:20:05.80)
 Memory usage on this node: 25.9/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+
 | Trial name                       | status   | loc                 |
@@ -127,7 +127,7 @@ Current time: 2023-01-28 16:23:06 (running for 00:30:10.78)
 Memory usage on this node: 21.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -160,7 +160,7 @@ Current time: 2023-01-28 16:33:08 (running for 00:40:12.86)
 Memory usage on this node: 25.1/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -174,7 +174,7 @@ Current time: 2023-01-28 16:43:09 (running for 00:50:14.21)
 Memory usage on this node: 25.3/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -207,7 +207,7 @@ Current time: 2023-01-28 16:53:11 (running for 01:00:15.59)
 Memory usage on this node: 25.0/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -221,7 +221,7 @@ Current time: 2023-01-28 17:03:12 (running for 01:10:17.19)
 Memory usage on this node: 21.8/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -254,7 +254,7 @@ Current time: 2023-01-28 17:13:14 (running for 01:20:18.92)
 Memory usage on this node: 23.5/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -268,7 +268,7 @@ Current time: 2023-01-28 17:23:16 (running for 01:30:20.58)
 Memory usage on this node: 23.7/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -301,7 +301,7 @@ Current time: 2023-01-28 17:33:20 (running for 01:40:25.22)
 Memory usage on this node: 26.9/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -315,7 +315,7 @@ Current time: 2023-01-28 17:43:22 (running for 01:50:26.86)
 Memory usage on this node: 30.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -348,7 +348,7 @@ Current time: 2023-01-28 17:53:27 (running for 02:00:31.52)
 Memory usage on this node: 32.3/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -362,7 +362,7 @@ Current time: 2023-01-28 18:03:28 (running for 02:10:33.27)
 Memory usage on this node: 31.8/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -395,7 +395,7 @@ Current time: 2023-01-28 18:13:33 (running for 02:20:37.72)
 Memory usage on this node: 31.7/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -409,7 +409,7 @@ Current time: 2023-01-28 18:23:35 (running for 02:30:39.42)
 Memory usage on this node: 32.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -442,7 +442,7 @@ Current time: 2023-01-28 18:33:35 (running for 02:40:39.88)
 Memory usage on this node: 31.8/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -475,7 +475,7 @@ Current time: 2023-01-28 18:43:40 (running for 02:50:44.53)
 Memory usage on this node: 32.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -489,7 +489,7 @@ Current time: 2023-01-28 18:53:42 (running for 03:00:46.43)
 Memory usage on this node: 32.5/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -522,7 +522,7 @@ Current time: 2023-01-28 19:03:45 (running for 03:10:50.19)
 Memory usage on this node: 31.1/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -536,7 +536,7 @@ Current time: 2023-01-28 19:13:47 (running for 03:20:51.66)
 Memory usage on this node: 31.3/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -569,7 +569,7 @@ Current time: 2023-01-28 19:23:49 (running for 03:30:54.25)
 Memory usage on this node: 32.0/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -583,7 +583,7 @@ Current time: 2023-01-28 19:33:51 (running for 03:40:55.64)
 Memory usage on this node: 31.2/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -616,7 +616,7 @@ Current time: 2023-01-28 19:43:55 (running for 03:50:59.84)
 Memory usage on this node: 31.2/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -630,7 +630,7 @@ Current time: 2023-01-28 19:53:57 (running for 04:01:01.87)
 Memory usage on this node: 31.7/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -663,7 +663,7 @@ Current time: 2023-01-28 20:04:02 (running for 04:11:06.35)
 Memory usage on this node: 31.9/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -677,7 +677,7 @@ Current time: 2023-01-28 20:14:03 (running for 04:21:07.90)
 Memory usage on this node: 31.4/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -710,7 +710,7 @@ Current time: 2023-01-28 20:24:08 (running for 04:31:12.48)
 Memory usage on this node: 32.8/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -724,7 +724,7 @@ Current time: 2023-01-28 20:34:09 (running for 04:41:14.21)
 Memory usage on this node: 32.3/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -757,7 +757,7 @@ Current time: 2023-01-28 20:44:10 (running for 04:51:14.47)
 Memory usage on this node: 32.5/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -790,7 +790,7 @@ Current time: 2023-01-28 20:54:10 (running for 05:01:14.95)
 Memory usage on this node: 31.7/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -804,7 +804,7 @@ Current time: 2023-01-28 21:04:12 (running for 05:11:16.87)
 Memory usage on this node: 31.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -837,7 +837,7 @@ Current time: 2023-01-28 21:14:15 (running for 05:21:19.97)
 Memory usage on this node: 32.4/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -851,7 +851,7 @@ Current time: 2023-01-28 21:24:17 (running for 05:31:21.75)
 Memory usage on this node: 31.8/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -884,7 +884,7 @@ Current time: 2023-01-28 21:34:22 (running for 05:41:26.41)
 Memory usage on this node: 32.3/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -898,7 +898,7 @@ Current time: 2023-01-28 21:44:24 (running for 05:51:28.76)
 Memory usage on this node: 32.1/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -931,7 +931,7 @@ Current time: 2023-01-28 21:54:24 (running for 06:01:28.99)
 Memory usage on this node: 31.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -945,7 +945,7 @@ Current time: 2023-01-28 22:04:27 (running for 06:11:31.81)
 Memory usage on this node: 32.6/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 RUNNING)
 +----------------------------------+----------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status   | loc                 |   train_loss |   train_score |   training_iteration |
@@ -998,7 +998,7 @@ Current time: 2023-01-28 22:08:37 (running for 06:15:41.36)
 Memory usage on this node: 30.0/251.6 GiB 
 Using FIFO scheduling algorithm.
 Resources requested: 0/56 CPUs, 0/2 GPUs, 0.0/153.71 GiB heap, 0.0/69.87 GiB objects (0.0/1.0 accelerator_type:P100)
-Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/tuned_training/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/train_model_with_ray_2023-01-28_15-52-55
 Number of trials: 1/1 (1 TERMINATED)
 +----------------------------------+------------+---------------------+--------------+---------------+----------------------+
 | Trial name                       | status     | loc                 |   train_loss |   train_score |   training_iteration |

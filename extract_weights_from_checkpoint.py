@@ -10,8 +10,8 @@ weights_path = config.WEIGHTS_PATH
 fast_scnn_checkpoint_dir = config.CHECKPOINTS_PATH + 'FastSCNN'
 unet_checkpoint_dir = config.CHECKPOINTS_PATH + 'UNet'
 
-fast_scnn_name = 'fast_scnn_ccncsa_tuned'
-unet_name = 'unet_ccncsa_tuned'
+fast_scnn_name = 'fast_scnn_ccncsa_best'
+unet_name = 'unet_ccncsa_best'
 n_classes = len(segmentation_labels.labels)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

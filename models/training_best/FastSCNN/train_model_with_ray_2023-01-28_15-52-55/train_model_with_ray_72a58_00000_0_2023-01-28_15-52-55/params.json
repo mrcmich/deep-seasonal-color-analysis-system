@@ -1,0 +1,7 @@
+{
+  "batch_size": 32,
+  "checkpoint_dir": "/homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN",
+  "from_checkpoint": false,
+  "lr": 0.01,
+  "start_factor": 0.3
+}

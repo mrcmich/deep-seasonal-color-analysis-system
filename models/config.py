@@ -4,7 +4,7 @@ ROOT_DIR = os.getcwd() + "/"
 DATASET_PATH = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
 WEIGHTS_PATH = 'models/weights/'
 PLOTS_PATH = 'models/plots/'
-CHECKPOINTS_PATH = 'models/tuned_training/'
+CHECKPOINTS_PATH = 'models/training_best/'
 HPO_PATH = 'models/hpo/'
 
 # Name of index file of dataset (file .xml in folder DATASET_PATH).
