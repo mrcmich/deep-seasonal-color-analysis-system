@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_tuning_FastSCNN.err
 #SBATCH --output=models/outputs/models_tuning_FastSCNN.out
 
-python models_tuning.py fastscnn
+python models_tuning.py --model_name=fastscnn --evaluate=False

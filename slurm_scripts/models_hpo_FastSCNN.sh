@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_hpo_FastSCNN.err
 #SBATCH --output=models/outputs/models_hpo_FastSCNN.out
 
-python models_hpo.py fastscnn
+python models_hpo.py --model_name=fastscnn --evaluate=True --n_epochs=5

@@ -14,7 +14,7 @@ from ray.tune import CLIReporter
 import os
 
 if __name__ == "__main__":
-    args = utils.parse_arguments_train_pipeline()
+    args = utils.parse_arguments_deeplab()
     
     weights_path = config.WEIGHTS_PATH
     plots_path = config.PLOTS_PATH
@@ -50,7 +50,7 @@ if __name__ == "__main__":
             model = nn.DataParallel(model)
 
     # optimizer
-    learning_rate = args.learning_rate
+    learning_rate = args.lr
     optimizer = torch.optim.Adam
 
     model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), batch_dim=None, verbose=0)

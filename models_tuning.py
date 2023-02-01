@@ -5,18 +5,19 @@ from models import dataset, training_and_testing
 from models.local.FastSCNN.models import fast_scnn
 from models.cloud.UNet import unet
 from metrics_and_losses import metrics
-from utils import segmentation_labels
+from utils import segmentation_labels, utils
 import torchsummary
 from functools import partial
 from ray import tune
 from ray.tune import CLIReporter
 from models import config
 from slurm_scripts import slurm_config
-import sys
 
-def run_tuning(model_name):
+def run_tuning(args):
     dataset_path = config.DATASET_PATH
     n_classes = len(segmentation_labels.labels)
+    model_name = args.model_name
+    evaluate = args.evaluate
 
     if model_name == 'fastscnn':
         model = fast_scnn.FastSCNN(n_classes) 
@@ -64,7 +65,6 @@ def run_tuning(model_name):
     cpus_per_trial = 0
     gpus_per_trial = torch.cuda.device_count()
     num_samples = 1  # Number of times each combination is sampled (n_epochs are done per sample)
-    evaluate = False
     if evaluate:
         metrics_columns = ["train_loss", "train_score", "val_loss", "val_score", "training_iteration"]
     else:
@@ -87,20 +87,7 @@ def run_tuning(model_name):
         local_dir=model_config['local_dir'])
 
 if __name__ == '__main__':
-    args = sys.argv
-
-    if len(args) == 1:
-        sys.exit("Error: invalid syntax." +
-            " Syntax: models_tuning.py <model_name>, where <model_name> is from list ['fastscnn', 'unet'].")
-
-    if len(args) != 2:
-        sys.exit("Error: invalid number of arguments. Pass a model from list ['fastscnn', 'unet'].")
+    args = utils.parse_arguments_tuning()
     
-    model_name = args[1]
-    
-    if model_name not in ['fastscnn', 'unet']:
-        sys.exit("Error: invalid model_name." + 
-            " Parameter model_name must be taken from list ['fastscnn', 'unet'].")
-
-    run_tuning(model_name)
+    run_tuning(args)
 

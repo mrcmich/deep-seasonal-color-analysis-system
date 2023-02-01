@@ -5,7 +5,7 @@ from models import dataset, training_and_testing
 from models.cloud.UNet import unet
 from models.local.FastSCNN.models import fast_scnn
 from metrics_and_losses import metrics
-from utils import segmentation_labels
+from utils import segmentation_labels, utils
 from models import config
 from slurm_scripts import slurm_config
 from functools import partial
@@ -13,11 +13,12 @@ from ray import tune
 from ray.tune import CLIReporter
 from ray.tune.schedulers import ASHAScheduler
 import pprint
-import sys
 
-def run_hpo(model_name):
+def run_hpo(args):
     dataset_path = config.DATASET_PATH
     n_classes = len(segmentation_labels.labels)
+    model_name = args.model_name
+    evaluate = args.evaluate
     
     if model_name == 'fastscnn':
         model = fast_scnn.FastSCNN(n_classes) 
@@ -44,7 +45,7 @@ def run_hpo(model_name):
             model = nn.DataParallel(model)
 
     # model parameters
-    n_epochs = 5
+    n_epochs = args.n_epochs
     cfg = model_config['hpo_cfg']
     score_fn = metrics.batch_mIoU
     class_weights = torch.tensor(config.CLASS_WEIGHTS)
@@ -55,7 +56,6 @@ def run_hpo(model_name):
     gpus_per_trial = torch.cuda.device_count()
     num_samples = 1  # Number of times each combination is sampled (n_epochs are done per sample)
     scheduler = ASHAScheduler(grace_period=2)
-    evaluate = True
     if evaluate:
         metric = "val_loss"
         metrics_columns = ["train_loss", "train_score", "val_loss", "val_score", "training_iteration"]
@@ -107,20 +107,7 @@ def run_hpo(model_name):
 
 
 if __name__ == '__main__':
-    args = sys.argv
+    args = utils.parse_arguments()
 
-    if len(args) == 1:
-        sys.exit("Error: invalid syntax." +
-            " Syntax: models_hpo.py <model_name>, where <model_name> is from list ['fastscnn', 'unet'].")
-
-    if len(args) != 2:
-        sys.exit("Error: invalid number of arguments. Pass a model from list ['fastscnn', 'unet'].")
-    
-    model_name = args[1]
-    
-    if model_name not in ['fastscnn', 'unet']:
-        sys.exit("Error: invalid model_name." + 
-            " Parameter model_name must be taken from list ['fastscnn', 'unet'].")
-
-    run_hpo(model_name)
+    run_hpo(args)
 

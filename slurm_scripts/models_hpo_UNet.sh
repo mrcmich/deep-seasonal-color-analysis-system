@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_hpo_UNet.err
 #SBATCH --output=models/outputs/models_hpo_UNet.out
 
-python models_hpo.py unet
+python models_hpo.py --model_name=unet --evaluate=True --n_epochs=5

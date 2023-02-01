@@ -27,19 +27,26 @@ def from_key_to_index(dictionary, key):
 def count_learnable_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
-def parse_arguments_train_pipeline():
+
+def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--model_name', type=str, required=True, choices=["fastscnn", "unet"], help='Which model to use', metavar='')
     parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
-    parser.add_argument('--n_epochs', type=int, default=50, help='Number of epochs in the validation case', metavar='')
-    parser.add_argument('--learning_rate', type=float, default=0.01, help='Learning rate', metavar='')
+    parser.add_argument('--n_epochs', type=int, default=40, help='Number of epochs in the validation case', metavar='')
     args = parser.parse_args()
     args.evaluate = args.evaluate == "True"
     return args
 
-def parse_arguments_test_pipeline():
+
+def parse_arguments_deeplab():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights_path', type=str, required=True, help='Path to the model weights to use for testing', metavar='')
-    return parser.parse_args()
+    parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
+    parser.add_argument('--n_epochs', type=int, default=40, help='Number of epochs in the validation case', metavar='')
+    parser.add_argument('--lr', type=float, default=0.01, metavar='')
+    args = parser.parse_args()
+    args.evaluate = args.evaluate == "True"
+    return args
+
 
 # Given a model and a dataset, plots predictions (and corresponding targets) for n_examples random images.
 def plot_random_examples(device, model, dataset, n_examples=1, figsize=(12, 6)):
