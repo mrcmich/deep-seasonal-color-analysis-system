@@ -2,11 +2,8 @@ import torch
 import matplotlib.pyplot as plt
 from torch.utils.data.dataset import random_split
 from torch.utils.data import DataLoader
-import signal
-import sys
 import time
 import math
-from functools import partial
 from ray.air import session
 import os
 from utils import utils, segmentation_labels
