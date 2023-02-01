@@ -2,8 +2,12 @@ import torch
 from torch import nn
 import torchvision.transforms as T
 from sklearn.model_selection import train_test_split
-from models import dataset, training_and_testing
+from models.local.FastSCNN.models import fast_scnn
+from models.local.CGNet.model import CGNet
+from models.local.LEDNet.models import lednet
+from models.cloud.UNet import unet
 from models.cloud.Deeplabv3 import deeplabv3
+from models import dataset, training_and_testing
 from metrics_and_losses import metrics
 from utils import segmentation_labels, utils
 import torchsummary
@@ -13,7 +17,11 @@ from ray import tune
 from ray.tune import CLIReporter
 import os
 
-def run_deeplab_training(args):
+MODEL_DICT = {
+    "fastscnn": "FastSCNN"
+}
+
+def run_training_demo(args):
     dataset_path = config.DATASET_PATH
 
     # defining transforms
@@ -35,7 +43,20 @@ def run_deeplab_training(args):
 
     # model, loss, score function
     class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
-    model = deeplabv3.deeplabv3_resnet50(num_classes=n_classes)
+    
+    if args.model_name == "fastscnn":
+        model = fast_scnn.FastSCNN(n_classes)
+    elif args.model_name == "cgnet":
+        model = CGNet.Context_Guided_Network(classes=n_classes)
+    elif args.model_name == "lednet":
+        model = lednet.LEDNet(num_classes=n_classes, output_size=(tH, tW))
+    elif args.model_name == "unet":
+        model = unet.UNet(out_channels=n_classes)
+    elif args.model_name == "deeplab":
+        model = deeplabv3.deeplabv3_resnet50(num_classes=n_classes)
+    else:
+        raise Exception("model not supported.")
+    
     loss_fn = nn.CrossEntropyLoss()
     score_fn = metrics.batch_mIoU
     
@@ -46,7 +67,7 @@ def run_deeplab_training(args):
             model = nn.DataParallel(model)
 
     # optimizer
-    learning_rate = args.lr
+    learning_rate = 0.01
     optimizer = torch.optim.Adam
 
     model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), batch_dim=None, verbose=0)
@@ -57,7 +78,7 @@ def run_deeplab_training(args):
         "lr": learning_rate,
         "batch_size": batch_size,
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "Deeplabv3")
+        "checkpoint_dir": os.path.abspath("./" + config.DEMO_PATH + args.model_name)
     }
 
     # Ray Tune parameters
@@ -82,9 +103,9 @@ def run_deeplab_training(args):
         progress_reporter=reporter,
         checkpoint_at_end=True,
         checkpoint_freq=1,
-        local_dir=config.CHECKPOINTS_PATH+"Deeplabv3")
+        local_dir=config.CHECKPOINTS_PATH+args.model_name)
 
 
 if __name__ == "__main__":
-    args = utils.parse_arguments_deeplab()
-    run_deeplab_training(args)
+    args = utils.parse_arguments_demo()
+    run_training_demo(args)

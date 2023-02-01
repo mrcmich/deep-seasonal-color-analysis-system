@@ -28,7 +28,7 @@ def count_learnable_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-def parse_arguments():
+def parse_arguments_best():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', type=str, required=True, choices=["fastscnn", "unet"], help='Which model to use', metavar='')
     parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
@@ -37,15 +37,15 @@ def parse_arguments():
     args.evaluate = args.evaluate == "True"
     return args
 
-
-def parse_arguments_deeplab():
+def parse_arguments_demo():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--model_name', type=str, required=True, choices=["fastscnn", "cgnet", "lednet", "unet", "deeplab"], help='Which model to use', metavar='')
     parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
     parser.add_argument('--n_epochs', type=int, default=30, help='Number of epochs in the validation case', metavar='')
-    parser.add_argument('--lr', type=float, default=0.01, metavar='')
     args = parser.parse_args()
     args.evaluate = args.evaluate == "True"
     return args
+
 
 
 # Given a model and a dataset, plots predictions (and corresponding targets) for n_examples random images.

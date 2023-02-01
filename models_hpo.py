@@ -107,7 +107,7 @@ def run_hpo(args):
 
 
 if __name__ == '__main__':
-    args = utils.parse_arguments()
+    args = utils.parse_arguments_best()
 
     run_hpo(args)
 
