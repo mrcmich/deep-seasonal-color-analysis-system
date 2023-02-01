@@ -26,7 +26,7 @@ def run_deeplab_training(args):
     img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
     X_train, _, Y_train, _ = train_test_split(
         img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
-    train_dataset = dataset.MyDataset(X_train, Y_train, image_transform, target_transform)
+    train_dataset = dataset.CcncsaDataset(X_train, Y_train, image_transform, target_transform)
 
     # training hyperparameters
     # if possible, exploit multiple GPUs
