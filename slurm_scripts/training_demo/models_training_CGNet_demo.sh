@@ -5,4 +5,4 @@
 #SBATCH --error=models/outputs/models_training_CGNet_demo.err
 #SBATCH --output=models/outputs/models_training_CGNet_demo.out
 
-python models_training_demo.py --model_name=cgnet --evaluate=False --n_epochs=30
+python models_training_demo.py --model_name=cgnet --evaluate=True --n_epochs=20
