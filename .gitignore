@@ -6,3 +6,4 @@ changelog.txt
 debug.py
 cvcs/
 bash.sh
+venv/
