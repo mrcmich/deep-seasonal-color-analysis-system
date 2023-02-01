@@ -40,13 +40,13 @@ GLOBAL_CFG_TRAINING_DEMO = SlurmConfig(
     T.Compose([T.Resize(GLOBAL_INPUT_SIZE_TRAINING_DEMO)]),
     False,
     torch.optim.Adam,
-    config.CHECKPOINTS_PATH,
+    config.DEMO_PATH,
     {
         "lr": 0.01,
         "lr_scheduler": "none",
         "batch_size": 32,
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.DEMO_PATH)
+        "checkpoint_dir": os.path.abspath("./" + config.DEMO_PATH) + '/'
     },
     False
 ).config_dict()
@@ -69,7 +69,7 @@ FASTSCNN_CFG_HPO = SlurmConfig(
         "lr_scheduler": tune.grid_search(["none", "linear"]),
         "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH)
+        "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH) + '/'
     },
     True
 ).config_dict()
@@ -96,7 +96,7 @@ FASTSCNN_CFG_TRAINING_BEST = SlurmConfig(
         'lr_scheduler':  "linear",
         "batch_size": ...,
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH)
+        "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH) + '/'
     },
     False
 ).config_dict()
@@ -119,7 +119,7 @@ UNET_CFG_HPO = SlurmConfig(
         "lr_scheduler": tune.grid_search(["none", "linear"]),
         "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH)
+        "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH) + '/'
     },
     True
 ).config_dict()
@@ -141,7 +141,7 @@ UNET_CFG_TRAINING_BEST = SlurmConfig(
         'lr_scheduler':  "linear",
         "batch_size": ...,
         "from_checkpoint": False,
-        "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH)
+        "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH) + '/'
     },
     False
 ).config_dict()
