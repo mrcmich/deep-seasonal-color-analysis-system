@@ -15,9 +15,10 @@ from utils import utils, segmentation_labels
 # ---
 # device: device on which to load data ('cpu' for cpu).
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=None, training=False, optimizer=None, class_weights=None):
+def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=None, training=False, optimizer=None,
+                               class_weights=None):
     if training is True:
-        assert(optimizer is not None and loss_fn is not None)
+        assert (optimizer is not None and loss_fn is not None)
 
     cum_loss = 0.0
     cum_scores = torch.tensor(0.0, dtype=torch.float32)
@@ -31,18 +32,18 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
         batch_outputs = model(batch_inputs)[0]
         channels_max, _ = torch.max(batch_outputs, axis=1)
         batch_predictions = (batch_outputs == channels_max.unsqueeze(axis=1)).float().to(device)
-        
+
         if loss_fn is not None:
             loss = loss_fn(batch_outputs, batch_targets)
             cum_loss += loss.item()
 
         score = score_fn(batch_predictions, batch_targets, class_weights)
         cum_scores = cum_scores + score
-        
+
         if training is True:
             loss.backward()
             optimizer.step()
-    
+
     average_loss = cum_loss / len(data_loader)
     average_score = cum_scores / len(data_loader)
 
@@ -58,8 +59,8 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 # num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
 # from_checkpoint: bool that establishes whether to resume a previous run from the last checkpoint saved
-def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, class_weights=None, num_workers=(0, 0), evaluate=False):
-    
+def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, class_weights=None,
+                num_workers=(0, 0), evaluate=False):
     model_on_device = model.to(device)
 
     # model parameters
@@ -74,18 +75,17 @@ def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, opt
             raise Exception("lr scheduler not supported.")
     except KeyError:
         lr_scheduler = None
-        
+
     batch_size = config["batch_size"]
 
     # start from a checkpoint
     if config["from_checkpoint"]:
-        model_state, optimizer_state, lr_scheduler_state = torch.load(os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+        model_state, optimizer_state, lr_scheduler_state = torch.load(
+            os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
         model_on_device.load_state_dict(model_state)
         optimizer.load_state_dict(optimizer_state)
         lr_scheduler.load_state_dict(lr_scheduler_state)
 
-    num_workers_train = 0
-    num_workers_test = 0
     if type(num_workers) is tuple:
         num_workers_train = num_workers[0]
         num_workers_test = num_workers[1]
@@ -97,44 +97,49 @@ def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, opt
         n_val_samples = len(dataset) - n_train_samples
         dataset_train, dataset_val = random_split(
             dataset, lengths=[n_train_samples, n_val_samples], generator=torch.Generator().manual_seed(99))
-        dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=num_workers_train)
+        dl_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=True, drop_last=True,
+                              num_workers=num_workers_train)
         dl_val = DataLoader(dataset_val, batch_size=batch_size, num_workers=num_workers_test)
     else:
-        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True, num_workers=num_workers_train)
+        dl_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True,
+                              num_workers=num_workers_train)
         dl_val = None
 
     for _ in range(n_epochs):
         model_on_device.train()
 
         average_train_loss, average_train_score = training_or_testing_epoch_(
-            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer, class_weights=class_weights)
+            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer,
+            class_weights=class_weights)
         average_train_score = average_train_score.mean().item()
 
         if dl_val is not None:
             model_on_device.eval()
 
             with torch.no_grad():
-                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn, class_weights=class_weights)
+                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val,
+                                                                                 score_fn, loss_fn,
+                                                                                 class_weights=class_weights)
 
             average_val_score = average_val_score.mean().item()
 
         # save a checkpoint
         if lr_scheduler is not None:
             torch.save(
-                (model_on_device.state_dict(), optimizer.state_dict(), lr_scheduler.state_dict()), 
+                (model_on_device.state_dict(), optimizer.state_dict(), lr_scheduler.state_dict()),
                 os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
             lr_scheduler.step()
         else:
             torch.save(
                 (model_on_device.state_dict(), optimizer.state_dict()),
-                 os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
+                os.path.join(config["checkpoint_dir"], "checkpoint.pt"))
 
         # report metrics to Ray Tune
         if evaluate:
             session.report({"train_loss": average_train_loss, "train_score": average_train_score,
                             "val_loss": average_val_loss, "val_score": average_val_score})
         else:
-            session.report({"train_loss": average_train_loss, "train_score": average_train_score})            
+            session.report({"train_loss": average_train_loss, "train_score": average_train_score})
 
     model_on_device.eval()
 
@@ -162,6 +167,7 @@ def test_model(device, model, dataset, batch_size, score_fn, num_workers=0):
 
     return average_score
 
+
 # Plots training results, as returned from function train_model.
 # ---
 # results_dict: dictionary with keys average_train_loss, average_val_loss, average_train_score, average_val_score, 
@@ -169,11 +175,11 @@ def test_model(device, model, dataset, batch_size, score_fn, num_workers=0):
 # plotsize: tuple representing the size (in inches) of the figure containing results_dict's plots.
 # train_fmt, val_fmt: format string for plots of training and validation metrics respectively.
 def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', val_fmt='b'):
-    assert(
-        'average_train_loss' in results_dict and 
-        'average_val_loss' in results_dict and 
-        'average_train_score' in results_dict and 
-        'average_val_score' in results_dict
+    assert (
+            'average_train_loss' in results_dict and
+            'average_val_loss' in results_dict and
+            'average_train_score' in results_dict and
+            'average_val_score' in results_dict
     )
 
     legend = ['Train', 'Val']
@@ -181,11 +187,11 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
     n_epochs = len(results_dict['average_train_loss'])
 
     plt.figure(figsize=plotsize)
-    
+
     # average losses
     plt.subplot(1, 2, 1)
-    plt.plot(range(1, n_epochs + 1), results_dict['average_train_loss'], train_fmt, \
-        range(1, n_epochs + 1), results_dict['average_val_loss'], val_fmt)
+    plt.plot(range(1, n_epochs + 1), results_dict['average_train_loss'], train_fmt,
+             range(1, n_epochs + 1), results_dict['average_val_loss'], val_fmt)
     plt.title('Average Loss')
     plt.xlabel(xlabel)
     plt.ylabel('Loss')
@@ -193,8 +199,7 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
 
     # average scores
     plt.subplot(1, 2, 2)
-    plt.plot(range(1, n_epochs + 1), results_dict['average_train_score'], train_fmt, \
-        range(1, n_epochs + 1), results_dict['average_val_score'], val_fmt)
+    plt.plot(range(1, n_epochs + 1), results_dict['average_train_score'], train_fmt, range(1, n_epochs + 1), results_dict['average_val_score'], val_fmt)
     plt.title('Average Score')
     plt.xlabel(xlabel)
     plt.ylabel('Score')
@@ -205,6 +210,7 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
     else:
         plt.show()
 
+
 # Given the batch_IoU (as computed by function test_model when score_fn is set to metrics.batch_IoU),
 # prints a report of the IoU of each class and the computed mIoU. If class_weights is passed, the function
 # also computes the weighted mIoU.
@@ -212,9 +218,9 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
 # class_weights: optional pytorch tensor of shape (n_classes,) for the computation of the weighted mIoU.
 def print_IoU_report(batch_IoU, class_weights=None):
     label_names = list(segmentation_labels.labels.keys())
-    batch_IoU_with_labels = { label: score for label, score in list(zip(label_names, batch_IoU.tolist())) }
+    batch_IoU_with_labels = {label: score for label, score in list(zip(label_names, batch_IoU.tolist()))}
     batch_mIoU = batch_IoU.mean().item()
-    
+
     for label in batch_IoU_with_labels:
         print(f'batch_IoU_{label}: {batch_IoU_with_labels[label]}')
 

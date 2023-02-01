@@ -76,7 +76,7 @@ def run_training_or_hpo(args):
     score_fn = metrics.batch_mIoU
 
     # printing summary of model
-    if is_hpo_cfg is False:
+    if not is_hpo_cfg:
         batch_size = tunerun_cfg['batch_size']
         model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), batch_dim=None, verbose=0)
         print(model_summary)
@@ -86,8 +86,8 @@ def run_training_or_hpo(args):
     gpus_per_trial = torch.cuda.device_count()
     local_dir = model_cfg['local_dir']
     num_samples = 1  # Number of times each combination is sampled (n_epochs are done per sample)
-    if is_hpo_cfg is True:
-        scheduler = ASHAScheduler(grace_period=2)
+    if is_hpo_cfg:
+        scheduler = ASHAScheduler(grace_period=5)
 
     # setting up reporter
     max_report_frequency = 600
