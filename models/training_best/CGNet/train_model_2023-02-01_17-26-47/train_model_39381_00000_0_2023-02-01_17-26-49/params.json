@@ -1,0 +1,6 @@
+{
+  "batch_size": 32,
+  "checkpoint_dir": "C:\\Users\\matte\\Desktop\\deep-seasonal-color-analysis-system\\models\\demo\\CGNet",
+  "from_checkpoint": false,
+  "lr": 0.01
+}
