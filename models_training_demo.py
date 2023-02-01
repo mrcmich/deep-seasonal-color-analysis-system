@@ -43,7 +43,7 @@ def run_training_demo(args):
     # training hyperparameters
     # if possible, exploit multiple GPUs
     batch_size = 32
-    n_epochs = args.n_epochs if args.evaluate else (args.n_epochs // 2)
+    n_epochs = args.n_epochs
 
     # model, loss, score function
     class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
