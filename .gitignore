@@ -7,3 +7,4 @@ debug.py
 cvcs/
 bash.sh
 venv/
+.idea/
