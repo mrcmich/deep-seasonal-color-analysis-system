@@ -58,14 +58,23 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 # num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
 # from_checkpoint: bool that establishes whether to resume a previous run from the last checkpoint saved
-def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, class_weights=None, num_workers=(0, 0), evaluate=False):
+def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, class_weights=None, num_workers=(0, 0), evaluate=False):
     
     model_on_device = model.to(device)
 
     # model parameters
     optimizer = optimizer(model_on_device.parameters(), lr=config["lr"])
-    if lr_scheduler is not None:
-        lr_scheduler = lr_scheduler(optimizer, start_factor=config["start_factor"])
+    try:
+        lr_scheduler = config["lr_scheduler"]
+        if lr_scheduler == "linear":
+            lr_scheduler = torch.optim.lr_scheduler.LinearLR(optimizer)
+        elif lr_scheduler == "none":
+            lr_scheduler = None
+        else:
+            raise Exception("lr scheduler not supported.")
+    except KeyError:
+        lr_scheduler = None
+        
     batch_size = config["batch_size"]
 
     # start from a checkpoint

@@ -34,6 +34,7 @@ def run_deeplab_training(args):
     n_epochs = args.n_epochs if args.evaluate else (args.n_epochs // 2)
 
     # model, loss, score function
+    class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
     model = deeplabv3.deeplabv3_resnet50(num_classes=n_classes)
     loss_fn = nn.CrossEntropyLoss()
     score_fn = metrics.batch_mIoU
@@ -74,7 +75,7 @@ def run_deeplab_training(args):
 
     results = tune.run(partial(training_and_testing.train_model,
                                device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn,
-                               optimizer=optimizer, lr_scheduler=None, num_workers=(0,0), evaluate=evaluate),
+                               optimizer=optimizer, num_workers=(0,0), evaluate=evaluate, class_weights=class_weights),
         config=cfg,
         num_samples=num_samples,
         resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},

@@ -70,7 +70,7 @@ def run_hpo(args):
     hpo_results = tune.run(partial(training_and_testing.train_model,
                                    device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn,
                                    loss_fn=loss_fn,
-                                   optimizer=model_config['optimizer'], lr_scheduler=model_config['lr_scheduler'],
+                                   optimizer=model_config['optimizer'],
                                    num_workers=(0,0), evaluate=evaluate, class_weights=class_weights),
         config=cfg,
         metric=metric, # This metric should be reported with `session.report()`

@@ -53,9 +53,6 @@ def run_training_best(args):
     # optimizer
     optimizer = model_config['optimizer']
 
-    # scheduler
-    lr_scheduler = model_config['lr_scheduler']
-
     # printing model summary
     tH, tW = model_config['input_size']
     model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), batch_dim=None, verbose=0)
@@ -77,7 +74,7 @@ def run_training_best(args):
     results = tune.run(partial(training_and_testing.train_model,
                                device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn,
                                loss_fn=loss_fn,
-                               optimizer=optimizer, lr_scheduler=lr_scheduler, num_workers=(0,0), evaluate=evaluate, class_weights=class_weights),
+                               optimizer=optimizer, num_workers=(0,0), evaluate=evaluate, class_weights=class_weights),
         config=cfg,
         num_samples=num_samples,
         resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},

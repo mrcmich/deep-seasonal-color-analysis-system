@@ -15,10 +15,10 @@ FASTSCNN_CFG_HPO = {
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(FASTSCNN_INPUT_SIZE_HPO)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.HPO_PATH + 'FastSCNN',
     'tunerun_cfg': { # dictionary to be passed to parameter config of function tune.run
         "lr": tune.grid_search([1e-5, 1e-4, 1e-3, 1e-2]),
+        "lr_scheduler": tune.grid_search(["none", "linear"]),
         "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH + "FastSCNN")
@@ -41,10 +41,10 @@ FASTSCNN_CFG_TRAINING_BEST = {
         FASTSCNN_CENTER_CROP_TRAINING_BEST,
         T.Resize(FASTSCNN_INPUT_SIZE_TRAINING_BEST)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.CHECKPOINTS_PATH + 'FastSCNN',
     'tunerun_cfg': {
         "lr": ...,
+        'lr_scheduler':  "linear",
         "batch_size": ...,
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "FastSCNN")
@@ -62,10 +62,10 @@ UNET_CFG_HPO = {
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(UNET_INPUT_SIZE_HPO)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.HPO_PATH + 'UNet',
     'tunerun_cfg': {
         "lr": tune.grid_search([1e-5, 1e-4, 1e-3, 1e-2]),
+        "lr_scheduler": tune.grid_search(["none", "linear"]),
         "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH + "UNet")
@@ -83,10 +83,10 @@ UNET_CFG_TRAINING_BEST = {
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(UNET_INPUT_SIZE_TRAINING_BEST)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.CHECKPOINTS_PATH + 'UNet',
     'tunerun_cfg': {
         "lr": ...,
+        'lr_scheduler':  "linear",
         "batch_size": ...,
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "UNet")
