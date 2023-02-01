@@ -106,7 +106,7 @@ def run_training_or_hpo(args):
                 device=device, model=model, dataset=train_dataset, n_epochs=n_epochs,
                 score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0,0), 
                 evaluate=evaluate, class_weights=class_weights),
-            config=cfg,
+            config=tunerun_cfg,
             num_samples=num_samples,
             resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
             progress_reporter=reporter,
@@ -119,7 +119,7 @@ def run_training_or_hpo(args):
                 device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, 
                 score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0,0), 
                 evaluate=evaluate, class_weights=class_weights),
-            config=cfg,
+            config=tunerun_cfg,
             metric=metric, # This metric should be reported with `session.report()`
             mode="min",
             num_samples=num_samples,
