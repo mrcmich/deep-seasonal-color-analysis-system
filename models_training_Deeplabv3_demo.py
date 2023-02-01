@@ -72,9 +72,9 @@ def run_deeplab_training(args):
             metric_columns=metrics_columns,
             max_report_frequency=600)
 
-    results = tune.run(partial(training_and_testing.train_model_with_ray,
-        device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn, 
-        optimizer=optimizer, lr_scheduler=None, num_workers=(0,0), evaluate=evaluate),
+    results = tune.run(partial(training_and_testing.train_model,
+                               device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, loss_fn=loss_fn,
+                               optimizer=optimizer, lr_scheduler=None, num_workers=(0,0), evaluate=evaluate),
         config=cfg,
         num_samples=num_samples,
         resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
