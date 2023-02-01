@@ -26,7 +26,7 @@ FASTSCNN_CFG_HPO = {
     },
 }
 
-# config for tuning
+# config for training with best hyperparameter values from hpo
 FASTSCNN_CENTER_CROP_TRAINING_BEST = custom_transforms.PartiallyDeterministicCenterCrop(p=0.5)
 FASTSCNN_INPUT_SIZE_TRAINING_BEST = (512, 512)
 FASTSCNN_CFG_TRAINING_BEST = {
@@ -75,7 +75,7 @@ UNET_CFG_HPO = {
     }
 }
 
-# config for tuning
+# config for training with best hyperparameter values from hpo
 UNET_INPUT_SIZE_TRAINING_BEST = (256, 256)
 UNET_CFG_TRAINING_BEST = {
     'n_epochs': 20,
