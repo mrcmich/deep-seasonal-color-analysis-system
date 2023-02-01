@@ -24,7 +24,7 @@ def run_training_best(args):
     elif model_name == 'unet':
         model = unet.UNet(out_channels=n_classes)
 
-    model_config = slurm_config.SLURM_CFG_TUNING[model_name]
+    model_config = slurm_config.SLURM_CFG_TRAINING_BEST[model_name]
     image_transform = model_config['image_transform']
     target_transform = model_config['target_transform']
 
