@@ -46,7 +46,7 @@ def run_hpo(args):
 
     # model parameters
     n_epochs = args.n_epochs
-    cfg = model_config['hpo_cfg']
+    cfg = model_config['tunerun_cfg']
     score_fn = metrics.batch_mIoU
     class_weights = torch.tensor(config.CLASS_WEIGHTS)
     loss_fn = nn.CrossEntropyLoss(weight=class_weights.to(device))

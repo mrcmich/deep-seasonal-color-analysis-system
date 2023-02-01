@@ -13,7 +13,7 @@ from ray.tune import CLIReporter
 from models import config
 from slurm_scripts import slurm_config
 
-def run_tuning(args):
+def run_training_best(args):
     dataset_path = config.DATASET_PATH
     n_classes = len(segmentation_labels.labels)
     model_name = args.model_name
@@ -34,7 +34,7 @@ def run_tuning(args):
     train_dataset = dataset.CcncsaDataset(X_train, Y_train, image_transform, target_transform)
 
     # model parameters
-    cfg = model_config['hpo_cfg']
+    cfg = model_config['tunerun_cfg']
 
     # training hyperparameters
     batch_size = cfg['batch_size']
@@ -89,5 +89,5 @@ def run_tuning(args):
 if __name__ == '__main__':
     args = utils.parse_arguments_tuning()
     
-    run_tuning(args)
+    run_training_best(args)
 
