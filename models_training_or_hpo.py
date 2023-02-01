@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-import torchvision.transforms as T
 from sklearn.model_selection import train_test_split
 from models.local.FastSCNN.models import fast_scnn
 from models.local.CGNet.model import CGNet
@@ -19,6 +18,7 @@ from slurm_scripts import slurm_config
 from ray.tune.schedulers import ASHAScheduler
 import pprint
 
+
 def run_training_or_hpo(args):
     # fetching arguments
     cfg_name = args.config
@@ -32,7 +32,7 @@ def run_training_or_hpo(args):
     model_cfg['local_dir'] = model_cfg['local_dir'] + model_names.MODEL_NAMES[model_name]
     tunerun_cfg = model_cfg['tunerun_cfg']
     tunerun_cfg['checkpoint_dir'] = tunerun_cfg['checkpoint_dir'] + model_names.MODEL_NAMES[model_name]
-    is_hpo_cfg = model_cfg['hpo_cfg'] # True if model_cfg is a hpo configuration
+    is_hpo_cfg = model_cfg['hpo_cfg']  # True if model_cfg is a hpo configuration
 
     # defining transforms
     tH, tW = model_cfg['input_size']
@@ -60,7 +60,7 @@ def run_training_or_hpo(args):
         model = deeplabv3.deeplabv3_resnet50(num_classes=n_classes)
     else:
         raise Exception("model not supported.")
-    
+
     # if possible, exploit multiple GPUs
     device = "cpu"
     if torch.cuda.is_available():
@@ -71,7 +71,7 @@ def run_training_or_hpo(args):
     # defining loss, optimizer and score function
     class_weights = torch.tensor(config.CLASS_WEIGHTS, device=device)
     is_loss_weighted = model_cfg['weighted_loss']
-    loss_fn = nn.CrossEntropyLoss(class_weights) if is_loss_weighted == True else nn.CrossEntropyLoss()
+    loss_fn = nn.CrossEntropyLoss(class_weights) if is_loss_weighted else nn.CrossEntropyLoss()
     optimizer = model_cfg['optimizer']
     score_fn = metrics.batch_mIoU
 
@@ -80,7 +80,7 @@ def run_training_or_hpo(args):
         batch_size = tunerun_cfg['batch_size']
         model_summary = torchsummary.summary(model, input_data=(batch_size, 3, tH, tW), batch_dim=None, verbose=0)
         print(model_summary)
-    
+
     # Ray Tune parameters
     cpus_per_trial = 0
     gpus_per_trial = torch.cuda.device_count()
@@ -90,7 +90,7 @@ def run_training_or_hpo(args):
         scheduler = ASHAScheduler(grace_period=2)
 
     # setting up reporter
-    max_report_frequency = 300 if is_hpo_cfg is True else 600
+    max_report_frequency = 600
     if evaluate:
         metric = "val_loss"
         metrics_columns = ["train_loss", "train_score", "val_loss", "val_score", "training_iteration"]
@@ -98,38 +98,38 @@ def run_training_or_hpo(args):
         metric = "train_loss"
         metrics_columns = ["train_loss", "train_score", "training_iteration"]
     reporter = CLIReporter(
-            metric_columns=metrics_columns, max_report_frequency=max_report_frequency)
+        metric_columns=metrics_columns, max_report_frequency=max_report_frequency)
 
-    if is_hpo_cfg is False:
+    if not is_hpo_cfg:
         # launching training
-        results = tune.run(partial(training_and_testing.train_model, 
-                device=device, model=model, dataset=train_dataset, n_epochs=n_epochs,
-                score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0,0), 
-                evaluate=evaluate, class_weights=class_weights),
-            config=cfg,
-            num_samples=num_samples,
-            resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
-            progress_reporter=reporter,
-            checkpoint_at_end=True,
-            checkpoint_freq=1,
-            local_dir=local_dir)
+        tune.run(partial(training_and_testing.train_model,
+                         device=device, model=model, dataset=train_dataset, n_epochs=n_epochs,
+                         score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0, 0),
+                         evaluate=evaluate, class_weights=class_weights),
+                 config=tunerun_cfg,
+                 num_samples=num_samples,
+                 resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
+                 progress_reporter=reporter,
+                 checkpoint_at_end=True,
+                 checkpoint_freq=1,
+                 local_dir=local_dir)
     else:
         # launching HPO
         results = tune.run(partial(training_and_testing.train_model,
-                device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, 
-                score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0,0), 
-                evaluate=evaluate, class_weights=class_weights),
-            config=cfg,
-            metric=metric, # This metric should be reported with `session.report()`
-            mode="min",
-            num_samples=num_samples,
-            resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
-            scheduler=scheduler,
-            progress_reporter=reporter,
-            checkpoint_at_end=True,
-            checkpoint_freq=1,
-            local_dir=local_dir)
-        
+                                   device=device, model=model, dataset=train_dataset, n_epochs=n_epochs,
+                                   score_fn=score_fn, loss_fn=loss_fn, optimizer=optimizer, num_workers=(0, 0),
+                                   evaluate=evaluate, class_weights=class_weights),
+                           config=tunerun_cfg,
+                           metric=metric,  # This metric should be reported with `session.report()`
+                           mode="min",
+                           num_samples=num_samples,
+                           resources_per_trial={"cpu": cpus_per_trial, "gpu": gpus_per_trial},
+                           scheduler=scheduler,
+                           progress_reporter=reporter,
+                           checkpoint_at_end=True,
+                           checkpoint_freq=1,
+                           local_dir=local_dir)
+
         # retrieve best results
         # Get best trial
         best_trial = results.best_trial
