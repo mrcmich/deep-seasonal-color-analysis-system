@@ -87,7 +87,7 @@ def run_training_best(args):
         local_dir=model_config['local_dir'])
 
 if __name__ == '__main__':
-    args = utils.parse_arguments_tuning()
+    args = utils.parse_arguments()
     
     run_training_best(args)
 
