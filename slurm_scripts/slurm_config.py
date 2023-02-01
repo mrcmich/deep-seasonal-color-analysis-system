@@ -87,6 +87,8 @@ UNET_HPO_CFG_TUNING = {
     "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "UNet")
 }
 UNET_CFG_TUNING = {
+    'n_epochs': 20,
+    'input_size': UNET_INPUT_SIZE_TUNING,
     'image_transform': T.Compose([
         T.Resize(UNET_INPUT_SIZE_TUNING), 
         custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
