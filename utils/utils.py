@@ -32,7 +32,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', type=str, required=True, choices=["fastscnn", "unet"], help='Which model to use', metavar='')
     parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
-    parser.add_argument('--n_epochs', type=int, default=40, help='Number of epochs in the validation case', metavar='')
+    parser.add_argument('--n_epochs', type=int, default=30, help='Number of epochs in the validation case', metavar='')
     args = parser.parse_args()
     args.evaluate = args.evaluate == "True"
     return args
@@ -41,7 +41,7 @@ def parse_arguments():
 def parse_arguments_deeplab():
     parser = argparse.ArgumentParser()
     parser.add_argument('--evaluate', type=str, required=True, choices=["True", "False"], help='If True, validation is used.', metavar='')
-    parser.add_argument('--n_epochs', type=int, default=40, help='Number of epochs in the validation case', metavar='')
+    parser.add_argument('--n_epochs', type=int, default=30, help='Number of epochs in the validation case', metavar='')
     parser.add_argument('--lr', type=float, default=0.01, metavar='')
     args = parser.parse_args()
     args.evaluate = args.evaluate == "True"
