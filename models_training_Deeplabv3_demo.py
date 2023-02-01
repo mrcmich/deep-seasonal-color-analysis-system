@@ -13,11 +13,7 @@ from ray import tune
 from ray.tune import CLIReporter
 import os
 
-if __name__ == "__main__":
-    args = utils.parse_arguments_deeplab()
-    
-    weights_path = config.WEIGHTS_PATH
-    plots_path = config.PLOTS_PATH
+def run_deeplab_training(args):
     dataset_path = config.DATASET_PATH
 
     # defining transforms
@@ -28,10 +24,9 @@ if __name__ == "__main__":
     # fetching dataset
     n_classes = len(segmentation_labels.labels)
     img_paths, label_paths = dataset.get_paths(dataset_path, file_name=config.DATASET_INDEX_NAME)
-    X_train, X_test, Y_train, Y_test = train_test_split(
+    X_train, _, Y_train, _ = train_test_split(
         img_paths, label_paths, test_size=0.20, random_state=99, shuffle=True)
     train_dataset = dataset.MyDataset(X_train, Y_train, image_transform, target_transform)
-    test_dataset = dataset.MyDataset(X_test, Y_test, image_transform, target_transform)
 
     # training hyperparameters
     # if possible, exploit multiple GPUs
@@ -87,3 +82,8 @@ if __name__ == "__main__":
         checkpoint_at_end=True,
         checkpoint_freq=1,
         local_dir=config.CHECKPOINTS_PATH+"Deeplabv3")
+
+
+if __name__ == "__main__":
+    args = utils.parse_arguments_deeplab()
+    run_deeplab_training(args)
