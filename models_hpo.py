@@ -67,11 +67,11 @@ def run_hpo(args):
             max_report_frequency=300)
 
     # launching HPO
-    hpo_results = tune.run(partial(training_and_testing.train_model_with_ray,
-        device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn, 
-        loss_fn=loss_fn, 
-        optimizer=model_config['optimizer'], lr_scheduler=model_config['lr_scheduler'], 
-        num_workers=(0,0), evaluate=evaluate),
+    hpo_results = tune.run(partial(training_and_testing.train_model,
+                                   device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn,
+                                   loss_fn=loss_fn,
+                                   optimizer=model_config['optimizer'], lr_scheduler=model_config['lr_scheduler'],
+                                   num_workers=(0,0), evaluate=evaluate),
         config=cfg,
         metric=metric, # This metric should be reported with `session.report()`
         mode="min",
