@@ -71,7 +71,7 @@ def run_hpo(args):
                                    device=device, model=model, dataset=train_dataset, n_epochs=n_epochs, score_fn=score_fn,
                                    loss_fn=loss_fn,
                                    optimizer=model_config['optimizer'], lr_scheduler=model_config['lr_scheduler'],
-                                   num_workers=(0,0), evaluate=evaluate),
+                                   num_workers=(0,0), evaluate=evaluate, class_weights=class_weights),
         config=cfg,
         metric=metric, # This metric should be reported with `session.report()`
         mode="min",
