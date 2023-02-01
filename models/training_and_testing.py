@@ -18,7 +18,7 @@ from utils import utils, segmentation_labels
 # ---
 # device: device on which to load data ('cpu' for cpu).
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
-def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=None, training=False, optimizer=None):
+def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=None, training=False, optimizer=None, class_weights=None):
     if training is True:
         assert(optimizer is not None and loss_fn is not None)
 
@@ -39,7 +39,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
             loss = loss_fn(batch_outputs, batch_targets)
             cum_loss += loss.item()
 
-        score = score_fn(batch_predictions, batch_targets)
+        score = score_fn(batch_predictions, batch_targets, class_weights)
         cum_scores = cum_scores + score
         
         if training is True:
@@ -61,7 +61,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
 # score_fn: function to be used to evaluate a batch of predictions against the corresponding batch of targets.
 # num_workers: integer or tuple representing the number of workers to use when loading train and validation data.
 # from_checkpoint: bool that establishes whether to resume a previous run from the last checkpoint saved
-def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, num_workers=(0, 0), evaluate=False):
+def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, optimizer, lr_scheduler=None, class_weights=None, num_workers=(0, 0), evaluate=False):
     
     model_on_device = model.to(device)
 
@@ -101,14 +101,14 @@ def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, opt
         model_on_device.train()
 
         average_train_loss, average_train_score = training_or_testing_epoch_(
-            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer)
+            device, model_on_device, dl_train, score_fn, loss_fn, training=True, optimizer=optimizer, class_weights=class_weights)
         average_train_score = average_train_score.mean().item()
 
         if dl_val is not None:
             model_on_device.eval()
 
             with torch.no_grad():
-                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn)
+                average_val_loss, average_val_score = training_or_testing_epoch_(device, model_on_device, dl_val, score_fn, loss_fn, class_weights=class_weights)
 
             average_val_score = average_val_score.mean().item()
 
