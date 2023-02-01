@@ -15,12 +15,11 @@ FASTSCNN_CFG_HPO = {
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(FASTSCNN_INPUT_SIZE_HPO)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler': torch.optim.lr_scheduler.LinearLR,
+    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.HPO_PATH + 'FastSCNN',
     'tunerun_cfg': { # dictionary to be passed to parameter config of function tune.run
-        "lr": tune.grid_search([1e-4, 1e-2]),
-        "batch_size": tune.grid_search([16, 32, 64]),
-        "start_factor": tune.grid_search([0.3, 0.5]),
+        "lr": tune.grid_search([1e-5, 1e-4, 1e-3, 1e-2]),
+        "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH + "FastSCNN")
     },
@@ -28,7 +27,7 @@ FASTSCNN_CFG_HPO = {
 
 # config for training with best hyperparameter values from hpo
 FASTSCNN_CENTER_CROP_TRAINING_BEST = custom_transforms.PartiallyDeterministicCenterCrop(p=0.5)
-FASTSCNN_INPUT_SIZE_TRAINING_BEST = (512, 512)
+FASTSCNN_INPUT_SIZE_TRAINING_BEST = (256, 256)
 FASTSCNN_CFG_TRAINING_BEST = {
     'n_epochs': 20,
     'input_size': FASTSCNN_INPUT_SIZE_TRAINING_BEST,
@@ -42,12 +41,11 @@ FASTSCNN_CFG_TRAINING_BEST = {
         FASTSCNN_CENTER_CROP_TRAINING_BEST,
         T.Resize(FASTSCNN_INPUT_SIZE_TRAINING_BEST)]),
     'optimizer': torch.optim.Adam,
-    'lr_scheduler': torch.optim.lr_scheduler.LinearLR,
+    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.CHECKPOINTS_PATH + 'FastSCNN',
     'tunerun_cfg': {
-        "lr": 0.01,
-        "batch_size": 32,
-        "start_factor": 0.3,
+        "lr": ...,
+        "batch_size": ...,
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "FastSCNN")
     }
@@ -63,13 +61,12 @@ UNET_CFG_HPO = {
         T.Resize(UNET_INPUT_SIZE_HPO), 
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(UNET_INPUT_SIZE_HPO)]),
-    'optimizer': torch.optim.AdamW,
-    'lr_scheduler': torch.optim.lr_scheduler.LinearLR,
+    'optimizer': torch.optim.Adam,
+    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.HPO_PATH + 'UNet',
     'tunerun_cfg': {
-        "lr": tune.grid_search([1e-4, 1e-2]),
-        "batch_size": tune.grid_search([16, 32, 64]),
-        "start_factor": tune.grid_search([0.3, 0.5]),
+        "lr": tune.grid_search([1e-5, 1e-4, 1e-3, 1e-2]),
+        "batch_size": tune.grid_search([16, 32]),
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.HPO_PATH + "UNet")
     }
@@ -78,20 +75,19 @@ UNET_CFG_HPO = {
 # config for training with best hyperparameter values from hpo
 UNET_INPUT_SIZE_TRAINING_BEST = (256, 256)
 UNET_CFG_TRAINING_BEST = {
-    'n_epochs': 20,
+    'n_epochs': 30,
     'input_size': UNET_INPUT_SIZE_TRAINING_BEST,
     'image_transform': T.Compose([
         T.Resize(UNET_INPUT_SIZE_TRAINING_BEST), 
         custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     'target_transform': T.Compose([T.Resize(UNET_INPUT_SIZE_TRAINING_BEST)]),
-    'optimizer': torch.optim.AdamW,
-    'lr_scheduler': torch.optim.lr_scheduler.LinearLR,
+    'optimizer': torch.optim.Adam,
+    'lr_scheduler':  torch.optim.lr_scheduler.LinearLR,
     'local_dir': config.CHECKPOINTS_PATH + 'UNet',
     'tunerun_cfg': {
-        "lr": 0.0001,
-        "batch_size": 16,
-        "start_factor": 0.5,
+        "lr": ...,
+        "batch_size": ...,
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH + "UNet")
     }
