@@ -1,178 +1,214 @@
-====================================================================================================
-Layer (type:depth-idx)                             Output Shape              Param #
-====================================================================================================
-├─Context_Guided_Network: 1-2                      [16, 11, 256, 256]        --
-├─Context_Guided_Network: 1                        []                        --
-|    └─ConvBNPReLU: 2-1                            []                        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-1                            []                        --
-├─Context_Guided_Network: 1-2                      [16, 11, 256, 256]        --
-├─Context_Guided_Network: 1                        []                        --
-|    └─ConvBNPReLU: 2-2                            [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-2                            [16, 32, 128, 128]        864
-|    |    └─BatchNorm2d: 3-3                       [16, 32, 128, 128]        --
-|    |    └─PReLU: 3-4                             [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2-3                            [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-5                            [16, 32, 128, 128]        --
-|    |    └─BatchNorm2d: 3-6                       [16, 32, 128, 128]        --
-|    |    └─PReLU: 3-7                             [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2-4                            [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-8                            [16, 32, 128, 128]        --
-|    |    └─BatchNorm2d: 3-9                       [16, 32, 128, 128]        --
-|    |    └─PReLU: 3-10                            [16, 32, 128, 128]        --
-|    └─InputInjection: 2-5                         [16, 3, 128, 128]         --
-|    └─InputInjection: 2-6                         [16, 3, 64, 64]           --
-|    └─BNPReLU: 2-7                                [16, 35, 128, 128]        --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-11                      [16, 35, 128, 128]        --
-|    |    └─PReLU: 3-12                            [16, 35, 128, 128]        --
-|    └─ContextGuidedBlock_Down: 2-8                [16, 64, 64, 64]          --
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─ConvBNPReLU: 3-13                      [16, 64, 64, 64]          --
-|    |    └─ChannelWiseConv: 3-14                  [16, 64, 64, 64]          --
-|    |    └─ChannelWiseDilatedConv: 3-15           [16, 64, 64, 64]          --
-|    |    └─BatchNorm2d: 3-16                      [16, 128, 64, 64]         --
-|    |    └─PReLU: 3-17                            [16, 128, 64, 64]         --
-|    |    └─Conv: 3-18                             [16, 64, 64, 64]          --
-|    |    └─FGlo: 3-19                             [16, 64, 64, 64]          --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─BatchNorm2d: 3-20                      [16, 32, 128, 128]        64
-|    |    └─PReLU: 3-21                            [16, 32, 128, 128]        32
-|    └─ConvBNPReLU: 2-9                            [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-22                           [16, 32, 128, 128]        9,216
-|    |    └─BatchNorm2d: 3-23                      [16, 32, 128, 128]        64
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-24               [16, 64, 64, 64]          --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─PReLU: 3-25                            [16, 32, 128, 128]        32
-|    └─ConvBNPReLU: 2-10                           [16, 32, 128, 128]        --
-|    └─ConvBNPReLU: 2                              []                        --
-|    |    └─Conv2d: 3-26                           [16, 32, 128, 128]        9,216
-|    |    └─BatchNorm2d: 3-27                      [16, 32, 128, 128]        64
-|    |    └─PReLU: 3-28                            [16, 32, 128, 128]        32
-|    └─InputInjection: 2-11                        [16, 3, 128, 128]         --
-|    └─InputInjection: 2-12                        [16, 3, 64, 64]           --
-|    └─BNPReLU: 2-13                               [16, 35, 128, 128]        --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-29                      [16, 35, 128, 128]        70
-|    |    └─PReLU: 3-30                            [16, 35, 128, 128]        35
-|    └─ContextGuidedBlock_Down: 2-14               [16, 64, 64, 64]          --
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─ConvBNPReLU: 3-31                      [16, 64, 64, 64]          20,352
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-32               [16, 64, 64, 64]          --
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─ChannelWiseConv: 3-33                  [16, 64, 64, 64]          576
-|    |    └─ChannelWiseDilatedConv: 3-34           [16, 64, 64, 64]          576
-|    |    └─BatchNorm2d: 3-35                      [16, 128, 64, 64]         256
-|    |    └─PReLU: 3-36                            [16, 128, 64, 64]         128
-|    |    └─Conv: 3-37                             [16, 64, 64, 64]          8,192
-|    |    └─FGlo: 3-38                             [16, 64, 64, 64]          1,096
-|    └─BNPReLU: 2-15                               [16, 131, 64, 64]         --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-39                      [16, 131, 64, 64]         --
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-40               [16, 64, 64, 64]          4,008
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─PReLU: 3-41                            [16, 131, 64, 64]         --
-|    └─ContextGuidedBlock_Down: 2-16               [16, 128, 32, 32]         --
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─ConvBNPReLU: 3-42                      [16, 128, 32, 32]         --
-|    |    └─ChannelWiseConv: 3-43                  [16, 128, 32, 32]         --
-|    |    └─ChannelWiseDilatedConv: 3-44           [16, 128, 32, 32]         --
-|    |    └─BatchNorm2d: 3-45                      [16, 256, 32, 32]         --
-|    |    └─PReLU: 3-46                            [16, 256, 32, 32]         --
-|    |    └─Conv: 3-47                             [16, 128, 32, 32]         --
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-48               [16, 64, 64, 64]          4,008
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─FGlo: 3-49                             [16, 128, 32, 32]         --
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-50               [16, 128, 32, 32]         --
-|    └─BNPReLU: 2-17                               [16, 131, 64, 64]         --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-51                      [16, 131, 64, 64]         262
-|    |    └─PReLU: 3-52                            [16, 131, 64, 64]         131
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-53               [16, 128, 32, 32]         --
-|    └─ContextGuidedBlock_Down: 2-18               [16, 128, 32, 32]         --
-|    └─ContextGuidedBlock_Down: 2                  []                        --
-|    |    └─ConvBNPReLU: 3-54                      [16, 128, 32, 32]         151,296
-|    |    └─ChannelWiseConv: 3-55                  [16, 128, 32, 32]         1,152
-|    |    └─ChannelWiseDilatedConv: 3-56           [16, 128, 32, 32]         1,152
-|    |    └─BatchNorm2d: 3-57                      [16, 256, 32, 32]         512
-|    |    └─PReLU: 3-58                            [16, 256, 32, 32]         256
-|    |    └─Conv: 3-59                             [16, 128, 32, 32]         32,768
-|    |    └─FGlo: 3-60                             [16, 128, 32, 32]         2,184
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-61               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-62               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-63               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-64               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-65               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-66               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-67               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-68               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-69               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-70               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-71               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-72               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-73               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-74               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-75               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-76               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-77               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-78               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-79               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-80               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-81               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-82               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-83               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-84               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-85               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-86               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-87               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-88               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-89               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-90               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-91               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-92               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-93               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-94               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-95               [16, 128, 32, 32]         --
-|    |    └─ContextGuidedBlock: 3-96               [16, 128, 32, 32]         12,104
-|    |    └─ContextGuidedBlock: 3-97               [16, 128, 32, 32]         12,104
-|    └─BNPReLU: 2-19                               [16, 256, 32, 32]         --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-98                      [16, 256, 32, 32]         --
-|    |    └─PReLU: 3-99                            [16, 256, 32, 32]         --
-|    └─Sequential: 2-20                            [16, 11, 32, 32]          --
-|    └─Sequential: 2                               []                        --
-|    |    └─Conv: 3-100                            [16, 11, 32, 32]          --
-|    └─ModuleList: 2                               []                        --
-|    |    └─ContextGuidedBlock: 3-101              [16, 128, 32, 32]         12,104
-|    └─BNPReLU: 2-21                               [16, 256, 32, 32]         --
-|    └─BNPReLU: 2                                  []                        --
-|    |    └─BatchNorm2d: 3-102                     [16, 256, 32, 32]         512
-|    |    └─PReLU: 3-103                           [16, 256, 32, 32]         256
-|    └─Sequential: 2-22                            [16, 11, 32, 32]          --
-|    └─Sequential: 2                               []                        --
-|    |    └─Conv: 3-104                            [16, 11, 32, 32]          2,816
-====================================================================================================
+===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+├─ConvBNPReLU: 1-1                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-1                            [32, 32, 128, 128]        864
+|    └─BatchNorm2d: 2-2                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-3                             [32, 32, 128, 128]        32
+├─ConvBNPReLU: 1-2                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-4                            [32, 32, 128, 128]        9,216
+|    └─BatchNorm2d: 2-5                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-6                             [32, 32, 128, 128]        32
+├─ConvBNPReLU: 1-3                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-7                            [32, 32, 128, 128]        9,216
+|    └─BatchNorm2d: 2-8                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-9                             [32, 32, 128, 128]        32
+├─InputInjection: 1-4                         [32, 3, 128, 128]         --
+|    └─ModuleList: 2                          []                        --
+|    |    └─AvgPool2d: 3-1                    [32, 3, 128, 128]         --
+├─InputInjection: 1-5                         [32, 3, 64, 64]           --
+|    └─ModuleList: 2                          []                        --
+|    |    └─AvgPool2d: 3-2                    [32, 3, 128, 128]         --
+|    |    └─AvgPool2d: 3-3                    [32, 3, 64, 64]           --
+├─BNPReLU: 1-6                                [32, 35, 128, 128]        --
+|    └─BatchNorm2d: 2-10                      [32, 35, 128, 128]        70
+|    └─PReLU: 2-11                            [32, 35, 128, 128]        35
+├─ContextGuidedBlock_Down: 1-7                [32, 64, 64, 64]          --
+|    └─ConvBNPReLU: 2-12                      [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-4                       [32, 64, 64, 64]          20,160
+|    |    └─BatchNorm2d: 3-5                  [32, 64, 64, 64]          128
+|    |    └─PReLU: 3-6                        [32, 64, 64, 64]          64
+|    └─ChannelWiseConv: 2-13                  [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-7                       [32, 64, 64, 64]          576
+|    └─ChannelWiseDilatedConv: 2-14           [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-8                       [32, 64, 64, 64]          576
+|    └─BatchNorm2d: 2-15                      [32, 128, 64, 64]         256
+|    └─PReLU: 2-16                            [32, 128, 64, 64]         128
+|    └─Conv: 2-17                             [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-9                       [32, 64, 64, 64]          8,192
+|    └─FGlo: 2-18                             [32, 64, 64, 64]          --
+|    |    └─AdaptiveAvgPool2d: 3-10           [32, 64, 1, 1]            --
+|    |    └─Sequential: 3-11                  [32, 64]                  1,096
+├─ModuleList: 1                               []                        --
+|    └─ContextGuidedBlock: 2-19               [32, 64, 64, 64]          --
+|    |    └─ConvBNPReLU: 3-12                 [32, 32, 64, 64]          2,144
+|    |    └─ChannelWiseConv: 3-13             [32, 32, 64, 64]          288
+|    |    └─ChannelWiseDilatedConv: 3-14      [32, 32, 64, 64]          288
+|    |    └─BNPReLU: 3-15                     [32, 64, 64, 64]          192
+|    |    └─FGlo: 3-16                        [32, 64, 64, 64]          1,096
+|    └─ContextGuidedBlock: 2-20               [32, 64, 64, 64]          --
+|    |    └─ConvBNPReLU: 3-17                 [32, 32, 64, 64]          2,144
+|    |    └─ChannelWiseConv: 3-18             [32, 32, 64, 64]          288
+|    |    └─ChannelWiseDilatedConv: 3-19      [32, 32, 64, 64]          288
+|    |    └─BNPReLU: 3-20                     [32, 64, 64, 64]          192
+|    |    └─FGlo: 3-21                        [32, 64, 64, 64]          1,096
+├─BNPReLU: 1-8                                [32, 131, 64, 64]         --
+|    └─BatchNorm2d: 2-21                      [32, 131, 64, 64]         262
+|    └─PReLU: 2-22                            [32, 131, 64, 64]         131
+├─ContextGuidedBlock_Down: 1-9                [32, 128, 32, 32]         --
+|    └─ConvBNPReLU: 2-23                      [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-22                      [32, 128, 32, 32]         150,912
+|    |    └─BatchNorm2d: 3-23                 [32, 128, 32, 32]         256
+|    |    └─PReLU: 3-24                       [32, 128, 32, 32]         128
+|    └─ChannelWiseConv: 2-24                  [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-25                      [32, 128, 32, 32]         1,152
+|    └─ChannelWiseDilatedConv: 2-25           [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-26                      [32, 128, 32, 32]         1,152
+|    └─BatchNorm2d: 2-26                      [32, 256, 32, 32]         512
+|    └─PReLU: 2-27                            [32, 256, 32, 32]         256
+|    └─Conv: 2-28                             [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-27                      [32, 128, 32, 32]         32,768
+|    └─FGlo: 2-29                             [32, 128, 32, 32]         --
+|    |    └─AdaptiveAvgPool2d: 3-28           [32, 128, 1, 1]           --
+|    |    └─Sequential: 3-29                  [32, 128]                 2,184
+├─ModuleList: 1                               []                        --
+|    └─ContextGuidedBlock: 2-30               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-30                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-31             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-32      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-33                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-34                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-31               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-35                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-36             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-37      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-38                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-39                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-32               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-40                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-41             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-42      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-43                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-44                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-33               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-45                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-46             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-47      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-48                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-49                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-34               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-50                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-51             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-52      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-53                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-54                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-35               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-55                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-56             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-57      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-58                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-59                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-36               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-60                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-61             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-62      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-63                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-64                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-37               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-65                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-66             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-67      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-68                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-69                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-38               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-70                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-71             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-72      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-73                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-74                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-39               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-75                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-76             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-77      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-78                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-79                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-40               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-80                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-81             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-82      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-83                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-84                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-41               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-85                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-86             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-87      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-88                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-89                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-42               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-90                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-91             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-92      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-93                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-94                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-43               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-95                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-96             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-97      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-98                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-99                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-44               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-100                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-101            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-102     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-103                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-104                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-45               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-105                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-106            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-107     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-108                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-109                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-46               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-110                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-111            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-112     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-113                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-114                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-47               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-115                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-116            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-117     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-118                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-119                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-48               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-120                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-121            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-122     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-123                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-124                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-49               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-125                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-126            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-127     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-128                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-129                       [32, 128, 32, 32]         2,184
+├─BNPReLU: 1-10                               [32, 256, 32, 32]         --
+|    └─BatchNorm2d: 2-50                      [32, 256, 32, 32]         512
+|    └─PReLU: 2-51                            [32, 256, 32, 32]         256
+├─Sequential: 1-11                            [32, 11, 32, 32]          --
+|    └─Conv: 2-52                             [32, 11, 32, 32]          --
+|    |    └─Conv2d: 3-130                     [32, 11, 32, 32]          2,816
+===============================================================================================
 Total params: 494,258
 Trainable params: 494,258
 Non-trainable params: 0
-Total mult-adds (M): 645.44
-====================================================================================================
+Total mult-adds (M): 844.20
+===============================================================================================
 Input size (MB): 24.00
-Forward/backward pass size (MB): 1392.38
+Forward/backward pass size (MB): 6240.80
 Params size (MB): 1.89
-Estimated Total Size (MB): 1418.26
-====================================================================================================
+Estimated Total Size (MB): 6266.69
+===============================================================================================
 == Status ==
 Current time: 2023-02-02 02:06:15 (running for 00:00:00.76)
 Memory usage on this node: 53.3/251.6 GiB 
