@@ -1,0 +1,625 @@
+
+==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+├─LearningToDownsample: 1-1              [32, 64, 32, 32]          --
+|    └─_ConvBNReLU: 2-1                  [32, 32, 127, 127]        --
+|    |    └─Sequential: 3-1              [32, 32, 127, 127]        928
+|    └─_DSConv: 2-2                      [32, 48, 64, 64]          --
+|    |    └─Sequential: 3-2              [32, 48, 64, 64]          1,984
+|    └─_DSConv: 2-3                      [32, 64, 32, 32]          --
+|    |    └─Sequential: 3-3              [32, 64, 32, 32]          3,728
+├─GlobalFeatureExtractor: 1-2            [32, 128, 8, 8]           --
+|    └─Sequential: 2-4                   [32, 64, 16, 16]          --
+|    |    └─LinearBottleneck: 3-4        [32, 64, 16, 16]          54,272
+|    |    └─LinearBottleneck: 3-5        [32, 64, 16, 16]          54,272
+|    |    └─LinearBottleneck: 3-6        [32, 64, 16, 16]          54,272
+|    └─Sequential: 2-5                   [32, 96, 8, 8]            --
+|    |    └─LinearBottleneck: 3-7        [32, 96, 8, 8]            66,624
+|    |    └─LinearBottleneck: 3-8        [32, 96, 8, 8]            118,272
+|    |    └─LinearBottleneck: 3-9        [32, 96, 8, 8]            118,272
+|    └─Sequential: 2-6                   [32, 128, 8, 8]           --
+|    |    └─LinearBottleneck: 3-10       [32, 128, 8, 8]           136,768
+|    |    └─LinearBottleneck: 3-11       [32, 128, 8, 8]           206,848
+|    |    └─LinearBottleneck: 3-12       [32, 128, 8, 8]           206,848
+|    └─PyramidPooling: 2-7               [32, 128, 8, 8]           --
+|    |    └─_ConvBNReLU: 3-13            [32, 32, 1, 1]            4,160
+|    |    └─_ConvBNReLU: 3-14            [32, 32, 2, 2]            4,160
+|    |    └─_ConvBNReLU: 3-15            [32, 32, 3, 3]            4,160
+|    |    └─_ConvBNReLU: 3-16            [32, 32, 6, 6]            4,160
+|    |    └─_ConvBNReLU: 3-17            [32, 128, 8, 8]           33,024
+├─FeatureFusionModule: 1-3               [32, 128, 32, 32]         --
+|    └─_DWConv: 2-8                      [32, 128, 32, 32]         --
+|    |    └─Sequential: 3-18             [32, 128, 32, 32]         1,408
+|    └─Sequential: 2-9                   [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-19                 [32, 128, 32, 32]         16,512
+|    |    └─BatchNorm2d: 3-20            [32, 128, 32, 32]         256
+|    └─Sequential: 2-10                  [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-21                 [32, 128, 32, 32]         8,320
+|    |    └─BatchNorm2d: 3-22            [32, 128, 32, 32]         256
+|    └─ReLU: 2-11                        [32, 128, 32, 32]         --
+├─Classifer: 1-4                         [32, 11, 32, 32]          --
+|    └─_DSConv: 2-12                     [32, 128, 32, 32]         --
+|    |    └─Sequential: 3-23             [32, 128, 32, 32]         18,048
+|    └─_DSConv: 2-13                     [32, 128, 32, 32]         --
+|    |    └─Sequential: 3-24             [32, 128, 32, 32]         18,048
+|    └─Sequential: 2-14                  [32, 11, 32, 32]          --
+|    |    └─Dropout: 3-25                [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-26                 [32, 11, 32, 32]          1,419
+==========================================================================================
+Total params: 1,137,019
+Trainable params: 1,137,019
+Non-trainable params: 0
+Total mult-adds (M): 93.10
+==========================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 918.77
+Params size (MB): 4.34
+Estimated Total Size (MB): 947.10
+==========================================================================================
+== Status ==
+Current time: 2023-02-02 00:18:05 (running for 00:00:01.03)
+Memory usage on this node: 6.8/7.4 GiB : ***LOW MEMORY*** less than 10% of the memory on this node is available for use. This can cause unexpected crashes. Consider reducing the memory used by your application or reducing the Ray object store size by setting `object_store_memory` when calling `ray.init`.
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+
+| Trial name              | status   | loc           |
+|-------------------------+----------+---------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |
++-------------------------+----------+---------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-22-21
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 1
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 248.15812611579895
+  time_this_iter_s: 248.15812611579895
+  time_total_s: 248.15812611579895
+  timestamp: 1675293741
+  timesteps_since_restore: 0
+  train_loss: 0.4918656551260554
+  train_score: 0.35677531361579895
+  training_iteration: 1
+  trial_id: adaf1_00000
+  val_loss: 0.31836734239071135
+  val_score: 0.4436885118484497
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-26-05
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 2
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 472.0706157684326
+  time_this_iter_s: 223.91248965263367
+  time_total_s: 472.0706157684326
+  timestamp: 1675293965
+  timesteps_since_restore: 0
+  train_loss: 0.2743764410586099
+  train_score: 0.4603964388370514
+  training_iteration: 2
+  trial_id: adaf1_00000
+  val_loss: 0.30646557041576933
+  val_score: 0.4753822684288025
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 00:28:06 (running for 00:10:02.50)
+Memory usage on this node: 5.9/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.274376 |      0.460396 |   0.306466 |    0.475382 |                    2 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-29-46
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 3
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 693.3069021701813
+  time_this_iter_s: 221.23628640174866
+  time_total_s: 693.3069021701813
+  timestamp: 1675294186
+  timesteps_since_restore: 0
+  train_loss: 0.21552484102568395
+  train_score: 0.5170407891273499
+  training_iteration: 3
+  trial_id: adaf1_00000
+  val_loss: 0.20230468114217123
+  val_score: 0.5386987924575806
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-33-27
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 4
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 914.4543483257294
+  time_this_iter_s: 221.1474461555481
+  time_total_s: 914.4543483257294
+  timestamp: 1675294407
+  timesteps_since_restore: 0
+  train_loss: 0.18706535013058248
+  train_score: 0.5460614562034607
+  training_iteration: 4
+  trial_id: adaf1_00000
+  val_loss: 0.16405590931101452
+  val_score: 0.573603093624115
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-37-08
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 5
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 1135.8016958236694
+  time_this_iter_s: 221.34734749794006
+  time_total_s: 1135.8016958236694
+  timestamp: 1675294628
+  timesteps_since_restore: 0
+  train_loss: 0.16327291939333294
+  train_score: 0.5692504048347473
+  training_iteration: 5
+  trial_id: adaf1_00000
+  val_loss: 0.15187212186200277
+  val_score: 0.5803684592247009
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 00:38:09 (running for 00:20:05.14)
+Memory usage on this node: 5.9/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.163273 |       0.56925 |   0.151872 |    0.580368 |                    5 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-40-50
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 6
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 1357.311286687851
+  time_this_iter_s: 221.50959086418152
+  time_total_s: 1357.311286687851
+  timestamp: 1675294850
+  timesteps_since_restore: 0
+  train_loss: 0.14967876396797322
+  train_score: 0.58497554063797
+  training_iteration: 6
+  trial_id: adaf1_00000
+  val_loss: 0.15855308834995543
+  val_score: 0.5828421711921692
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-44-34
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 7
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 1581.5478208065033
+  time_this_iter_s: 224.23653411865234
+  time_total_s: 1581.5478208065033
+  timestamp: 1675295074
+  timesteps_since_restore: 0
+  train_loss: 0.13782897704092525
+  train_score: 0.5978351831436157
+  training_iteration: 7
+  trial_id: adaf1_00000
+  val_loss: 0.14772017737702717
+  val_score: 0.5912630558013916
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 00:48:11 (running for 00:30:07.43)
+Memory usage on this node: 6.1/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.137829 |      0.597835 |    0.14772 |    0.591263 |                    7 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-48-21
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 8
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 1808.3635370731354
+  time_this_iter_s: 226.81571626663208
+  time_total_s: 1808.3635370731354
+  timestamp: 1675295301
+  timesteps_since_restore: 0
+  train_loss: 0.14181739136449292
+  train_score: 0.595599889755249
+  training_iteration: 8
+  trial_id: adaf1_00000
+  val_loss: 0.13645816026698976
+  val_score: 0.6139830350875854
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-52-05
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 9
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 2032.6623136997223
+  time_this_iter_s: 224.2987766265869
+  time_total_s: 2032.6623136997223
+  timestamp: 1675295525
+  timesteps_since_restore: 0
+  train_loss: 0.1260923859782708
+  train_score: 0.6122913956642151
+  training_iteration: 9
+  trial_id: adaf1_00000
+  val_loss: 0.1512501317830313
+  val_score: 0.59931880235672
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-55-45
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 10
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 2252.9403672218323
+  time_this_iter_s: 220.27805352210999
+  time_total_s: 2252.9403672218323
+  timestamp: 1675295745
+  timesteps_since_restore: 0
+  train_loss: 0.1197824308123344
+  train_score: 0.6186780333518982
+  training_iteration: 10
+  trial_id: adaf1_00000
+  val_loss: 0.1345137774589516
+  val_score: 0.6149888038635254
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 00:58:12 (running for 00:40:08.22)
+Memory usage on this node: 6.1/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.119782 |      0.618678 |   0.134514 |    0.614989 |                   10 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_00-59-29
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 11
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 2476.550597667694
+  time_this_iter_s: 223.61023044586182
+  time_total_s: 2476.550597667694
+  timestamp: 1675295969
+  timesteps_since_restore: 0
+  train_loss: 0.11534595408840397
+  train_score: 0.6241098046302795
+  training_iteration: 11
+  trial_id: adaf1_00000
+  val_loss: 0.1310395145463565
+  val_score: 0.6225732564926147
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-03-11
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 12
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 2698.1293778419495
+  time_this_iter_s: 221.57878017425537
+  time_total_s: 2698.1293778419495
+  timestamp: 1675296191
+  timesteps_since_restore: 0
+  train_loss: 0.11257046287046199
+  train_score: 0.6287199258804321
+  training_iteration: 12
+  trial_id: adaf1_00000
+  val_loss: 0.1314074697475585
+  val_score: 0.6198714375495911
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-06-57
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 13
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 2924.6760363578796
+  time_this_iter_s: 226.54665851593018
+  time_total_s: 2924.6760363578796
+  timestamp: 1675296417
+  timesteps_since_restore: 0
+  train_loss: 0.11042752768579032
+  train_score: 0.6291326880455017
+  training_iteration: 13
+  trial_id: adaf1_00000
+  val_loss: 0.13137717296679816
+  val_score: 0.6203827857971191
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 01:08:13 (running for 00:50:09.22)
+Memory usage on this node: 5.9/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.110428 |      0.629133 |   0.131377 |    0.620383 |                   13 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-10-35
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 14
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 3142.277519226074
+  time_this_iter_s: 217.60148286819458
+  time_total_s: 3142.277519226074
+  timestamp: 1675296635
+  timesteps_since_restore: 0
+  train_loss: 0.10623354472198718
+  train_score: 0.6348430514335632
+  training_iteration: 14
+  trial_id: adaf1_00000
+  val_loss: 0.1222564507689741
+  val_score: 0.6389271020889282
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-14-27
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 15
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 3374.7987179756165
+  time_this_iter_s: 232.52119874954224
+  time_total_s: 3374.7987179756165
+  timestamp: 1675296867
+  timesteps_since_restore: 0
+  train_loss: 0.1036940197807941
+  train_score: 0.6377311944961548
+  training_iteration: 15
+  trial_id: adaf1_00000
+  val_loss: 0.1280745923046082
+  val_score: 0.6319283843040466
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 01:18:15 (running for 01:00:10.92)
+Memory usage on this node: 6.0/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |     0.103694 |      0.637731 |   0.128075 |    0.631928 |                   15 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-18-16
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 16
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 3603.01980304718
+  time_this_iter_s: 228.22108507156372
+  time_total_s: 3603.01980304718
+  timestamp: 1675297096
+  timesteps_since_restore: 0
+  train_loss: 0.09860174535134239
+  train_score: 0.6434528827667236
+  training_iteration: 16
+  trial_id: adaf1_00000
+  val_loss: 0.12391685339666549
+  val_score: 0.64360511302948
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-22-09
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 17
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 3836.245920419693
+  time_this_iter_s: 233.22611737251282
+  time_total_s: 3836.245920419693
+  timestamp: 1675297329
+  timesteps_since_restore: 0
+  train_loss: 0.09656195939011723
+  train_score: 0.6437514424324036
+  training_iteration: 17
+  trial_id: adaf1_00000
+  val_loss: 0.12461123810637564
+  val_score: 0.6376081705093384
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-26-08
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 18
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 4075.8118011951447
+  time_this_iter_s: 239.56588077545166
+  time_total_s: 4075.8118011951447
+  timestamp: 1675297568
+  timesteps_since_restore: 0
+  train_loss: 0.09339630552846143
+  train_score: 0.6471788883209229
+  training_iteration: 18
+  trial_id: adaf1_00000
+  val_loss: 0.12568923736375476
+  val_score: 0.6388100981712341
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 01:28:20 (running for 01:10:15.84)
+Memory usage on this node: 6.1/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 1.0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | RUNNING  | 127.0.0.1:852 |    0.0933963 |      0.647179 |   0.125689 |     0.63881 |                   18 |
++-------------------------+----------+---------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-30-13
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 19
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 4320.672537565231
+  time_this_iter_s: 244.86073637008667
+  time_total_s: 4320.672537565231
+  timestamp: 1675297813
+  timesteps_since_restore: 0
+  train_loss: 0.09313448655427012
+  train_score: 0.6487570405006409
+  training_iteration: 19
+  trial_id: adaf1_00000
+  val_loss: 0.11730587736718238
+  val_score: 0.6467655301094055
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-34-11
+  done: false
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  hostname: lenovo-notebook
+  iterations_since_restore: 20
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 4558.884455680847
+  time_this_iter_s: 238.21191811561584
+  time_total_s: 4558.884455680847
+  timestamp: 1675298051
+  timesteps_since_restore: 0
+  train_loss: 0.08803663723319344
+  train_score: 0.65370112657547
+  training_iteration: 20
+  trial_id: adaf1_00000
+  val_loss: 0.1313726141575783
+  val_score: 0.6409364342689514
+  warmup_time: 0.01798391342163086
+
+Result for train_model_adaf1_00000:
+  date: 2023-02-02_01-34-11
+  done: true
+  experiment_id: 612de6a2a03e4129a2c0d75b882b92a4
+  experiment_tag: '0'
+  hostname: lenovo-notebook
+  iterations_since_restore: 20
+  node_ip: 127.0.0.1
+  pid: 852
+  time_since_restore: 4558.884455680847
+  time_this_iter_s: 238.21191811561584
+  time_total_s: 4558.884455680847
+  timestamp: 1675298051
+  timesteps_since_restore: 0
+  train_loss: 0.08803663723319344
+  train_score: 0.65370112657547
+  training_iteration: 20
+  trial_id: adaf1_00000
+  val_loss: 0.1313726141575783
+  val_score: 0.6409364342689514
+  warmup_time: 0.01798391342163086
+
+== Status ==
+Current time: 2023-02-02 01:34:11 (running for 01:16:07.59)
+Memory usage on this node: 6.1/7.4 GiB
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 0/1 GPUs, 0.0/0.33 GiB heap, 0.0/0.17 GiB objects
+Result logdir: C:\Data\GitHub\deep-seasonal-color-analysis-system\models\demo\FastSCNN\train_model_2023-02-02_00-18-04
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+---------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status     | loc           |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+------------+---------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_adaf1_00000 | TERMINATED | 127.0.0.1:852 |    0.0880366 |      0.653701 |   0.131373 |    0.640936 |                   20 |
++-------------------------+------------+---------------+--------------+---------------+------------+-------------+----------------------+

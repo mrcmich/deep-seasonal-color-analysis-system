@@ -8,4 +8,4 @@ cvcs/
 bash.sh
 venv/
 .idea/
-.bat
+*.bat
