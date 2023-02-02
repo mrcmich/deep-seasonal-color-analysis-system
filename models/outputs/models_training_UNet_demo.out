@@ -1,0 +1,840 @@
+==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+├─UNet: 1-1                              []                        --
+├─UNet: 1                                []                        --
+|    └─Sequential: 2-1                   []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-1                  []                        864
+├─UNet: 1-2                              [16, 11, 256, 256]        --
+├─UNet: 1                                []                        --
+|    └─Sequential: 2-2                   [16, 32, 256, 256]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-2                  [16, 32, 256, 256]        --
+|    |    └─BatchNorm2d: 3-3             [16, 32, 256, 256]        64
+|    |    └─ReLU: 3-4                    [16, 32, 256, 256]        --
+|    |    └─Conv2d: 3-5                  [16, 32, 256, 256]        9,216
+|    |    └─BatchNorm2d: 3-6             [16, 32, 256, 256]        64
+|    |    └─ReLU: 3-7                    [16, 32, 256, 256]        --
+|    └─MaxPool2d: 2-3                    []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-8             [16, 32, 256, 256]        --
+|    |    └─ReLU: 3-9                    [16, 32, 256, 256]        --
+|    |    └─Conv2d: 3-10                 [16, 32, 256, 256]        --
+|    |    └─BatchNorm2d: 3-11            [16, 32, 256, 256]        --
+|    |    └─ReLU: 3-12                   [16, 32, 256, 256]        --
+|    └─MaxPool2d: 2-4                    [16, 32, 128, 128]        --
+|    └─Sequential: 2-5                   []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-13                 []                        18,432
+|    └─Sequential: 2-6                   [16, 64, 128, 128]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-14                 [16, 64, 128, 128]        --
+|    |    └─BatchNorm2d: 3-15            []                        128
+|    |    └─BatchNorm2d: 3-16            [16, 64, 128, 128]        --
+|    |    └─ReLU: 3-17                   []                        --
+|    |    └─ReLU: 3-18                   [16, 64, 128, 128]        --
+|    |    └─Conv2d: 3-19                 []                        36,864
+|    |    └─Conv2d: 3-20                 [16, 64, 128, 128]        --
+|    |    └─BatchNorm2d: 3-21            [16, 64, 128, 128]        --
+|    |    └─ReLU: 3-22                   [16, 64, 128, 128]        --
+|    └─MaxPool2d: 2-7                    [16, 64, 64, 64]          --
+|    └─Sequential: 2-8                   []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-23                 [16, 128, 64, 64]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-24            [16, 64, 128, 128]        128
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-25            [16, 128, 64, 64]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-26                   [16, 64, 128, 128]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-27                   [16, 128, 64, 64]         --
+|    └─MaxPool2d: 2-9                    [16, 64, 64, 64]          --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-28                 [16, 128, 64, 64]         --
+|    └─Sequential: 2-10                  [16, 128, 64, 64]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-29                 [16, 128, 64, 64]         73,728
+|    |    └─BatchNorm2d: 3-30            [16, 128, 64, 64]         --
+|    |    └─BatchNorm2d: 3-31            [16, 128, 64, 64]         256
+|    |    └─ReLU: 3-32                   [16, 128, 64, 64]         --
+|    |    └─ReLU: 3-33                   [16, 128, 64, 64]         --
+|    └─MaxPool2d: 2-11                   [16, 128, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-34                 [16, 128, 64, 64]         147,456
+|    └─Sequential: 2-12                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-35                 [16, 256, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-36            [16, 128, 64, 64]         256
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-37            [16, 256, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-38                   [16, 128, 64, 64]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-39                   [16, 256, 32, 32]         --
+|    └─MaxPool2d: 2-13                   [16, 128, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-40                 [16, 256, 32, 32]         --
+|    └─Sequential: 2-14                  [16, 256, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-41                 [16, 256, 32, 32]         294,912
+|    |    └─BatchNorm2d: 3-42            [16, 256, 32, 32]         --
+|    |    └─BatchNorm2d: 3-43            [16, 256, 32, 32]         512
+|    |    └─ReLU: 3-44                   [16, 256, 32, 32]         --
+|    |    └─ReLU: 3-45                   [16, 256, 32, 32]         --
+|    └─MaxPool2d: 2-15                   [16, 256, 16, 16]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-46                 [16, 256, 32, 32]         589,824
+|    └─Sequential: 2-16                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-47                 [16, 512, 16, 16]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-48            [16, 256, 32, 32]         512
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-49            [16, 512, 16, 16]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-50                   [16, 256, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-51                   [16, 512, 16, 16]         --
+|    └─MaxPool2d: 2-17                   [16, 256, 16, 16]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-52                 [16, 512, 16, 16]         --
+|    └─Sequential: 2-18                  [16, 512, 16, 16]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-53                 [16, 512, 16, 16]         1,179,648
+|    |    └─BatchNorm2d: 3-54            [16, 512, 16, 16]         1,024
+|    |    └─BatchNorm2d: 3-55            [16, 512, 16, 16]         --
+|    |    └─ReLU: 3-56                   [16, 512, 16, 16]         --
+|    |    └─ReLU: 3-57                   [16, 512, 16, 16]         --
+|    |    └─Conv2d: 3-58                 [16, 512, 16, 16]         2,359,296
+|    └─ConvTranspose2d: 2-19             []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-59            [16, 512, 16, 16]         1,024
+|    |    └─ReLU: 3-60                   [16, 512, 16, 16]         --
+|    └─ConvTranspose2d: 2-20             [16, 256, 32, 32]         524,544
+|    └─Sequential: 2-21                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-61                 []                        --
+|    └─Sequential: 2-22                  [16, 256, 32, 32]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-62                 [16, 256, 32, 32]         1,179,648
+|    |    └─BatchNorm2d: 3-63            []                        --
+|    |    └─BatchNorm2d: 3-64            [16, 256, 32, 32]         512
+|    |    └─ReLU: 3-65                   []                        --
+|    |    └─ReLU: 3-66                   [16, 256, 32, 32]         --
+|    |    └─Conv2d: 3-67                 []                        --
+|    |    └─Conv2d: 3-68                 [16, 256, 32, 32]         589,824
+|    |    └─BatchNorm2d: 3-69            []                        --
+|    |    └─BatchNorm2d: 3-70            [16, 256, 32, 32]         512
+|    |    └─ReLU: 3-71                   []                        --
+|    |    └─ReLU: 3-72                   [16, 256, 32, 32]         --
+|    └─ConvTranspose2d: 2-23             []                        --
+|    └─ConvTranspose2d: 2-24             [16, 128, 64, 64]         131,200
+|    └─Sequential: 2-25                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-73                 []                        294,912
+|    └─Sequential: 2-26                  [16, 128, 64, 64]         --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-74                 [16, 128, 64, 64]         --
+|    |    └─BatchNorm2d: 3-75            []                        256
+|    |    └─BatchNorm2d: 3-76            [16, 128, 64, 64]         --
+|    |    └─ReLU: 3-77                   []                        --
+|    |    └─ReLU: 3-78                   [16, 128, 64, 64]         --
+|    |    └─Conv2d: 3-79                 []                        147,456
+|    |    └─Conv2d: 3-80                 [16, 128, 64, 64]         --
+|    |    └─BatchNorm2d: 3-81            []                        256
+|    |    └─BatchNorm2d: 3-82            [16, 128, 64, 64]         --
+|    |    └─ReLU: 3-83                   []                        --
+|    |    └─ReLU: 3-84                   [16, 128, 64, 64]         --
+|    └─ConvTranspose2d: 2-27             []                        32,832
+|    └─ConvTranspose2d: 2-28             [16, 64, 128, 128]        --
+|    └─Sequential: 2-29                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-85                 [16, 64, 128, 128]        73,728
+|    |    └─BatchNorm2d: 3-86            [16, 64, 128, 128]        128
+|    └─Sequential: 2-30                  [16, 64, 128, 128]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-87                 [16, 64, 128, 128]        --
+|    |    └─ReLU: 3-88                   [16, 64, 128, 128]        --
+|    |    └─BatchNorm2d: 3-89            [16, 64, 128, 128]        --
+|    |    └─Conv2d: 3-90                 [16, 64, 128, 128]        36,864
+|    |    └─BatchNorm2d: 3-91            [16, 64, 128, 128]        128
+|    |    └─ReLU: 3-92                   [16, 64, 128, 128]        --
+|    |    └─ReLU: 3-93                   [16, 64, 128, 128]        --
+|    |    └─Conv2d: 3-94                 [16, 64, 128, 128]        --
+|    └─ConvTranspose2d: 2-31             [16, 32, 256, 256]        8,224
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-95            [16, 64, 128, 128]        --
+|    |    └─ReLU: 3-96                   [16, 64, 128, 128]        --
+|    └─Sequential: 2-32                  []                        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-97                 [16, 32, 256, 256]        18,432
+|    └─ConvTranspose2d: 2-33             [16, 32, 256, 256]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─BatchNorm2d: 3-98            [16, 32, 256, 256]        64
+|    |    └─ReLU: 3-99                   [16, 32, 256, 256]        --
+|    |    └─Conv2d: 3-100                [16, 32, 256, 256]        9,216
+|    └─Sequential: 2-34                  [16, 32, 256, 256]        --
+|    └─Sequential: 2                     []                        --
+|    |    └─Conv2d: 3-101                [16, 32, 256, 256]        --
+|    |    └─BatchNorm2d: 3-102           [16, 32, 256, 256]        64
+|    |    └─BatchNorm2d: 3-103           [16, 32, 256, 256]        --
+|    |    └─ReLU: 3-104                  [16, 32, 256, 256]        --
+|    └─Conv2d: 2-35                      [16, 11, 256, 256]        363
+|    └─Sequential: 2                     []                        --
+|    |    └─ReLU: 3-105                  [16, 32, 256, 256]        --
+|    |    └─Conv2d: 3-106                [16, 32, 256, 256]        --
+|    |    └─BatchNorm2d: 3-107           [16, 32, 256, 256]        --
+|    |    └─ReLU: 3-108                  [16, 32, 256, 256]        --
+|    └─Conv2d: 2-36                      [16, 11, 256, 256]        --
+==========================================================================================
+Total params: 7,763,371
+Trainable params: 7,763,371
+Non-trainable params: 0
+Total mult-adds (G): 13.29
+==========================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 3448.00
+Params size (MB): 29.61
+Estimated Total Size (MB): 3501.61
+==========================================================================================
+== Status ==
+Current time: 2023-02-02 00:36:44 (running for 00:00:01.39)
+Memory usage on this node: 6.1/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+
+| Trial name              | status   | loc                    |
+|-------------------------+----------+------------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |
++-------------------------+----------+------------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_00-44-57
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 1
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 483.00889801979065
+  time_this_iter_s: 483.00889801979065
+  time_total_s: 483.00889801979065
+  timestamp: 1675295097
+  timesteps_since_restore: 0
+  train_loss: 0.7291176857432069
+  train_score: 0.3312489688396454
+  training_iteration: 1
+  trial_id: '48429_00000'
+  val_loss: 0.7325350282684205
+  val_score: 0.33175963163375854
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 00:46:47 (running for 00:10:04.97)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.729118 |      0.331249 |   0.732535 |     0.33176 |                    1 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_00-50-53
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 2
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 839.4666726589203
+  time_this_iter_s: 356.45777463912964
+  time_total_s: 839.4666726589203
+  timestamp: 1675295453
+  timesteps_since_restore: 0
+  train_loss: 0.5959723145194203
+  train_score: 0.3550640344619751
+  training_iteration: 2
+  trial_id: '48429_00000'
+  val_loss: 0.5512980184857807
+  val_score: 0.367969274520874
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 00:56:49 (running for 00:20:06.73)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.595972 |      0.355064 |   0.551298 |    0.367969 |                    2 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_00-56-50
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 3
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 1196.3265824317932
+  time_this_iter_s: 356.8599097728729
+  time_total_s: 1196.3265824317932
+  timestamp: 1675295810
+  timesteps_since_restore: 0
+  train_loss: 0.4983796791473345
+  train_score: 0.36537256836891174
+  training_iteration: 3
+  trial_id: '48429_00000'
+  val_loss: 0.4361139356143891
+  val_score: 0.36959707736968994
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-02-59
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 4
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 1565.3478605747223
+  time_this_iter_s: 369.0212781429291
+  time_total_s: 1565.3478605747223
+  timestamp: 1675296179
+  timesteps_since_restore: 0
+  train_loss: 0.4040711476252629
+  train_score: 0.35980358719825745
+  training_iteration: 4
+  trial_id: '48429_00000'
+  val_loss: 0.46163990005614264
+  val_score: 0.30410969257354736
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:06:50 (running for 00:30:07.99)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.404071 |      0.359804 |    0.46164 |     0.30411 |                    4 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-08-57
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 5
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 1922.6457266807556
+  time_this_iter_s: 357.2978661060333
+  time_total_s: 1922.6457266807556
+  timestamp: 1675296537
+  timesteps_since_restore: 0
+  train_loss: 0.32971114900886506
+  train_score: 0.37559399008750916
+  training_iteration: 5
+  trial_id: '48429_00000'
+  val_loss: 0.28189897868368363
+  val_score: 0.43076092004776
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-15-07
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 6
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 2293.1894178390503
+  time_this_iter_s: 370.5436911582947
+  time_total_s: 2293.1894178390503
+  timestamp: 1675296907
+  timesteps_since_restore: 0
+  train_loss: 0.27357323331880434
+  train_score: 0.4058710038661957
+  training_iteration: 6
+  trial_id: '48429_00000'
+  val_loss: 0.24112579250146474
+  val_score: 0.4718219041824341
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:16:52 (running for 00:40:10.09)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.273573 |      0.405871 |   0.241126 |    0.471822 |                    6 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-21-19
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 7
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 2665.1905896663666
+  time_this_iter_s: 372.0011718273163
+  time_total_s: 2665.1905896663666
+  timestamp: 1675297279
+  timesteps_since_restore: 0
+  train_loss: 0.2283402419412917
+  train_score: 0.44304683804512024
+  training_iteration: 7
+  trial_id: '48429_00000'
+  val_loss: 0.21263404261498225
+  val_score: 0.43574410676956177
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:26:55 (running for 00:50:12.45)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |      0.22834 |      0.443047 |   0.212634 |    0.435744 |                    7 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-27-16
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 8
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 3022.5248453617096
+  time_this_iter_s: 357.334255695343
+  time_total_s: 3022.5248453617096
+  timestamp: 1675297636
+  timesteps_since_restore: 0
+  train_loss: 0.20167206688399328
+  train_score: 0.4726604223251343
+  training_iteration: 8
+  trial_id: '48429_00000'
+  val_loss: 0.1910523059112685
+  val_score: 0.4937646985054016
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-33-12
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 9
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 3378.4892892837524
+  time_this_iter_s: 355.96444392204285
+  time_total_s: 3378.4892892837524
+  timestamp: 1675297992
+  timesteps_since_restore: 0
+  train_loss: 0.1738403807593207
+  train_score: 0.5102242827415466
+  training_iteration: 9
+  trial_id: '48429_00000'
+  val_loss: 0.1796048167679045
+  val_score: 0.5379882454872131
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:36:58 (running for 01:00:15.51)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |      0.17384 |      0.510224 |   0.179605 |    0.537988 |                    9 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-39-07
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 10
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 3733.466293334961
+  time_this_iter_s: 354.9770040512085
+  time_total_s: 3733.466293334961
+  timestamp: 1675298347
+  timesteps_since_restore: 0
+  train_loss: 0.15054559875332732
+  train_score: 0.5443958044052124
+  training_iteration: 10
+  trial_id: '48429_00000'
+  val_loss: 0.1713550920997347
+  val_score: 0.5110995173454285
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-45-01
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 11
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 4086.832278728485
+  time_this_iter_s: 353.36598539352417
+  time_total_s: 4086.832278728485
+  timestamp: 1675298701
+  timesteps_since_restore: 0
+  train_loss: 0.13552891649836488
+  train_score: 0.5689511299133301
+  training_iteration: 11
+  trial_id: '48429_00000'
+  val_loss: 0.15225137971223346
+  val_score: 0.5755636692047119
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:47:01 (running for 01:10:18.81)
+Memory usage on this node: 10.0/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.135529 |      0.568951 |   0.152251 |    0.575564 |                   11 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-51-02
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 12
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 4448.098838329315
+  time_this_iter_s: 361.2665596008301
+  time_total_s: 4448.098838329315
+  timestamp: 1675299062
+  timesteps_since_restore: 0
+  train_loss: 0.12431079926144363
+  train_score: 0.5906054377555847
+  training_iteration: 12
+  trial_id: '48429_00000'
+  val_loss: 0.1425279766794235
+  val_score: 0.58916836977005
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 01:57:03 (running for 01:20:20.77)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.124311 |      0.590605 |   0.142528 |    0.589168 |                   12 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_01-57-09
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 13
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 4815.458345651627
+  time_this_iter_s: 367.3595073223114
+  time_total_s: 4815.458345651627
+  timestamp: 1675299429
+  timesteps_since_restore: 0
+  train_loss: 0.1105849269533429
+  train_score: 0.6105011105537415
+  training_iteration: 13
+  trial_id: '48429_00000'
+  val_loss: 0.13797909807827738
+  val_score: 0.6119661331176758
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-03-02
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 14
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 5168.4151310920715
+  time_this_iter_s: 352.95678544044495
+  time_total_s: 5168.4151310920715
+  timestamp: 1675299782
+  timesteps_since_restore: 0
+  train_loss: 0.10140646220399784
+  train_score: 0.6283113956451416
+  training_iteration: 14
+  trial_id: '48429_00000'
+  val_loss: 0.14073095021266785
+  val_score: 0.5678979158401489
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 02:07:03 (running for 01:30:20.97)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |     0.101406 |      0.628311 |   0.140731 |    0.567898 |                   14 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-09-14
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 15
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 5540.124083518982
+  time_this_iter_s: 371.7089524269104
+  time_total_s: 5540.124083518982
+  timestamp: 1675300154
+  timesteps_since_restore: 0
+  train_loss: 0.09044087016981552
+  train_score: 0.6408518552780151
+  training_iteration: 15
+  trial_id: '48429_00000'
+  val_loss: 0.1295652791029877
+  val_score: 0.6463743448257446
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-15-09
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 16
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 5894.946932077408
+  time_this_iter_s: 354.8228485584259
+  time_total_s: 5894.946932077408
+  timestamp: 1675300509
+  timesteps_since_restore: 0
+  train_loss: 0.08563412334292363
+  train_score: 0.6538335084915161
+  training_iteration: 16
+  trial_id: '48429_00000'
+  val_loss: 0.12811746602020566
+  val_score: 0.6408502459526062
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 02:17:04 (running for 01:40:21.92)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |    0.0856341 |      0.653834 |   0.128117 |     0.64085 |                   16 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-21-04
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 17
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 6249.93254160881
+  time_this_iter_s: 354.9856095314026
+  time_total_s: 6249.93254160881
+  timestamp: 1675300864
+  timesteps_since_restore: 0
+  train_loss: 0.07799913673701449
+  train_score: 0.6639098525047302
+  training_iteration: 17
+  trial_id: '48429_00000'
+  val_loss: 0.1260729723624767
+  val_score: 0.6628760695457458
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-27-01
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 18
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 6607.351103067398
+  time_this_iter_s: 357.41856145858765
+  time_total_s: 6607.351103067398
+  timestamp: 1675301221
+  timesteps_since_restore: 0
+  train_loss: 0.07687854988664983
+  train_score: 0.6712803244590759
+  training_iteration: 18
+  trial_id: '48429_00000'
+  val_loss: 0.13424830440254437
+  val_score: 0.6410238146781921
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 02:27:06 (running for 01:50:24.00)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |    0.0768785 |       0.67128 |   0.134248 |    0.641024 |                   18 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-32-55
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 19
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 6961.387130975723
+  time_this_iter_s: 354.0360279083252
+  time_total_s: 6961.387130975723
+  timestamp: 1675301575
+  timesteps_since_restore: 0
+  train_loss: 0.06758855657912048
+  train_score: 0.6819412112236023
+  training_iteration: 19
+  trial_id: '48429_00000'
+  val_loss: 0.12789712243136905
+  val_score: 0.6852788329124451
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 02:37:11 (running for 02:00:28.97)
+Memory usage on this node: 9.9/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | RUNNING  | 155.185.49.147:3908751 |    0.0675886 |      0.681941 |   0.127897 |    0.685279 |                   19 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-38-52
+  done: false
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  hostname: vegeta
+  iterations_since_restore: 20
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 7318.600963592529
+  time_this_iter_s: 357.21383261680603
+  time_total_s: 7318.600963592529
+  timestamp: 1675301932
+  timesteps_since_restore: 0
+  train_loss: 0.07216382686292853
+  train_score: 0.6844002604484558
+  training_iteration: 20
+  trial_id: '48429_00000'
+  val_loss: 0.13983514360965243
+  val_score: 0.6806551218032837
+  warmup_time: 0.0046405792236328125
+  
+Result for train_model_48429_00000:
+  date: 2023-02-02_02-38-52
+  done: true
+  experiment_id: d11e091b4c214e72be4dd18a12abf303
+  experiment_tag: '0'
+  hostname: vegeta
+  iterations_since_restore: 20
+  node_ip: 155.185.49.147
+  pid: 3908751
+  time_since_restore: 7318.600963592529
+  time_this_iter_s: 357.21383261680603
+  time_total_s: 7318.600963592529
+  timestamp: 1675301932
+  timesteps_since_restore: 0
+  train_loss: 0.07216382686292853
+  train_score: 0.6844002604484558
+  training_iteration: 20
+  trial_id: '48429_00000'
+  val_loss: 0.13983514360965243
+  val_score: 0.6806551218032837
+  warmup_time: 0.0046405792236328125
+  
+== Status ==
+Current time: 2023-02-02 02:38:53 (running for 02:02:10.52)
+Memory usage on this node: 9.6/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 0/2 GPUs, 0.0/20.01 GiB heap, 0.0/10.0 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/UNet/train_model_2023-02-02_00-36-42
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status     | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_48429_00000 | TERMINATED | 155.185.49.147:3908751 |    0.0721638 |        0.6844 |   0.139835 |    0.680655 |                   20 |
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+

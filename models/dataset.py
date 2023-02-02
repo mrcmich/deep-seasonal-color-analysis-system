@@ -28,7 +28,7 @@ def get_paths(dataset_path, file_name):
     return img_paths, label_paths
 
 
-class MyDataset(Dataset):
+class CcncsaDataset(Dataset):
     def __init__(self, img_paths, label_paths, image_transform, label_transform=None):
         self.img_paths = img_paths
         self.label_paths = label_paths

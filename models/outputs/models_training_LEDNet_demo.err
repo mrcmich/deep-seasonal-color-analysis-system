@@ -1,0 +1,8 @@
+/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/torch/nn/parallel/data_parallel.py:30: UserWarning: 
+    There is an imbalance between your GPUs. You may want to exclude GPU 1 which
+    has less than 75% of the memory or cores of GPU 0. You can do so by setting
+    the device_ids argument to DataParallel, or by setting the CUDA_VISIBLE_DEVICES
+    environment variable.
+  warnings.warn(imbalance_warn.format(device_ids[min_pos], device_ids[max_pos]))
+2023-02-02 02:39:38,553	INFO worker.py:1538 -- Started a local Ray instance.
+2023-02-02 05:02:20,654	INFO tune.py:762 -- Total run time: 8553.78 seconds (8552.96 seconds for the tuning loop).

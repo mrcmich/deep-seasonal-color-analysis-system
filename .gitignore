@@ -6,4 +6,6 @@ changelog.txt
 debug.py
 cvcs/
 bash.sh
-models/weights/deeplabv3*
+venv/
+.idea/
+*.bat

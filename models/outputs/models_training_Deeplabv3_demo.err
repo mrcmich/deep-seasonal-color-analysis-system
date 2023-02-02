@@ -1,0 +1,28 @@
+2023-02-02 04:53:44,031	INFO worker.py:1538 -- Started a local Ray instance.
+2023-02-02 04:54:02,535	ERROR ray_trial_executor.py:600 -- Trial train_model_38006_00000: Unexpected error starting runner.
+Traceback (most recent call last):
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/tune/execution/ray_trial_executor.py", line 593, in start_trial
+    return self._start_trial(trial)
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/tune/execution/ray_trial_executor.py", line 493, in _start_trial
+    runner = self._setup_remote_runner(trial)
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/tune/execution/ray_trial_executor.py", line 434, in _setup_remote_runner
+    return full_actor_class.remote(**kwargs)
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/actor.py", line 639, in remote
+    return actor_cls._remote(args=args, kwargs=kwargs, **updated_options)
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/util/tracing/tracing_helper.py", line 387, in _invocation_actor_class_remote_span
+    return method(self, args, kwargs, *_args, **_kwargs)
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/actor.py", line 846, in _remote
+    worker.function_actor_manager.export_actor_class(
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/_private/function_manager.py", line 479, in export_actor_class
+    check_oversized_function(
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/_private/utils.py", line 810, in check_oversized_function
+    raise ValueError(error)
+ValueError: The actor ImplicitFunc is too large (154 MiB > FUNCTION_SIZE_ERROR_THRESHOLD=95 MiB). Check that its definition is not implicitly capturing a large array or other object in scope. Tip: use ray.put() to put large objects in the Ray object store.
+Traceback (most recent call last):
+  File "models_training_or_hpo.py", line 158, in <module>
+    run_training_or_hpo(args)
+  File "models_training_or_hpo.py", line 105, in run_training_or_hpo
+    tune.run(partial(training_and_testing.train_model,
+  File "/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/ray/tune/tune.py", line 756, in run
+    raise TuneError("Trials did not complete", incomplete_trials)
+ray.tune.error.TuneError: ('Trials did not complete', [train_model_38006_00000])
