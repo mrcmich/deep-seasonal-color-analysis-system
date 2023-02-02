@@ -23,7 +23,6 @@ def save_weights(args):
     # instantiating model
     if model_name == "fastscnn":
         model = fast_scnn.FastSCNN(n_classes)
-        model = nn.DataParallel(model)
     elif model_name == "cgnet":
         model = CGNet.Context_Guided_Network(classes=n_classes)
         model = nn.DataParallel(model)
