@@ -1,0 +1,6 @@
+/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/torch/nn/functional.py:3722: UserWarning: nn.functional.upsample is deprecated. Use nn.functional.interpolate instead.
+  warnings.warn("nn.functional.upsample is deprecated. Use nn.functional.interpolate instead.")
+2023-02-02 02:06:06,735	INFO worker.py:1538 -- Started a local Ray instance.
+[2m[36m(func pid=192009)[0m /homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/torch/nn/functional.py:3722: UserWarning: nn.functional.upsample is deprecated. Use nn.functional.interpolate instead.
+[2m[36m(func pid=192009)[0m   warnings.warn("nn.functional.upsample is deprecated. Use nn.functional.interpolate instead.")
+2023-02-02 04:53:05,368	INFO tune.py:762 -- Total run time: 10011.17 seconds (10010.44 seconds for the tuning loop).

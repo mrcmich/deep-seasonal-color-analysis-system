@@ -1,0 +1,9 @@
+/homes/fbaraldi/deep-seasonal-color-analysis-system/cvcs/lib/python3.8/site-packages/torch/nn/parallel/data_parallel.py:30: UserWarning: 
+    There is an imbalance between your GPUs. You may want to exclude GPU 1 which
+    has less than 75% of the memory or cores of GPU 0. You can do so by setting
+    the device_ids argument to DataParallel, or by setting the CUDA_VISIBLE_DEVICES
+    environment variable.
+  warnings.warn(imbalance_warn.format(device_ids[min_pos], device_ids[max_pos]))
+2023-02-02 00:36:40,070	INFO worker.py:1538 -- Started a local Ray instance.
+2023-02-02 00:36:44,023	WARNING worker.py:1851 -- Warning: The actor ImplicitFunc is very large (32 MiB). Check that its definition is not implicitly capturing a large array or other object in scope. Tip: use ray.put() to put large objects in the Ray object store.
+2023-02-02 02:38:53,438	INFO tune.py:762 -- Total run time: 7331.52 seconds (7330.50 seconds for the tuning loop).
