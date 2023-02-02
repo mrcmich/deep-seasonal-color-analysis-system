@@ -39,7 +39,7 @@ def batch_mIoU(predictions, targets, weights=None):
 # label along a batch of images.
 # ---
 # predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
-def batch_IoU(predictions, targets):
+def batch_IoU(predictions, targets, _=None):
     intersection_cardinality = torch.logical_and(predictions, targets).sum(axis=(2, 3)) 
     union_cardinality = torch.logical_or(predictions, targets).sum(axis=(2, 3)) 
     IoU = intersection_cardinality / union_cardinality
