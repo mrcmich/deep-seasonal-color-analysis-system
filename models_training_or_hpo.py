@@ -89,7 +89,7 @@ def run_training_or_hpo(args):
     
     # setting up the scheduler for early stopping of bad performing combinations
     if is_hpo_cfg:
-        scheduler = ASHAScheduler(grace_period=5)
+        scheduler = ASHAScheduler(grace_period=10)  # set grace_period = num_epochs to avoid early stopping
 
     # setting up the reporter for printing metrics
     max_report_frequency = 600
