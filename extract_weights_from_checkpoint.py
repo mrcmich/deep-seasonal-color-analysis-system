@@ -45,6 +45,6 @@ def save_weights(args):
     torch.save(model.state_dict(), weights_path + model_name + f"_ccncsa_{args.config}.pth")
 
 if __name__ == "__main__":
-    args = utils.parse_training_or_hpo_arguments()
+    args = utils.parse_save_weights_arguments()
     
     save_weights(args)
