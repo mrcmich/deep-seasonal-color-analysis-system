@@ -8,6 +8,7 @@ DEMO_PATH = 'models/demo/'
 CHECKPOINTS_PATH = 'models/training_best/'
 HPO_PATH = 'models/hpo/'
 PREPROCESSING_PATH = 'models/preprocessing/'
+LOSS_SELECTION_PATH = 'models/loss_selection/'
 
 # Name of index file of dataset (file .xml in folder DATASET_PATH).
 DATASET_INDEX_NAME = 'training.xml'
