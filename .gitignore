@@ -10,4 +10,5 @@ venv/
 .idea/
 *.bat
 models/demo/Deeplabv3/checkpoint.pt
+models/weights/deeplab_ccncsa_demo.pth
 test.py
