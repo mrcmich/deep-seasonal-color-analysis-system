@@ -1,0 +1,2 @@
+train_loss,train_score,val_loss,val_score,time_this_iter_s,done,timesteps_total,episodes_total,training_iteration,trial_id,experiment_id,date,timestamp,time_total_s,pid,hostname,node_ip,time_since_restore,timesteps_since_restore,iterations_since_restore,warmup_time
+0.6994038429694978,0.33720606565475464,0.7020064327451918,0.3117949962615967,24337.268144130707,False,,,1,2753b_00000,7ab8716633ae410dbca0b8fd09833a6b,2023-02-03_05-40-18,1675399218,24337.268144130707,19960,DESKTOP-OQ33RCN,127.0.0.1,24337.268144130707,0,1,0.014011621475219727
