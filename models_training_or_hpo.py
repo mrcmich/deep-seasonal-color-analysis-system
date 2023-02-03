@@ -33,6 +33,11 @@ def run_training_or_hpo(args):
     tunerun_cfg = model_cfg['tunerun_cfg']
     tunerun_cfg['checkpoint_dir'] = tunerun_cfg['checkpoint_dir'] + model_names.MODEL_NAMES[model_name]
     is_hpo_cfg = model_cfg['hpo_cfg']  # True if model_cfg is a hpo configuration
+    
+    if cfg_name == "best":
+        subfolder = "/validation" if evaluate is True else "/complete"
+        tunerun_cfg['checkpoint_dir'] += subfolder
+        model_cfg['local_dir'] += subfolder
 
     # defining transforms
     tH, tW = model_cfg['input_size']
