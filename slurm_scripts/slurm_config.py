@@ -77,7 +77,6 @@ FASTSCNN_CFG_HPO = SlurmConfig(
 ).config_dict()
 
 # config for training with best hyperparameter values from hpo
-FASTSCNN_CENTER_CROP_TRAINING_BEST = custom_transforms.PartiallyDeterministicCenterCrop(p=0.5)
 FASTSCNN_INPUT_SIZE_TRAINING_BEST = (256, 256)
 FASTSCNN_CFG_TRAINING_BEST = SlurmConfig(
     FASTSCNN_INPUT_SIZE_TRAINING_BEST,
