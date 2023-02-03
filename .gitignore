@@ -9,3 +9,5 @@ bash.sh
 venv/
 .idea/
 *.bat
+models/demo/Deeplabv3/checkpoint.pt
+test.py
