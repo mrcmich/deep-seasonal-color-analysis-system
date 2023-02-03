@@ -1,8 +1,0 @@
-{
-  "batch_size": 32,
-  "checkpoint_dir": "c:\\Users\\matte\\Desktop\\deep-seasonal-color-analysis-system\\models\\preprocessing\\UNet/",
-  "from_checkpoint": false,
-  "lr": 0.01,
-  "lr_scheduler": "none",
-  "transform": "none"
-}
