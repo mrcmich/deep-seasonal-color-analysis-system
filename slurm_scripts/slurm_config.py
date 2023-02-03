@@ -126,6 +126,7 @@ UNET_INPUT_SIZE_TRAINING_BEST = (256, 256)
 UNET_CFG_TRAINING_BEST = SlurmConfig(
     UNET_INPUT_SIZE_TRAINING_BEST,
     T.Compose([
+        T.ColorJitter(brightness=0.25, contrast=0.25),
         T.Resize(UNET_INPUT_SIZE_TRAINING_BEST),
         custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
