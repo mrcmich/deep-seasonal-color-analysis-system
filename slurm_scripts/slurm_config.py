@@ -134,9 +134,9 @@ UNET_CFG_TRAINING_BEST = SlurmConfig(
     torch.optim.Adam,
     config.CHECKPOINTS_PATH,
     {
-        "lr": ...,
-        'lr_scheduler': "linear",
-        "batch_size": ...,
+        "lr": 1e-4,
+        'lr_scheduler': "none",
+        "batch_size": 16,
         "from_checkpoint": False,
         "checkpoint_dir": os.path.abspath("./" + config.CHECKPOINTS_PATH) + '/'
     },
