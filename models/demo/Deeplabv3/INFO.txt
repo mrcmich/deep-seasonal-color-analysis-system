@@ -7,3 +7,7 @@ In order to avoid this behaviour, look for the environment variable FUNCTION_SIZ
 folder. For example: \lib\site-packages\ray\_private\ray_constants.py
 
 Change the FUNCTION_SIZE_ERROR_THRESHOLD default value from 10**8 to 160*(1024)**2 so that from 95Mb the limit goes to 160Mb.
+
+Deeplabv3's weights are available at these links:
+- demo weights: https://drive.google.com/file/d/146sKthYL7oWihLMMOm3wj2UeJwJu30iC/view?usp=share_link
+- demo checkpoint: https://drive.google.com/file/d/1q_WrHCUtcCXjWx4f1Yso-Nd1fUE6Vn03/view?usp=share_link
