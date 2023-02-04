@@ -47,7 +47,9 @@ def parse_save_weights_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, required=True, choices=list(slurm_config.configurations.keys()), help='Which training configuration to use', metavar='')
     parser.add_argument('--model_name', type=str, required=True, choices=list(model_names.MODEL_NAMES.keys()), help='Which model to use', metavar='')
+    parser.add_argument('--parallel', type=str, required=True, choices=["True", "False"], help='If True, the model has been trained with DataParallel.', metavar='')
     args = parser.parse_args()
+    args.parallel = args.parallel == "True"
 
     # verify that the configuration of the model exists for the specified slurm configuration
     if args.model_name not in slurm_config.configurations[args.config]:
