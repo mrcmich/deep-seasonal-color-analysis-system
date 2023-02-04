@@ -1,0 +1,711 @@
+===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+├─Encoder: 1-1                                [32, 128, 32, 32]         --
+|    └─DownsamplerBlock: 2-1                  [32, 32, 128, 128]        --
+|    |    └─MaxPool2d: 3-1                    [32, 3, 128, 128]         --
+|    |    └─Conv2d: 3-2                       [32, 29, 128, 128]        812
+|    |    └─BatchNorm2d: 3-3                  [32, 32, 128, 128]        64
+|    |    └─ReLU: 3-4                         [32, 32, 128, 128]        --
+|    └─ModuleList: 2                          []                        --
+|    |    └─SS_nbt_module: 3-5                [32, 32, 128, 128]        6,400
+|    |    └─SS_nbt_module: 3-6                [32, 32, 128, 128]        6,400
+|    |    └─SS_nbt_module: 3-7                [32, 32, 128, 128]        6,400
+|    |    └─DownsamplerBlock: 3-8             [32, 64, 64, 64]          9,376
+|    |    └─SS_nbt_module: 3-9                [32, 64, 64, 64]          25,088
+|    |    └─SS_nbt_module: 3-10               [32, 64, 64, 64]          25,088
+|    |    └─DownsamplerBlock: 3-11            [32, 128, 32, 32]         37,184
+|    |    └─SS_nbt_module: 3-12               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-13               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-14               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-15               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-16               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-17               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-18               [32, 128, 32, 32]         99,328
+|    |    └─SS_nbt_module: 3-19               [32, 128, 32, 32]         99,328
+├─Decoder: 1                                  []                        --
+|    └─APN_Module: 2-2                        [32, 11, 32, 32]          --
+|    |    └─Sequential: 3-20                  [32, 11, 1, 1]            1,441
+|    |    └─Sequential: 3-21                  [32, 11, 32, 32]          1,441
+|    |    └─Conv2dBnRelu: 3-22                [32, 1, 16, 16]           6,275
+|    |    └─Conv2dBnRelu: 3-23                [32, 1, 8, 8]             28
+|    |    └─Sequential: 3-24                  [32, 1, 4, 4]             24
+|    |    └─Conv2dBnRelu: 3-25                [32, 1, 8, 8]             28
+|    |    └─Conv2dBnRelu: 3-26                [32, 1, 16, 16]           52
+===============================================================================================
+Total params: 920,725
+Trainable params: 920,725
+Non-trainable params: 0
+Total mult-adds (G): 1.40
+===============================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 4996.00
+Params size (MB): 3.51
+Estimated Total Size (MB): 5023.51
+===============================================================================================
+== Status ==
+Current time: 2023-02-02 02:39:48 (running for 00:00:00.65)
+Memory usage on this node: 6.0/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+
+| Trial name              | status   | loc                    |
+|-------------------------+----------+------------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |
++-------------------------+----------+------------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_02-47-16
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 1
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 436.9668209552765
+  time_this_iter_s: 436.9668209552765
+  time_total_s: 436.9668209552765
+  timestamp: 1675302436
+  timesteps_since_restore: 0
+  train_loss: 0.7981240033593953
+  train_score: 0.33129554986953735
+  training_iteration: 1
+  trial_id: 79e12_00000
+  val_loss: 0.5220932265122732
+  val_score: 0.3491617739200592
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 02:49:52 (running for 00:10:04.86)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.798124 |      0.331296 |   0.522093 |    0.349162 |                    1 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_02-54-10
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 2
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 850.9038026332855
+  time_this_iter_s: 413.93698167800903
+  time_total_s: 850.9038026332855
+  timestamp: 1675302850
+  timesteps_since_restore: 0
+  train_loss: 0.5041541685575773
+  train_score: 0.3531661629676819
+  training_iteration: 2
+  trial_id: 79e12_00000
+  val_loss: 0.4057818249104515
+  val_score: 0.37810003757476807
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 02:59:56 (running for 00:20:09.10)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.504154 |      0.353166 |   0.405782 |      0.3781 |                    2 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-01-22
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 3
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 1283.4930050373077
+  time_this_iter_s: 432.5892024040222
+  time_total_s: 1283.4930050373077
+  timestamp: 1675303282
+  timesteps_since_restore: 0
+  train_loss: 0.3807847197578843
+  train_score: 0.4034201204776764
+  training_iteration: 3
+  trial_id: 79e12_00000
+  val_loss: 0.30226436044488636
+  val_score: 0.4400463402271271
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-08-32
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 4
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 1713.093853712082
+  time_this_iter_s: 429.60084867477417
+  time_total_s: 1713.093853712082
+  timestamp: 1675303712
+  timesteps_since_restore: 0
+  train_loss: 0.29806802695633
+  train_score: 0.4624425172805786
+  training_iteration: 4
+  trial_id: 79e12_00000
+  val_loss: 0.23693875235224526
+  val_score: 0.5060631632804871
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 03:09:57 (running for 00:30:09.46)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.298068 |      0.462443 |   0.236939 |    0.506063 |                    4 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-15-35
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 5
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 2135.913959980011
+  time_this_iter_s: 422.8201062679291
+  time_total_s: 2135.913959980011
+  timestamp: 1675304135
+  timesteps_since_restore: 0
+  train_loss: 0.2530220012549321
+  train_score: 0.5017748475074768
+  training_iteration: 5
+  trial_id: 79e12_00000
+  val_loss: 0.20063321138658222
+  val_score: 0.5472227931022644
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 03:20:01 (running for 00:40:13.50)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.253022 |      0.501775 |   0.200633 |    0.547223 |                    5 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-22-25
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 6
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 2546.446321249008
+  time_this_iter_s: 410.5323612689972
+  time_total_s: 2546.446321249008
+  timestamp: 1675304545
+  timesteps_since_restore: 0
+  train_loss: 0.2193942487749279
+  train_score: 0.529263436794281
+  training_iteration: 6
+  trial_id: 79e12_00000
+  val_loss: 0.19141663953898444
+  val_score: 0.5665422081947327
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-29-25
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 7
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 2966.0716865062714
+  time_this_iter_s: 419.6253652572632
+  time_total_s: 2966.0716865062714
+  timestamp: 1675304965
+  timesteps_since_restore: 0
+  train_loss: 0.19920259752334693
+  train_score: 0.547256588935852
+  training_iteration: 7
+  trial_id: 79e12_00000
+  val_loss: 0.17077012774017122
+  val_score: 0.5877730846405029
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 03:30:05 (running for 00:50:18.12)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.199203 |      0.547257 |    0.17077 |    0.587773 |                    7 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-36-23
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 8
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 3383.905634880066
+  time_this_iter_s: 417.83394837379456
+  time_total_s: 3383.905634880066
+  timestamp: 1675305383
+  timesteps_since_restore: 0
+  train_loss: 0.17939043847414163
+  train_score: 0.5646259188652039
+  training_iteration: 8
+  trial_id: 79e12_00000
+  val_loss: 0.17164642198218238
+  val_score: 0.5866885781288147
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 03:40:09 (running for 01:00:21.54)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |      0.17939 |      0.564626 |   0.171646 |    0.586689 |                    8 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-43-26
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 9
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 3806.8991692066193
+  time_this_iter_s: 422.99353432655334
+  time_total_s: 3806.8991692066193
+  timestamp: 1675305806
+  timesteps_since_restore: 0
+  train_loss: 0.1665144732322788
+  train_score: 0.5777977108955383
+  training_iteration: 9
+  trial_id: 79e12_00000
+  val_loss: 0.14555119167244623
+  val_score: 0.6125046014785767
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 03:50:10 (running for 01:10:23.20)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.166514 |      0.577798 |   0.145551 |    0.612505 |                    9 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-50-38
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 10
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 4238.922634124756
+  time_this_iter_s: 432.0234649181366
+  time_total_s: 4238.922634124756
+  timestamp: 1675306238
+  timesteps_since_restore: 0
+  train_loss: 0.1556121301107597
+  train_score: 0.5899950861930847
+  training_iteration: 10
+  trial_id: 79e12_00000
+  val_loss: 0.16300172417882888
+  val_score: 0.5887526869773865
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_03-57-51
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 11
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 4672.245324611664
+  time_this_iter_s: 433.32269048690796
+  time_total_s: 4672.245324611664
+  timestamp: 1675306671
+  timesteps_since_restore: 0
+  train_loss: 0.1503571965798014
+  train_score: 0.5945191979408264
+  training_iteration: 11
+  trial_id: 79e12_00000
+  val_loss: 0.1406234952192458
+  val_score: 0.6150502562522888
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:00:11 (running for 01:20:23.89)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.150357 |      0.594519 |   0.140623 |     0.61505 |                   11 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-04-57
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 12
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 5098.165844917297
+  time_this_iter_s: 425.92052030563354
+  time_total_s: 5098.165844917297
+  timestamp: 1675307097
+  timesteps_since_restore: 0
+  train_loss: 0.14220835659069214
+  train_score: 0.6034334301948547
+  training_iteration: 12
+  trial_id: 79e12_00000
+  val_loss: 0.12966757740766283
+  val_score: 0.6314947009086609
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:10:14 (running for 01:30:27.09)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.142208 |      0.603433 |   0.129668 |    0.631495 |                   12 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-12-00
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 13
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 5520.57408285141
+  time_this_iter_s: 422.40823793411255
+  time_total_s: 5520.57408285141
+  timestamp: 1675307520
+  timesteps_since_restore: 0
+  train_loss: 0.13495616304908384
+  train_score: 0.610998809337616
+  training_iteration: 13
+  trial_id: 79e12_00000
+  val_loss: 0.12482584102286233
+  val_score: 0.6365451216697693
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-18-57
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 14
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 5937.815717458725
+  time_this_iter_s: 417.24163460731506
+  time_total_s: 5937.815717458725
+  timestamp: 1675307937
+  timesteps_since_restore: 0
+  train_loss: 0.13018055200746595
+  train_score: 0.6167519688606262
+  training_iteration: 14
+  trial_id: 79e12_00000
+  val_loss: 0.1304501205209702
+  val_score: 0.6322585940361023
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:20:17 (running for 01:40:30.03)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.130181 |      0.616752 |    0.13045 |    0.632259 |                   14 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-25-59
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 15
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 6360.01526427269
+  time_this_iter_s: 422.19954681396484
+  time_total_s: 6360.01526427269
+  timestamp: 1675308359
+  timesteps_since_restore: 0
+  train_loss: 0.12921071924969682
+  train_score: 0.6189345717430115
+  training_iteration: 15
+  trial_id: 79e12_00000
+  val_loss: 0.12710415140267403
+  val_score: 0.6385686993598938
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:30:20 (running for 01:50:32.64)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.129211 |      0.618935 |   0.127104 |    0.638569 |                   15 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-33-05
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 16
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 6785.593642711639
+  time_this_iter_s: 425.5783784389496
+  time_total_s: 6785.593642711639
+  timestamp: 1675308785
+  timesteps_since_restore: 0
+  train_loss: 0.12082488991935708
+  train_score: 0.6285356879234314
+  training_iteration: 16
+  trial_id: 79e12_00000
+  val_loss: 0.11660386686996808
+  val_score: 0.6523905992507935
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-40-10
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 17
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 7211.097545862198
+  time_this_iter_s: 425.5039031505585
+  time_total_s: 7211.097545862198
+  timestamp: 1675309210
+  timesteps_since_restore: 0
+  train_loss: 0.12031693410584729
+  train_score: 0.6299166083335876
+  training_iteration: 17
+  trial_id: 79e12_00000
+  val_loss: 0.1107335268623299
+  val_score: 0.6527899503707886
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:40:20 (running for 02:00:33.11)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.120317 |      0.629917 |   0.110734 |     0.65279 |                   17 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-47-18
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 18
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 7638.900337457657
+  time_this_iter_s: 427.802791595459
+  time_total_s: 7638.900337457657
+  timestamp: 1675309638
+  timesteps_since_restore: 0
+  train_loss: 0.11361940090472882
+  train_score: 0.6358867287635803
+  training_iteration: 18
+  trial_id: 79e12_00000
+  val_loss: 0.11488623183871073
+  val_score: 0.6488242745399475
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 04:50:24 (running for 02:10:36.44)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.113619 |      0.635887 |   0.114886 |    0.648824 |                   18 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_04-54-34
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 19
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 8074.674174547195
+  time_this_iter_s: 435.7738370895386
+  time_total_s: 8074.674174547195
+  timestamp: 1675310074
+  timesteps_since_restore: 0
+  train_loss: 0.11140195865109775
+  train_score: 0.6387653946876526
+  training_iteration: 19
+  trial_id: 79e12_00000
+  val_loss: 0.10733144422845235
+  val_score: 0.6608638763427734
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 05:00:26 (running for 02:20:39.04)
+Memory usage on this node: 9.8/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | RUNNING  | 155.185.49.147:4046418 |     0.111402 |      0.638765 |   0.107331 |    0.660864 |                   19 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_79e12_00000:
+  date: 2023-02-02_05-02-20
+  done: false
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  hostname: vegeta
+  iterations_since_restore: 20
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 8540.951872587204
+  time_this_iter_s: 466.27769804000854
+  time_total_s: 8540.951872587204
+  timestamp: 1675310540
+  timesteps_since_restore: 0
+  train_loss: 0.11289611564912008
+  train_score: 0.6375582218170166
+  training_iteration: 20
+  trial_id: 79e12_00000
+  val_loss: 0.10550479756461249
+  val_score: 0.6690971851348877
+  warmup_time: 0.003780841827392578
+  
+Result for train_model_79e12_00000:
+  date: 2023-02-02_05-02-20
+  done: true
+  experiment_id: ba9a156c6965492a997a44e98e6eb6df
+  experiment_tag: '0'
+  hostname: vegeta
+  iterations_since_restore: 20
+  node_ip: 155.185.49.147
+  pid: 4046418
+  time_since_restore: 8540.951872587204
+  time_this_iter_s: 466.27769804000854
+  time_total_s: 8540.951872587204
+  timestamp: 1675310540
+  timesteps_since_restore: 0
+  train_loss: 0.11289611564912008
+  train_score: 0.6375582218170166
+  training_iteration: 20
+  trial_id: 79e12_00000
+  val_loss: 0.10550479756461249
+  val_score: 0.6690971851348877
+  warmup_time: 0.003780841827392578
+  
+== Status ==
+Current time: 2023-02-02 05:02:20 (running for 02:22:32.98)
+Memory usage on this node: 9.7/62.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 0/2 GPUs, 0.0/18.95 GiB heap, 0.0/9.48 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/LEDNet/train_model_2023-02-02_02-39-47
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status     | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_79e12_00000 | TERMINATED | 155.185.49.147:4046418 |     0.112896 |      0.637558 |   0.105505 |    0.669097 |                   20 |
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+

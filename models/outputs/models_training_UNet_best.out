@@ -1,0 +1,320 @@
+==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+├─Sequential: 1-1                        [16, 32, 256, 256]        --
+|    └─Conv2d: 2-1                       [16, 32, 256, 256]        864
+|    └─BatchNorm2d: 2-2                  [16, 32, 256, 256]        64
+|    └─ReLU: 2-3                         [16, 32, 256, 256]        --
+|    └─Conv2d: 2-4                       [16, 32, 256, 256]        9,216
+|    └─BatchNorm2d: 2-5                  [16, 32, 256, 256]        64
+|    └─ReLU: 2-6                         [16, 32, 256, 256]        --
+├─MaxPool2d: 1-2                         [16, 32, 128, 128]        --
+├─Sequential: 1-3                        [16, 64, 128, 128]        --
+|    └─Conv2d: 2-7                       [16, 64, 128, 128]        18,432
+|    └─BatchNorm2d: 2-8                  [16, 64, 128, 128]        128
+|    └─ReLU: 2-9                         [16, 64, 128, 128]        --
+|    └─Conv2d: 2-10                      [16, 64, 128, 128]        36,864
+|    └─BatchNorm2d: 2-11                 [16, 64, 128, 128]        128
+|    └─ReLU: 2-12                        [16, 64, 128, 128]        --
+├─MaxPool2d: 1-4                         [16, 64, 64, 64]          --
+├─Sequential: 1-5                        [16, 128, 64, 64]         --
+|    └─Conv2d: 2-13                      [16, 128, 64, 64]         73,728
+|    └─BatchNorm2d: 2-14                 [16, 128, 64, 64]         256
+|    └─ReLU: 2-15                        [16, 128, 64, 64]         --
+|    └─Conv2d: 2-16                      [16, 128, 64, 64]         147,456
+|    └─BatchNorm2d: 2-17                 [16, 128, 64, 64]         256
+|    └─ReLU: 2-18                        [16, 128, 64, 64]         --
+├─MaxPool2d: 1-6                         [16, 128, 32, 32]         --
+├─Sequential: 1-7                        [16, 256, 32, 32]         --
+|    └─Conv2d: 2-19                      [16, 256, 32, 32]         294,912
+|    └─BatchNorm2d: 2-20                 [16, 256, 32, 32]         512
+|    └─ReLU: 2-21                        [16, 256, 32, 32]         --
+|    └─Conv2d: 2-22                      [16, 256, 32, 32]         589,824
+|    └─BatchNorm2d: 2-23                 [16, 256, 32, 32]         512
+|    └─ReLU: 2-24                        [16, 256, 32, 32]         --
+├─MaxPool2d: 1-8                         [16, 256, 16, 16]         --
+├─Sequential: 1-9                        [16, 512, 16, 16]         --
+|    └─Conv2d: 2-25                      [16, 512, 16, 16]         1,179,648
+|    └─BatchNorm2d: 2-26                 [16, 512, 16, 16]         1,024
+|    └─ReLU: 2-27                        [16, 512, 16, 16]         --
+|    └─Conv2d: 2-28                      [16, 512, 16, 16]         2,359,296
+|    └─BatchNorm2d: 2-29                 [16, 512, 16, 16]         1,024
+|    └─ReLU: 2-30                        [16, 512, 16, 16]         --
+├─ConvTranspose2d: 1-10                  [16, 256, 32, 32]         524,544
+├─Sequential: 1-11                       [16, 256, 32, 32]         --
+|    └─Conv2d: 2-31                      [16, 256, 32, 32]         1,179,648
+|    └─BatchNorm2d: 2-32                 [16, 256, 32, 32]         512
+|    └─ReLU: 2-33                        [16, 256, 32, 32]         --
+|    └─Conv2d: 2-34                      [16, 256, 32, 32]         589,824
+|    └─BatchNorm2d: 2-35                 [16, 256, 32, 32]         512
+|    └─ReLU: 2-36                        [16, 256, 32, 32]         --
+├─ConvTranspose2d: 1-12                  [16, 128, 64, 64]         131,200
+├─Sequential: 1-13                       [16, 128, 64, 64]         --
+|    └─Conv2d: 2-37                      [16, 128, 64, 64]         294,912
+|    └─BatchNorm2d: 2-38                 [16, 128, 64, 64]         256
+|    └─ReLU: 2-39                        [16, 128, 64, 64]         --
+|    └─Conv2d: 2-40                      [16, 128, 64, 64]         147,456
+|    └─BatchNorm2d: 2-41                 [16, 128, 64, 64]         256
+|    └─ReLU: 2-42                        [16, 128, 64, 64]         --
+├─ConvTranspose2d: 1-14                  [16, 64, 128, 128]        32,832
+├─Sequential: 1-15                       [16, 64, 128, 128]        --
+|    └─Conv2d: 2-43                      [16, 64, 128, 128]        73,728
+|    └─BatchNorm2d: 2-44                 [16, 64, 128, 128]        128
+|    └─ReLU: 2-45                        [16, 64, 128, 128]        --
+|    └─Conv2d: 2-46                      [16, 64, 128, 128]        36,864
+|    └─BatchNorm2d: 2-47                 [16, 64, 128, 128]        128
+|    └─ReLU: 2-48                        [16, 64, 128, 128]        --
+├─ConvTranspose2d: 1-16                  [16, 32, 256, 256]        8,224
+├─Sequential: 1-17                       [16, 32, 256, 256]        --
+|    └─Conv2d: 2-49                      [16, 32, 256, 256]        18,432
+|    └─BatchNorm2d: 2-50                 [16, 32, 256, 256]        64
+|    └─ReLU: 2-51                        [16, 32, 256, 256]        --
+|    └─Conv2d: 2-52                      [16, 32, 256, 256]        9,216
+|    └─BatchNorm2d: 2-53                 [16, 32, 256, 256]        64
+|    └─ReLU: 2-54                        [16, 32, 256, 256]        --
+├─Conv2d: 1-18                           [16, 11, 256, 256]        363
+==========================================================================================
+Total params: 7,763,371
+Trainable params: 7,763,371
+Non-trainable params: 0
+Total mult-adds (G): 13.71
+==========================================================================================
+Input size (MB): 12.00
+Forward/backward pass size (MB): 4472.00
+Params size (MB): 29.61
+Estimated Total Size (MB): 4513.61
+==========================================================================================
+
+2023-02-03 20:49:17,151	WARNING worker.py:1851 -- Warning: The actor ImplicitFunc is very large (32 MiB). Check that its definition is not implicitly capturing a large array or other object in scope. Tip: use ray.put() to put large objects in the Ray object store.
+2023-02-03 20:49:17,291	WARNING util.py:244 -- The `start_trial` operation took 0.924 s, which may be a performance bottleneck.
+
+== Status ==
+Current time: 2023-02-03 20:49:17 (running for 00:00:01.40)
+Memory usage on this node: 5.0/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+
+| Trial name              | status   | loc                |
+|-------------------------+----------+--------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |
++-------------------------+----------+--------------------+
+
+
+Trial Progress
+Trial name 	date 	done 	episodes_total 	experiment_id 	experiment_tag	hostname 	iterations_since_restore	node_ip 	pid	time_since_restore	time_this_iter_s	time_total_s	timestamp	timesteps_since_restore	timesteps_total 	train_loss	train_score	training_iteration	trial_id 	warmup_time
+train_model_38d98_00000	2023-02-03_23-12-47	True 		9afa47d003cc477eb88a67be546bf89a	0	81b7dd2326f6	20	172.28.0.12	103716	8603.41	433.336	8603.41	1675465967	0		0.0350107	0.748056	20	38d98_00000	0.0036993
+
+== Status ==
+Current time: 2023-02-03 20:59:19 (running for 00:10:03.23)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.731562 |      0.286399 |                    1 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:09:22 (running for 00:20:06.69)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.342586 |      0.371383 |                    2 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:19:24 (running for 00:30:08.63)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.160029 |      0.555751 |                    4 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:29:26 (running for 00:40:10.92)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.127633 |      0.611699 |                    5 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:39:28 (running for 00:50:12.80)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0931739 |      0.656297 |                    7 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:49:32 (running for 01:00:16.64)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.082338 |      0.670691 |                    8 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 21:59:36 (running for 01:10:20.85)
+Memory usage on this node: 7.9/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0749698 |      0.683169 |                    9 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:09:41 (running for 01:20:25.53)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0635546 |      0.700686 |                   11 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:19:44 (running for 01:30:29.02)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.059825 |      0.705316 |                   12 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:29:48 (running for 01:40:32.24)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0511521 |      0.719284 |                   14 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:39:49 (running for 01:50:33.67)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0477474 |      0.725029 |                   15 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:49:51 (running for 02:00:36.09)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0453529 |      0.729973 |                   16 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 22:59:52 (running for 02:10:36.79)
+Memory usage on this node: 7.9/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |     0.039689 |      0.739084 |                   18 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+== Status ==
+Current time: 2023-02-03 23:09:54 (running for 02:20:38.83)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 1.0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | RUNNING  | 172.28.0.12:103716 |    0.0379577 |       0.74245 |                   19 |
++-------------------------+----------+--------------------+--------------+---------------+----------------------+
+
+
+2023-02-03 23:12:47,749	INFO tune.py:762 -- Total run time: 8612.58 seconds (8611.73 seconds for the tuning loop).
+
+== Status ==
+Current time: 2023-02-03 23:12:47 (running for 02:23:31.74)
+Memory usage on this node: 7.8/12.7 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/2 CPUs, 0/1 GPUs, 0.0/7.41 GiB heap, 0.0/3.7 GiB objects
+Result logdir: /content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validationUNet/complete/train_model_2023-02-03_20-49-15
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+--------------------+--------------+---------------+----------------------+
+| Trial name              | status     | loc                |   train_loss |   train_score |   training_iteration |
+|-------------------------+------------+--------------------+--------------+---------------+----------------------|
+| train_model_38d98_00000 | TERMINATED | 172.28.0.12:103716 |    0.0350107 |      0.748056 |                   20 |
++-------------------------+------------+--------------------+--------------+---------------+----------------------+
+
+

@@ -1,0 +1,7 @@
+{
+  "batch_size": 16,
+  "checkpoint_dir": "/content/deep-seasonal-color-analysis-system/models/training_best/UNet/validationUNet/validation",
+  "from_checkpoint": false,
+  "lr": 0.0001,
+  "lr_scheduler": "none"
+}

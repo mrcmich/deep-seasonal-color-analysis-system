@@ -1,0 +1,13 @@
+Running DeepLab with Ray gives this error:
+ValueError: The actor ImplicitFunc is too large (154 MiB > FUNCTION_SIZE_ERROR_THRESHOLD=95 MiB). Check that its
+definition is not implicitly capturing a large array or other object in scope. Tip: use ray.put() to put large
+objects in the Ray object store.
+
+In order to avoid this behaviour, look for the environment variable FUNCTION_SIZE_ERROR_THRESHOLD in the Ray library
+folder. For example: \lib\site-packages\ray\_private\ray_constants.py
+
+Change the FUNCTION_SIZE_ERROR_THRESHOLD default value from 10**8 to 160*(1024)**2 so that from 95Mb the limit goes to 160Mb.
+
+Deeplabv3's weights are available at these links:
+- demo weights: https://drive.google.com/file/d/146sKthYL7oWihLMMOm3wj2UeJwJu30iC/view?usp=share_link
+- demo checkpoint: https://drive.google.com/file/d/1q_WrHCUtcCXjWx4f1Yso-Nd1fUE6Vn03/view?usp=share_link

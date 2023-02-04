@@ -1,0 +1,7 @@
+{
+  "batch_size": 16,
+  "checkpoint_dir": "/homes/fbaraldi/deep-seasonal-color-analysis-system/models/hpo/UNet",
+  "from_checkpoint": false,
+  "lr": 0.001,
+  "lr_scheduler": "none"
+}

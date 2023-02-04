@@ -1,0 +1,905 @@
+===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+├─ConvBNPReLU: 1-1                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-1                            [32, 32, 128, 128]        864
+|    └─BatchNorm2d: 2-2                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-3                             [32, 32, 128, 128]        32
+├─ConvBNPReLU: 1-2                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-4                            [32, 32, 128, 128]        9,216
+|    └─BatchNorm2d: 2-5                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-6                             [32, 32, 128, 128]        32
+├─ConvBNPReLU: 1-3                            [32, 32, 128, 128]        --
+|    └─Conv2d: 2-7                            [32, 32, 128, 128]        9,216
+|    └─BatchNorm2d: 2-8                       [32, 32, 128, 128]        64
+|    └─PReLU: 2-9                             [32, 32, 128, 128]        32
+├─InputInjection: 1-4                         [32, 3, 128, 128]         --
+|    └─ModuleList: 2                          []                        --
+|    |    └─AvgPool2d: 3-1                    [32, 3, 128, 128]         --
+├─InputInjection: 1-5                         [32, 3, 64, 64]           --
+|    └─ModuleList: 2                          []                        --
+|    |    └─AvgPool2d: 3-2                    [32, 3, 128, 128]         --
+|    |    └─AvgPool2d: 3-3                    [32, 3, 64, 64]           --
+├─BNPReLU: 1-6                                [32, 35, 128, 128]        --
+|    └─BatchNorm2d: 2-10                      [32, 35, 128, 128]        70
+|    └─PReLU: 2-11                            [32, 35, 128, 128]        35
+├─ContextGuidedBlock_Down: 1-7                [32, 64, 64, 64]          --
+|    └─ConvBNPReLU: 2-12                      [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-4                       [32, 64, 64, 64]          20,160
+|    |    └─BatchNorm2d: 3-5                  [32, 64, 64, 64]          128
+|    |    └─PReLU: 3-6                        [32, 64, 64, 64]          64
+|    └─ChannelWiseConv: 2-13                  [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-7                       [32, 64, 64, 64]          576
+|    └─ChannelWiseDilatedConv: 2-14           [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-8                       [32, 64, 64, 64]          576
+|    └─BatchNorm2d: 2-15                      [32, 128, 64, 64]         256
+|    └─PReLU: 2-16                            [32, 128, 64, 64]         128
+|    └─Conv: 2-17                             [32, 64, 64, 64]          --
+|    |    └─Conv2d: 3-9                       [32, 64, 64, 64]          8,192
+|    └─FGlo: 2-18                             [32, 64, 64, 64]          --
+|    |    └─AdaptiveAvgPool2d: 3-10           [32, 64, 1, 1]            --
+|    |    └─Sequential: 3-11                  [32, 64]                  1,096
+├─ModuleList: 1                               []                        --
+|    └─ContextGuidedBlock: 2-19               [32, 64, 64, 64]          --
+|    |    └─ConvBNPReLU: 3-12                 [32, 32, 64, 64]          2,144
+|    |    └─ChannelWiseConv: 3-13             [32, 32, 64, 64]          288
+|    |    └─ChannelWiseDilatedConv: 3-14      [32, 32, 64, 64]          288
+|    |    └─BNPReLU: 3-15                     [32, 64, 64, 64]          192
+|    |    └─FGlo: 3-16                        [32, 64, 64, 64]          1,096
+|    └─ContextGuidedBlock: 2-20               [32, 64, 64, 64]          --
+|    |    └─ConvBNPReLU: 3-17                 [32, 32, 64, 64]          2,144
+|    |    └─ChannelWiseConv: 3-18             [32, 32, 64, 64]          288
+|    |    └─ChannelWiseDilatedConv: 3-19      [32, 32, 64, 64]          288
+|    |    └─BNPReLU: 3-20                     [32, 64, 64, 64]          192
+|    |    └─FGlo: 3-21                        [32, 64, 64, 64]          1,096
+├─BNPReLU: 1-8                                [32, 131, 64, 64]         --
+|    └─BatchNorm2d: 2-21                      [32, 131, 64, 64]         262
+|    └─PReLU: 2-22                            [32, 131, 64, 64]         131
+├─ContextGuidedBlock_Down: 1-9                [32, 128, 32, 32]         --
+|    └─ConvBNPReLU: 2-23                      [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-22                      [32, 128, 32, 32]         150,912
+|    |    └─BatchNorm2d: 3-23                 [32, 128, 32, 32]         256
+|    |    └─PReLU: 3-24                       [32, 128, 32, 32]         128
+|    └─ChannelWiseConv: 2-24                  [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-25                      [32, 128, 32, 32]         1,152
+|    └─ChannelWiseDilatedConv: 2-25           [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-26                      [32, 128, 32, 32]         1,152
+|    └─BatchNorm2d: 2-26                      [32, 256, 32, 32]         512
+|    └─PReLU: 2-27                            [32, 256, 32, 32]         256
+|    └─Conv: 2-28                             [32, 128, 32, 32]         --
+|    |    └─Conv2d: 3-27                      [32, 128, 32, 32]         32,768
+|    └─FGlo: 2-29                             [32, 128, 32, 32]         --
+|    |    └─AdaptiveAvgPool2d: 3-28           [32, 128, 1, 1]           --
+|    |    └─Sequential: 3-29                  [32, 128]                 2,184
+├─ModuleList: 1                               []                        --
+|    └─ContextGuidedBlock: 2-30               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-30                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-31             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-32      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-33                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-34                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-31               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-35                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-36             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-37      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-38                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-39                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-32               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-40                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-41             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-42      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-43                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-44                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-33               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-45                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-46             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-47      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-48                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-49                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-34               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-50                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-51             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-52      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-53                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-54                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-35               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-55                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-56             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-57      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-58                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-59                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-36               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-60                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-61             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-62      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-63                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-64                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-37               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-65                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-66             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-67      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-68                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-69                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-38               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-70                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-71             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-72      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-73                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-74                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-39               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-75                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-76             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-77      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-78                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-79                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-40               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-80                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-81             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-82      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-83                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-84                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-41               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-85                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-86             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-87      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-88                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-89                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-42               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-90                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-91             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-92      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-93                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-94                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-43               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-95                 [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-96             [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-97      [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-98                     [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-99                        [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-44               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-100                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-101            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-102     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-103                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-104                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-45               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-105                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-106            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-107     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-108                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-109                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-46               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-110                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-111            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-112     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-113                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-114                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-47               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-115                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-116            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-117     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-118                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-119                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-48               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-120                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-121            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-122     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-123                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-124                       [32, 128, 32, 32]         2,184
+|    └─ContextGuidedBlock: 2-49               [32, 128, 32, 32]         --
+|    |    └─ConvBNPReLU: 3-125                [32, 64, 32, 32]          8,384
+|    |    └─ChannelWiseConv: 3-126            [32, 64, 32, 32]          576
+|    |    └─ChannelWiseDilatedConv: 3-127     [32, 64, 32, 32]          576
+|    |    └─BNPReLU: 3-128                    [32, 128, 32, 32]         384
+|    |    └─FGlo: 3-129                       [32, 128, 32, 32]         2,184
+├─BNPReLU: 1-10                               [32, 256, 32, 32]         --
+|    └─BatchNorm2d: 2-50                      [32, 256, 32, 32]         512
+|    └─PReLU: 2-51                            [32, 256, 32, 32]         256
+├─Sequential: 1-11                            [32, 11, 32, 32]          --
+|    └─Conv: 2-52                             [32, 11, 32, 32]          --
+|    |    └─Conv2d: 3-130                     [32, 11, 32, 32]          2,816
+===============================================================================================
+Total params: 494,258
+Trainable params: 494,258
+Non-trainable params: 0
+Total mult-adds (M): 844.20
+===============================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 6240.80
+Params size (MB): 1.89
+Estimated Total Size (MB): 6266.69
+===============================================================================================
+== Status ==
+Current time: 2023-02-02 02:06:15 (running for 00:00:00.76)
+Memory usage on this node: 53.3/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+
+| Trial name              | status   | loc                  |
+|-------------------------+----------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |
++-------------------------+----------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-15-03
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 1
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 512.8749613761902
+  time_this_iter_s: 512.8749613761902
+  time_total_s: 512.8749613761902
+  timestamp: 1675300503
+  timesteps_since_restore: 0
+  train_loss: 0.44368379815691217
+  train_score: 0.40981656312942505
+  training_iteration: 1
+  trial_id: ca382_00000
+  val_loss: 0.25864636874388136
+  val_score: 0.5079676508903503
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 02:16:18 (running for 00:10:03.90)
+Memory usage on this node: 58.4/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.443684 |      0.409817 |   0.258646 |    0.507968 |                    1 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-23-19
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 2
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 1008.9800288677216
+  time_this_iter_s: 496.1050674915314
+  time_total_s: 1008.9800288677216
+  timestamp: 1675300999
+  timesteps_since_restore: 0
+  train_loss: 0.20584045569186876
+  train_score: 0.5483344197273254
+  training_iteration: 2
+  trial_id: ca382_00000
+  val_loss: 0.17471660247870854
+  val_score: 0.5808144211769104
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 02:26:19 (running for 00:20:05.01)
+Memory usage on this node: 51.4/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |      0.20584 |      0.548334 |   0.174717 |    0.580814 |                    2 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-31-41
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 3
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 1511.3162932395935
+  time_this_iter_s: 502.33626437187195
+  time_total_s: 1511.3162932395935
+  timestamp: 1675301501
+  timesteps_since_restore: 0
+  train_loss: 0.1520239672811962
+  train_score: 0.6006825566291809
+  training_iteration: 3
+  trial_id: ca382_00000
+  val_loss: 0.14759132597181532
+  val_score: 0.612771213054657
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 02:36:22 (running for 00:30:07.96)
+Memory usage on this node: 58.1/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.152024 |      0.600683 |   0.147591 |    0.612771 |                    3 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-40-01
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 4
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 2010.8743727207184
+  time_this_iter_s: 499.5580794811249
+  time_total_s: 2010.8743727207184
+  timestamp: 1675302001
+  timesteps_since_restore: 0
+  train_loss: 0.1329230249479965
+  train_score: 0.6226994395256042
+  training_iteration: 4
+  trial_id: ca382_00000
+  val_loss: 0.12702769407677272
+  val_score: 0.631308376789093
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 02:46:27 (running for 00:40:12.58)
+Memory usage on this node: 57.8/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.132923 |      0.622699 |   0.127028 |    0.631308 |                    4 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-48-19
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 5
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 2509.642150402069
+  time_this_iter_s: 498.7677776813507
+  time_total_s: 2509.642150402069
+  timestamp: 1675302499
+  timesteps_since_restore: 0
+  train_loss: 0.11918713710671476
+  train_score: 0.6392236948013306
+  training_iteration: 5
+  trial_id: ca382_00000
+  val_loss: 0.5251728686548415
+  val_score: 0.48816174268722534
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 02:56:29 (running for 00:50:14.75)
+Memory usage on this node: 58.5/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.119187 |      0.639224 |   0.525173 |    0.488162 |                    5 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_02-56-31
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 6
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 3000.827781677246
+  time_this_iter_s: 491.185631275177
+  time_total_s: 3000.827781677246
+  timestamp: 1675302991
+  timesteps_since_restore: 0
+  train_loss: 0.12901408399357076
+  train_score: 0.6295281052589417
+  training_iteration: 6
+  trial_id: ca382_00000
+  val_loss: 0.11720908072496218
+  val_score: 0.6473236680030823
+  warmup_time: 0.004873752593994141
+  
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-05-02
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 7
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 3512.449828147888
+  time_this_iter_s: 511.6220464706421
+  time_total_s: 3512.449828147888
+  timestamp: 1675303502
+  timesteps_since_restore: 0
+  train_loss: 0.10599300145381196
+  train_score: 0.6533573269844055
+  training_iteration: 7
+  trial_id: ca382_00000
+  val_loss: 0.11044896169314308
+  val_score: 0.6605600118637085
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:06:29 (running for 01:00:14.80)
+Memory usage on this node: 55.0/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.105993 |      0.653357 |   0.110449 |     0.66056 |                    7 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-13-25
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 8
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 4014.791539669037
+  time_this_iter_s: 502.3417115211487
+  time_total_s: 4014.791539669037
+  timestamp: 1675304005
+  timesteps_since_restore: 0
+  train_loss: 0.10425101271551898
+  train_score: 0.6560511589050293
+  training_iteration: 8
+  trial_id: ca382_00000
+  val_loss: 0.10836599128586906
+  val_score: 0.6602382063865662
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:16:34 (running for 01:10:19.59)
+Memory usage on this node: 52.9/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.104251 |      0.656051 |   0.108366 |    0.660238 |                    8 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-21-38
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 9
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 4508.064054965973
+  time_this_iter_s: 493.27251529693604
+  time_total_s: 4508.064054965973
+  timestamp: 1675304498
+  timesteps_since_restore: 0
+  train_loss: 0.09587762632176407
+  train_score: 0.6655430197715759
+  training_iteration: 9
+  trial_id: ca382_00000
+  val_loss: 0.11020105456312497
+  val_score: 0.6614553928375244
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:26:35 (running for 01:20:20.75)
+Memory usage on this node: 55.7/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0958776 |      0.665543 |   0.110201 |    0.661455 |                    9 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-29-49
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 10
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 4999.320883274078
+  time_this_iter_s: 491.25682830810547
+  time_total_s: 4999.320883274078
+  timestamp: 1675304989
+  timesteps_since_restore: 0
+  train_loss: 0.08965587332590014
+  train_score: 0.6721336841583252
+  training_iteration: 10
+  trial_id: ca382_00000
+  val_loss: 0.10407122845451038
+  val_score: 0.6581206917762756
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:36:40 (running for 01:30:25.47)
+Memory usage on this node: 59.8/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0896559 |      0.672134 |   0.104071 |    0.658121 |                   10 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-37-56
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 11
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 5486.152782201767
+  time_this_iter_s: 486.8318989276886
+  time_total_s: 5486.152782201767
+  timestamp: 1675305476
+  timesteps_since_restore: 0
+  train_loss: 0.08966556409018332
+  train_score: 0.6714969873428345
+  training_iteration: 11
+  trial_id: ca382_00000
+  val_loss: 0.10926429064027847
+  val_score: 0.6635032296180725
+  warmup_time: 0.004873752593994141
+  
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-46-16
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 12
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 5986.421061992645
+  time_this_iter_s: 500.2682797908783
+  time_total_s: 5986.421061992645
+  timestamp: 1675305976
+  timesteps_since_restore: 0
+  train_loss: 0.08760848075703338
+  train_score: 0.6727845072746277
+  training_iteration: 12
+  trial_id: ca382_00000
+  val_loss: 0.11684372837817858
+  val_score: 0.6550222635269165
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:46:44 (running for 01:40:29.76)
+Memory usage on this node: 54.4/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0876085 |      0.672785 |   0.116844 |    0.655022 |                   12 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_03-54-37
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 13
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 6487.376049518585
+  time_this_iter_s: 500.95498752593994
+  time_total_s: 6487.376049518585
+  timestamp: 1675306477
+  timesteps_since_restore: 0
+  train_loss: 0.08410738195236932
+  train_score: 0.6766312122344971
+  training_iteration: 13
+  trial_id: ca382_00000
+  val_loss: 0.14545383978457677
+  val_score: 0.6272698640823364
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 03:56:45 (running for 01:50:30.90)
+Memory usage on this node: 54.2/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0841074 |      0.676631 |   0.145454 |     0.62727 |                   13 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-03-00
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 14
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 6989.899611949921
+  time_this_iter_s: 502.52356243133545
+  time_total_s: 6989.899611949921
+  timestamp: 1675306980
+  timesteps_since_restore: 0
+  train_loss: 0.08799791667196485
+  train_score: 0.6714874505996704
+  training_iteration: 14
+  trial_id: ca382_00000
+  val_loss: 0.11766804133852322
+  val_score: 0.653961181640625
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:06:46 (running for 02:00:31.72)
+Memory usage on this node: 53.2/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0879979 |      0.671487 |   0.117668 |    0.653961 |                   14 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-11-23
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 15
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 7493.289163827896
+  time_this_iter_s: 503.38955187797546
+  time_total_s: 7493.289163827896
+  timestamp: 1675307483
+  timesteps_since_restore: 0
+  train_loss: 0.07796726516975976
+  train_score: 0.6825150847434998
+  training_iteration: 15
+  trial_id: ca382_00000
+  val_loss: 0.11419221681971399
+  val_score: 0.6682793498039246
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:16:50 (running for 02:10:35.67)
+Memory usage on this node: 52.9/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0779673 |      0.682515 |   0.114192 |    0.668279 |                   15 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-19-31
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 16
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 7981.205555200577
+  time_this_iter_s: 487.91639137268066
+  time_total_s: 7981.205555200577
+  timestamp: 1675307971
+  timesteps_since_restore: 0
+  train_loss: 0.0851417011727295
+  train_score: 0.6739123463630676
+  training_iteration: 16
+  trial_id: ca382_00000
+  val_loss: 0.11056731392939885
+  val_score: 0.6756937503814697
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:26:53 (running for 02:20:38.45)
+Memory usage on this node: 57.8/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0851417 |      0.673912 |   0.110567 |    0.675694 |                   16 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-27-49
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 17
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 8479.514353275299
+  time_this_iter_s: 498.3087980747223
+  time_total_s: 8479.514353275299
+  timestamp: 1675308469
+  timesteps_since_restore: 0
+  train_loss: 0.07204602661932635
+  train_score: 0.6890468001365662
+  training_iteration: 17
+  trial_id: ca382_00000
+  val_loss: 0.10722359725170666
+  val_score: 0.6760677695274353
+  warmup_time: 0.004873752593994141
+  
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-36-14
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 18
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 8984.366200208664
+  time_this_iter_s: 504.85184693336487
+  time_total_s: 8984.366200208664
+  timestamp: 1675308974
+  timesteps_since_restore: 0
+  train_loss: 0.06965803647907372
+  train_score: 0.6904502511024475
+  training_iteration: 18
+  trial_id: ca382_00000
+  val_loss: 0.10620667028521734
+  val_score: 0.6774182915687561
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:36:54 (running for 02:30:40.09)
+Memory usage on this node: 52.3/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |     0.069658 |       0.69045 |   0.106207 |    0.677418 |                   18 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-44-36
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 19
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 9486.659192085266
+  time_this_iter_s: 502.2929918766022
+  time_total_s: 9486.659192085266
+  timestamp: 1675309476
+  timesteps_since_restore: 0
+  train_loss: 0.06945469226168091
+  train_score: 0.6904403567314148
+  training_iteration: 19
+  trial_id: ca382_00000
+  val_loss: 0.10825712955187237
+  val_score: 0.6727224588394165
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:46:57 (running for 02:40:42.74)
+Memory usage on this node: 53.6/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | RUNNING  | 155.185.49.58:192009 |    0.0694547 |       0.69044 |   0.108257 |    0.672722 |                   19 |
++-------------------------+----------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-53-05
+  done: false
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 20
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 9994.804864168167
+  time_this_iter_s: 508.145672082901
+  time_total_s: 9994.804864168167
+  timestamp: 1675309985
+  timesteps_since_restore: 0
+  train_loss: 0.0710119459767457
+  train_score: 0.6904509663581848
+  training_iteration: 20
+  trial_id: ca382_00000
+  val_loss: 0.10770281593477915
+  val_score: 0.6811419725418091
+  warmup_time: 0.004873752593994141
+  
+Result for train_model_ca382_00000:
+  date: 2023-02-02_04-53-05
+  done: true
+  experiment_id: 763709d0003d4b74b4503601cbae6f41
+  experiment_tag: '0'
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 20
+  node_ip: 155.185.49.58
+  pid: 192009
+  time_since_restore: 9994.804864168167
+  time_this_iter_s: 508.145672082901
+  time_total_s: 9994.804864168167
+  timestamp: 1675309985
+  timesteps_since_restore: 0
+  train_loss: 0.0710119459767457
+  train_score: 0.6904509663581848
+  training_iteration: 20
+  trial_id: ca382_00000
+  val_loss: 0.10770281593477915
+  val_score: 0.6811419725418091
+  warmup_time: 0.004873752593994141
+  
+== Status ==
+Current time: 2023-02-02 04:53:05 (running for 02:46:50.47)
+Memory usage on this node: 54.3/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 0/2 GPUs, 0.0/108.88 GiB heap, 0.0/50.65 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/CGNet/train_model_2023-02-02_02-06-14
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+----------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status     | loc                  |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+------------+----------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_ca382_00000 | TERMINATED | 155.185.49.58:192009 |    0.0710119 |      0.690451 |   0.107703 |    0.681142 |                   20 |
++-------------------------+------------+----------------------+--------------+---------------+------------+-------------+----------------------+
+
+

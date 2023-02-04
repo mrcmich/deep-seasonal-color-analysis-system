@@ -1,0 +1,715 @@
+===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+├─FastSCNN: 1-1                               []                        --
+├─FastSCNN: 1                                 []                        --
+|    └─LearningToDownsample: 2-1              []                        --
+|    └─LearningToDownsample: 2                []                        --
+|    |    └─_ConvBNReLU: 3-1                  []                        928
+├─FastSCNN: 1-2                               [8, 11, 256, 256]         --
+├─FastSCNN: 1                                 []                        --
+|    └─LearningToDownsample: 2-2              [8, 64, 32, 32]           --
+|    └─LearningToDownsample: 2                []                        --
+|    |    └─_ConvBNReLU: 3-2                  [8, 32, 127, 127]         --
+|    |    └─_DSConv: 3-3                      [8, 48, 64, 64]           1,984
+|    |    └─_DSConv: 3-4                      [8, 64, 32, 32]           3,728
+|    └─GlobalFeatureExtractor: 2-3            [8, 128, 8, 8]            --
+|    └─GlobalFeatureExtractor: 2              []                        --
+|    |    └─Sequential: 3-5                   [8, 64, 16, 16]           162,816
+|    |    └─Sequential: 3-6                   [8, 96, 8, 8]             303,168
+|    |    └─Sequential: 3-7                   [8, 128, 8, 8]            550,464
+|    |    └─PyramidPooling: 3-8               [8, 128, 8, 8]            49,664
+|    └─FeatureFusionModule: 2-4               [8, 128, 32, 32]          --
+|    └─FeatureFusionModule: 2                 []                        --
+|    |    └─_DWConv: 3-9                      [8, 128, 32, 32]          1,408
+|    |    └─Sequential: 3-10                  [8, 128, 32, 32]          16,768
+|    |    └─Sequential: 3-11                  [8, 128, 32, 32]          8,576
+|    |    └─ReLU: 3-12                        [8, 128, 32, 32]          --
+|    └─Classifer: 2-5                         [8, 11, 32, 32]           --
+|    └─Classifer: 2                           []                        --
+|    |    └─_DSConv: 3-13                     [8, 128, 32, 32]          18,048
+|    |    └─_DSConv: 3-14                     [8, 128, 32, 32]          18,048
+|    |    └─Sequential: 3-15                  [8, 11, 32, 32]           1,419
+|    └─LearningToDownsample: 2                []                        --
+|    |    └─_DSConv: 3-16                     [8, 48, 64, 64]           --
+|    |    └─_DSConv: 3-17                     [8, 64, 32, 32]           --
+|    └─GlobalFeatureExtractor: 2-6            [8, 128, 8, 8]            --
+|    └─GlobalFeatureExtractor: 2              []                        --
+|    |    └─Sequential: 3-18                  [8, 64, 16, 16]           --
+|    |    └─Sequential: 3-19                  [8, 96, 8, 8]             --
+|    |    └─Sequential: 3-20                  [8, 128, 8, 8]            --
+|    |    └─PyramidPooling: 3-21              [8, 128, 8, 8]            --
+|    └─FeatureFusionModule: 2-7               [8, 128, 32, 32]          --
+|    └─FeatureFusionModule: 2                 []                        --
+|    |    └─_DWConv: 3-22                     [8, 128, 32, 32]          --
+|    |    └─Sequential: 3-23                  [8, 128, 32, 32]          --
+|    |    └─Sequential: 3-24                  [8, 128, 32, 32]          --
+|    |    └─ReLU: 3-25                        [8, 128, 32, 32]          --
+|    └─Classifer: 2-8                         [8, 11, 32, 32]           --
+|    └─Classifer: 2                           []                        --
+|    |    └─_DSConv: 3-26                     [8, 128, 32, 32]          --
+|    |    └─_DSConv: 3-27                     [8, 128, 32, 32]          --
+|    |    └─Sequential: 3-28                  [8, 11, 32, 32]           --
+===============================================================================================
+Total params: 1,137,019
+Trainable params: 1,137,019
+Non-trainable params: 0
+Total mult-adds (M): 29.95
+===============================================================================================
+Input size (MB): 12.00
+Forward/backward pass size (MB): 32.69
+Params size (MB): 4.34
+Estimated Total Size (MB): 49.02
+===============================================================================================
+== Status ==
+Current time: 2023-02-04 06:35:57 (running for 00:00:00.65)
+Memory usage on this node: 48.7/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+
+| Trial name              | status   | loc                   |
+|-------------------------+----------+-----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |
++-------------------------+----------+-----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_06-44-15
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 1
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 488.2214586734772
+  time_this_iter_s: 488.2214586734772
+  time_total_s: 488.2214586734772
+  timestamp: 1675489455
+  timesteps_since_restore: 0
+  train_loss: 0.32621241217657043
+  train_score: 0.3718595504760742
+  training_iteration: 1
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 06:46:00 (running for 00:10:03.96)
+Memory usage on this node: 50.0/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |     0.326212 |       0.37186 |                    1 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_06-52-12
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 2
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 965.3678824901581
+  time_this_iter_s: 477.1464238166809
+  time_total_s: 965.3678824901581
+  timestamp: 1675489932
+  timesteps_since_restore: 0
+  train_loss: 0.17623259923550352
+  train_score: 0.48437824845314026
+  training_iteration: 2
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 06:56:02 (running for 00:20:06.40)
+Memory usage on this node: 46.1/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |     0.176233 |      0.484378 |                    2 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-00-13
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 3
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 1446.437608242035
+  time_this_iter_s: 481.06972575187683
+  time_total_s: 1446.437608242035
+  timestamp: 1675490413
+  timesteps_since_restore: 0
+  train_loss: 0.13684404811663092
+  train_score: 0.5377457737922668
+  training_iteration: 3
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:06:04 (running for 00:30:07.85)
+Memory usage on this node: 51.0/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |     0.136844 |      0.537746 |                    3 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-08-07
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 4
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 1920.6868987083435
+  time_this_iter_s: 474.2492904663086
+  time_total_s: 1920.6868987083435
+  timestamp: 1675490887
+  timesteps_since_restore: 0
+  train_loss: 0.11818863459589116
+  train_score: 0.5640814900398254
+  training_iteration: 4
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-16-05
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 5
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 2399.0460996627808
+  time_this_iter_s: 478.35920095443726
+  time_total_s: 2399.0460996627808
+  timestamp: 1675491365
+  timesteps_since_restore: 0
+  train_loss: 0.10437359058150646
+  train_score: 0.583455502986908
+  training_iteration: 5
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:16:05 (running for 00:40:09.48)
+Memory usage on this node: 45.6/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |     0.104374 |      0.583456 |                    5 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-24-02
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 6
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 2875.857974052429
+  time_this_iter_s: 476.81187438964844
+  time_total_s: 2875.857974052429
+  timestamp: 1675491842
+  timesteps_since_restore: 0
+  train_loss: 0.09696376594875859
+  train_score: 0.5971313714981079
+  training_iteration: 6
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:26:07 (running for 00:50:11.47)
+Memory usage on this node: 49.7/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0969638 |      0.597131 |                    6 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-32-02
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 7
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 3355.9738643169403
+  time_this_iter_s: 480.1158902645111
+  time_total_s: 3355.9738643169403
+  timestamp: 1675492322
+  timesteps_since_restore: 0
+  train_loss: 0.0920734634936
+  train_score: 0.605800449848175
+  training_iteration: 7
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:36:08 (running for 01:00:12.12)
+Memory usage on this node: 48.0/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0920735 |        0.6058 |                    7 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-40-03
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 8
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 3836.258702516556
+  time_this_iter_s: 480.2848381996155
+  time_total_s: 3836.258702516556
+  timestamp: 1675492803
+  timesteps_since_restore: 0
+  train_loss: 0.08232437735006772
+  train_score: 0.6198181509971619
+  training_iteration: 8
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:46:09 (running for 01:10:12.88)
+Memory usage on this node: 45.6/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0823244 |      0.619818 |                    8 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-48-02
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 9
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 4316.0336792469025
+  time_this_iter_s: 479.7749767303467
+  time_total_s: 4316.0336792469025
+  timestamp: 1675493282
+  timesteps_since_restore: 0
+  train_loss: 0.07914139488047527
+  train_score: 0.6269071102142334
+  training_iteration: 9
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 07:56:14 (running for 01:20:17.71)
+Memory usage on this node: 36.6/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0791414 |      0.626907 |                    9 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_07-56-29
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 10
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 4822.6715314388275
+  time_this_iter_s: 506.63785219192505
+  time_total_s: 4822.6715314388275
+  timestamp: 1675493789
+  timesteps_since_restore: 0
+  train_loss: 0.07552519792008429
+  train_score: 0.6311888694763184
+  training_iteration: 10
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-05-02
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 11
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 5335.438189744949
+  time_this_iter_s: 512.7666583061218
+  time_total_s: 5335.438189744949
+  timestamp: 1675494302
+  timesteps_since_restore: 0
+  train_loss: 0.07133976651182197
+  train_score: 0.6373940110206604
+  training_iteration: 11
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:06:17 (running for 01:30:21.19)
+Memory usage on this node: 51.8/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0713398 |      0.637394 |                   11 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-13-31
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 12
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 5844.2082595825195
+  time_this_iter_s: 508.7700698375702
+  time_total_s: 5844.2082595825195
+  timestamp: 1675494811
+  timesteps_since_restore: 0
+  train_loss: 0.06800378813997289
+  train_score: 0.643037736415863
+  training_iteration: 12
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:16:21 (running for 01:40:25.31)
+Memory usage on this node: 34.9/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0680038 |      0.643038 |                   12 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-21-57
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 13
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 6351.0033967494965
+  time_this_iter_s: 506.79513716697693
+  time_total_s: 6351.0033967494965
+  timestamp: 1675495317
+  timesteps_since_restore: 0
+  train_loss: 0.06434958229492337
+  train_score: 0.6490604281425476
+  training_iteration: 13
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:26:23 (running for 01:50:27.43)
+Memory usage on this node: 34.2/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0643496 |       0.64906 |                   13 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-30-27
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 14
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 6860.508168697357
+  time_this_iter_s: 509.5047719478607
+  time_total_s: 6860.508168697357
+  timestamp: 1675495827
+  timesteps_since_restore: 0
+  train_loss: 0.06416168601275787
+  train_score: 0.6498746871948242
+  training_iteration: 14
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:36:28 (running for 02:00:32.08)
+Memory usage on this node: 20.8/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0641617 |      0.649875 |                   14 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-38-43
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 15
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 7356.304996967316
+  time_this_iter_s: 495.7968282699585
+  time_total_s: 7356.304996967316
+  timestamp: 1675496323
+  timesteps_since_restore: 0
+  train_loss: 0.06097727341007581
+  train_score: 0.6549392938613892
+  training_iteration: 15
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:46:28 (running for 02:10:32.58)
+Memory usage on this node: 19.9/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0609773 |      0.654939 |                   15 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-46-44
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 16
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 7837.859708309174
+  time_this_iter_s: 481.5547113418579
+  time_total_s: 7837.859708309174
+  timestamp: 1675496804
+  timesteps_since_restore: 0
+  train_loss: 0.05894041867721758
+  train_score: 0.6583191752433777
+  training_iteration: 16
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+Result for train_model_cc202_00000:
+  date: 2023-02-04_08-54-47
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 17
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 8321.172227621078
+  time_this_iter_s: 483.3125193119049
+  time_total_s: 8321.172227621078
+  timestamp: 1675497287
+  timesteps_since_restore: 0
+  train_loss: 0.057865341003655375
+  train_score: 0.6609776020050049
+  training_iteration: 17
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 08:56:33 (running for 02:20:37.10)
+Memory usage on this node: 20.1/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0578653 |      0.660978 |                   17 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_09-02-54
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 18
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 8808.116007089615
+  time_this_iter_s: 486.9437794685364
+  time_total_s: 8808.116007089615
+  timestamp: 1675497774
+  timesteps_since_restore: 0
+  train_loss: 0.05302968996485747
+  train_score: 0.6688565015792847
+  training_iteration: 18
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 09:06:35 (running for 02:30:39.28)
+Memory usage on this node: 20.5/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0530297 |      0.668857 |                   18 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_09-10-59
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 19
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 9292.480728626251
+  time_this_iter_s: 484.36472153663635
+  time_total_s: 9292.480728626251
+  timestamp: 1675498259
+  timesteps_since_restore: 0
+  train_loss: 0.056827449445875124
+  train_score: 0.6634228229522705
+  training_iteration: 19
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 09:16:40 (running for 02:40:43.70)
+Memory usage on this node: 20.5/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 2.0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status   | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+----------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | RUNNING  | 155.185.49.58:2579619 |    0.0568274 |      0.663423 |                   19 |
++-------------------------+----------+-----------------------+--------------+---------------+----------------------+
+
+
+Result for train_model_cc202_00000:
+  date: 2023-02-04_09-19-00
+  done: false
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 20
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 9773.811571359634
+  time_this_iter_s: 481.3308427333832
+  time_total_s: 9773.811571359634
+  timestamp: 1675498740
+  timesteps_since_restore: 0
+  train_loss: 0.0521765811190892
+  train_score: 0.6719014644622803
+  training_iteration: 20
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+Result for train_model_cc202_00000:
+  date: 2023-02-04_09-19-00
+  done: true
+  experiment_id: b5375464834b4001be81b325a93d4d54
+  experiment_tag: '0'
+  hostname: aimagelab-srv-10
+  iterations_since_restore: 20
+  node_ip: 155.185.49.58
+  pid: 2579619
+  time_since_restore: 9773.811571359634
+  time_this_iter_s: 481.3308427333832
+  time_total_s: 9773.811571359634
+  timestamp: 1675498740
+  timesteps_since_restore: 0
+  train_loss: 0.0521765811190892
+  train_score: 0.6719014644622803
+  training_iteration: 20
+  trial_id: cc202_00000
+  warmup_time: 0.006379365921020508
+  
+== Status ==
+Current time: 2023-02-04 09:19:00 (running for 02:43:04.34)
+Memory usage on this node: 20.4/251.6 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/56 CPUs, 0/2 GPUs, 0.0/105.01 GiB heap, 0.0/49.0 GiB objects (0.0/1.0 accelerator_type:P100)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/training_best/FastSCNN/complete/train_model_2023-02-04_06-35-56
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+-----------------------+--------------+---------------+----------------------+
+| Trial name              | status     | loc                   |   train_loss |   train_score |   training_iteration |
+|-------------------------+------------+-----------------------+--------------+---------------+----------------------|
+| train_model_cc202_00000 | TERMINATED | 155.185.49.58:2579619 |    0.0521766 |      0.671901 |                   20 |
++-------------------------+------------+-----------------------+--------------+---------------+----------------------+
+
+

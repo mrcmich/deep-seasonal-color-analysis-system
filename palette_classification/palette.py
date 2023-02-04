@@ -11,9 +11,13 @@ from . import color_processing
 import utils.utils as utils
 import cv2
 
-# Returns a compact string representation of an array by constructing the sequence of its elements.
-# e.g. The array [1,1,0,1] results in string '1101'.
+
 def compact_string_(array):
+    """
+    .. description::
+    Returns a compact string representation of an array by constructing the sequence of its elements.
+    e.g. The array [1,1,0,1] results in string '1101'.
+    """
     string = ''
 
     for element in array:
@@ -21,26 +25,37 @@ def compact_string_(array):
     
     return string
 
-# Computes subtone (S) by comparing lips color with colors peach and purple according to the following rule:
-# if lips_color is closest to peach_color then subtone is 'warm'
-# else if lips_color is closest to purple_color then subtone is 'cold'
-# ---
-# lips_color: pytorch tensor of shape (3, 1, 1).
-def compute_subtone(lips_color): 
+
+def compute_subtone(lips_color):
+    """
+    .. description::
+    Computes subtone (S) by comparing lips color with colors peach and purple according to the following rule:
+    if lips_color is closest to peach_color then subtone is 'warm'
+    else if lips_color is closest to purple_color then subtone is 'cold'
+
+    .. inputs::
+    lips_color:     pytorch tensor of shape (3, 1, 1).
+    """
     assert(lips_color.shape == (3, 1, 1))
 
     peach_color = torch.tensor([255, 230, 182], dtype=torch.uint8).reshape(lips_color.shape)
     purple_color = torch.tensor([145, 0, 255], dtype=torch.uint8).reshape(lips_color.shape)
 
-    if color_processing.color_distance(lips_color, peach_color) < color_processing.color_distance(lips_color, purple_color):
+    if color_processing.color_distance(lips_color, peach_color) < color_processing.color_distance(lips_color,
+                                                                                                  purple_color):
         return 'warm'
     
     return 'cold'
 
-# Computes contrast (C), defined as the brightness difference between hair and eyes.
-# ---
-# hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
-def compute_contrast(hair_color, eyes_color): 
+
+def compute_contrast(hair_color, eyes_color):
+    """
+    .. description::
+    Computes contrast (C), defined as the brightness difference between hair and eyes.
+
+    .. inputs::
+    hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
+    """
     hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
     hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
@@ -48,18 +63,28 @@ def compute_contrast(hair_color, eyes_color):
 
     return abs(hair_color_HSV[0, 0, 2] - eyes_color_HSV[0, 0, 2])
 
-# Computes intensity (I), defined as skin color saturation.
-# ---
-# skin_color: pytorch tensor of shape (3, 1, 1).
-def compute_intensity(skin_color): 
+
+def compute_intensity(skin_color):
+    """
+    .. description::
+    Computes intensity (I), defined as skin color saturation.
+
+    .. inputs::
+    skin_color: pytorch tensor of shape (3, 1, 1).
+    """
     skin_color_np_HWD = utils.from_DHW_to_HWD(skin_color).numpy()
     skin_color_HSV = cv2.cvtColor((skin_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
     return skin_color_HSV[0, 0, 1]
 
-# Computes value (V), defined as the overall brightness of skin, hair and eyes.
-# ---
-# skin_color, hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
-def compute_value(skin_color, hair_color, eyes_color): 
+
+def compute_value(skin_color, hair_color, eyes_color):
+    """
+    .. description::
+    Computes value (V), defined as the overall brightness of skin, hair and eyes.
+
+    .. inputs::
+    skin_color, hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
+    """
     skin_color_np_HWD = utils.from_DHW_to_HWD(skin_color).numpy()
     hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
@@ -69,9 +94,13 @@ def compute_value(skin_color, hair_color, eyes_color):
 
     return (skin_color_HSV[0, 0, 2] + hair_color_HSV[0, 0, 2] + eyes_color_HSV[0, 0, 2]) / 3
 
-# Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
-# between metrics vectors.
+
 def classify_palette(palette, reference_palettes):
+    """
+    .. description::
+    Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
+    between metrics vectors.
+    """
     assert(palette.has_metrics_vector())
 
     min_hamming_distance = -1
@@ -94,10 +123,16 @@ def classify_palette(palette, reference_palettes):
     
     return season
 
-# Class representing a palette of RGB colors, each described by a pytorch tensor of shape (3, 1, 1).
-# ---
-# colors: pytorch tensor of shape (n_colors, 3, 1, 1).
-class PaletteRGB():
+
+class PaletteRGB:
+    """
+    .. description::
+    Class representing a palette of RGB colors, each described by a pytorch tensor of shape (3, 1, 1).
+
+    .. inputs::
+    colors: pytorch tensor of shape (n_colors, 3, 1, 1).
+    """
+
     def __init__(self, description='palette', colors=torch.zeros((1, 3, 1, 1))):
         assert(type(colors) == torch.Tensor)
 
@@ -108,8 +143,11 @@ class PaletteRGB():
     def description(self):
         return self.description_
 
-    # Returns palette colors, represented by a pytorch tensor of shape (3, 1, n_colors).
     def colors(self):
+        """
+        .. description::
+        Returns palette colors, represented by a pytorch tensor of shape (3, 1, n_colors).
+        """
         return self.colors_
 
     def n_colors(self):
@@ -118,19 +156,27 @@ class PaletteRGB():
     def has_metrics_vector(self):
         return self.metrics_vector_ is not None
 
-    # Returns None if the palette has no metrics vector.
     def metrics_vector(self):
+        """
+        .. description::
+        Returns None if the palette has no metrics vector.
+        """
         if self.has_metrics_vector():
             return self.metrics_vector_
 
         return None
 
-    # Returns a binary pytorch tensor obtained by binarizing a specific combination of metrics values. Each metric value 
-    # (except for the subtone) is converted to 1 if above the corresponding threshold or 0 if at or below said threshold.
-    # ---
-    # thresholds: tuple of thresholds given by (contrast_thresh, intensity_thresh, value_thresh).
     def compute_metrics_vector(self, subtone, intensity, value, contrast, thresholds=(0.5, 0.5, 0.5)):
-        sequence = np.zeros((4), dtype=np.uint8)
+        """
+        .. description::
+        Returns a binary pytorch tensor obtained by binarizing a specific combination of metrics values. Each metric
+        value (except for the subtone) is converted to 1 if above the corresponding threshold or 0 if at or below said
+        threshold.
+
+        .. inputs::
+        thresholds:     tuple of thresholds given by (contrast_thresh, intensity_thresh, value_thresh).
+        """
+        sequence = np.zeros(4, dtype=np.uint8)
         contrast_thresh, intensity_thresh, value_thresh = thresholds
 
         sequence[0] = 'warm' == subtone
@@ -140,8 +186,11 @@ class PaletteRGB():
 
         self.metrics_vector_ = torch.from_numpy(sequence)
 
-    # filepath: directory in which to save the palette.
     def save(self, filepath='', delimiter=';'):
+        """
+        .. inputs::
+        filepath:   directory in which to save the palette.
+        """
         header = ''
         filename = filepath + self.description_ + '.csv'
 
@@ -149,14 +198,19 @@ class PaletteRGB():
             header = header + '# metrics vector (SIVC)\n' + compact_string_(self.metrics_vector_) + '\n'
 
         header = header + '# color data\n'
-        np.savetxt(filename, utils.from_DHW_to_HWD(self.colors_).reshape((-1, 3)).numpy(), header=header, fmt='%u', delimiter=delimiter)
-    
-    # header: if True, an header with format:
-    # >> # metrics vector (SIVC)
-    # >> XXXX
-    # >> color data
-    # , with XXXX being the compact string representation of the palette's metrics vector, is present at the beginning of the file.
+        np.savetxt(filename, utils.from_DHW_to_HWD(self.colors_).reshape((-1, 3)).numpy(),
+                   header=header, fmt='%u', delimiter=delimiter)
+
     def load(self, filename, header=False, delimiter=';'):
+        """
+        .. description::
+        header: if True, an header with format:
+        >> # metrics vector (SIVC)
+        >> XXXX
+        >> color data
+        with XXXX being the compact string representation of the palette's metrics vector, is present at the beginning
+        of the file.
+        """
         self.description_ = (str(filename).split('/')[-1]).split('.')[0]
 
         if header is True:
@@ -167,12 +221,16 @@ class PaletteRGB():
             self.metrics_vector_ = torch.from_numpy(np.array(header_data, dtype=np.uint8))
             file.close()
 
-        self.colors_ = torch.from_numpy(np.loadtxt(fname=filename, dtype=np.uint8, skiprows=int(header) * 3, delimiter=delimiter).reshape((1, -1, 3)))
+        self.colors_ = torch.from_numpy(np.loadtxt(fname=filename, dtype=np.uint8, skiprows=int(header) * 3,
+                                                   delimiter=delimiter).reshape((1, -1, 3)))
         self.colors_ = utils.from_HWD_to_DHW(self.colors_)
         return self
-    
-    # tile_size: size of each color tile (in inches).
+
     def plot(self, tile_size=5):
+        """
+        .. inputs::
+        tile_size:  size of each color tile (in inches).
+        """
         plt.figure(figsize=(tile_size, tile_size * self.n_colors()))
         plt.xticks([])
         plt.yticks([])

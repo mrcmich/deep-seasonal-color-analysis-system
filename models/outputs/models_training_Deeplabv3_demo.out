@@ -1,0 +1,796 @@
+==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+├─IntermediateLayerGetter: 1-1           [32, 2048, 32, 32]        --
+|    └─Conv2d: 2-1                       [32, 64, 128, 128]        9,408
+|    └─BatchNorm2d: 2-2                  [32, 64, 128, 128]        128
+|    └─ReLU: 2-3                         [32, 64, 128, 128]        --
+|    └─MaxPool2d: 2-4                    [32, 64, 64, 64]          --
+|    └─Sequential: 2-5                   [32, 256, 64, 64]         --
+|    |    └─Bottleneck: 3-1              [32, 256, 64, 64]         75,008
+|    |    └─Bottleneck: 3-2              [32, 256, 64, 64]         70,400
+|    |    └─Bottleneck: 3-3              [32, 256, 64, 64]         70,400
+|    └─Sequential: 2-6                   [32, 512, 32, 32]         --
+|    |    └─Bottleneck: 3-4              [32, 512, 32, 32]         379,392
+|    |    └─Bottleneck: 3-5              [32, 512, 32, 32]         280,064
+|    |    └─Bottleneck: 3-6              [32, 512, 32, 32]         280,064
+|    |    └─Bottleneck: 3-7              [32, 512, 32, 32]         280,064
+|    └─Sequential: 2-7                   [32, 1024, 32, 32]        --
+|    |    └─Bottleneck: 3-8              [32, 1024, 32, 32]        1,512,448
+|    |    └─Bottleneck: 3-9              [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-10             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-11             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-12             [32, 1024, 32, 32]        1,117,184
+|    |    └─Bottleneck: 3-13             [32, 1024, 32, 32]        1,117,184
+|    └─Sequential: 2-8                   [32, 2048, 32, 32]        --
+|    |    └─Bottleneck: 3-14             [32, 2048, 32, 32]        6,039,552
+|    |    └─Bottleneck: 3-15             [32, 2048, 32, 32]        4,462,592
+|    |    └─Bottleneck: 3-16             [32, 2048, 32, 32]        4,462,592
+├─DeepLabHead: 1-2                       [32, 11, 32, 32]          --
+|    └─ASPP: 2-9                         [32, 256, 32, 32]         --
+|    |    └─Sequential: 3-17             [32, 256, 32, 32]         328,192
+|    └─Conv2d: 2-10                      [32, 256, 32, 32]         589,824
+|    └─BatchNorm2d: 2-11                 [32, 256, 32, 32]         512
+|    └─ReLU: 2-12                        [32, 256, 32, 32]         --
+|    └─Conv2d: 2-13                      [32, 11, 32, 32]          2,827
+==========================================================================================
+Total params: 24,429,387
+Trainable params: 24,429,387
+Non-trainable params: 0
+Total mult-adds (G): 23.09
+==========================================================================================
+Input size (MB): 24.00
+Forward/backward pass size (MB): 14018.75
+Params size (MB): 93.19
+Estimated Total Size (MB): 14135.94
+==========================================================================================
+== Status ==
+Current time: 2023-02-03 01:34:33 (running for 00:00:06.39)
+Memory usage on this node: 5.8/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+
+| Trial name              | status   | loc                    |
+|-------------------------+----------+------------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |
++-------------------------+----------+------------------------+
+
+
+== Status ==
+Current time: 2023-02-03 01:44:38 (running for 00:10:11.00)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+
+| Trial name              | status   | loc                    |
+|-------------------------+----------+------------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |
++-------------------------+----------+------------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_01-46-54
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 1
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 733.6455976963043
+  time_this_iter_s: 733.6455976963043
+  time_total_s: 733.6455976963043
+  timestamp: 1675385214
+  timesteps_since_restore: 0
+  train_loss: 0.6794010785400358
+  train_score: 0.3374478816986084
+  training_iteration: 1
+  trial_id: 83c54_00000
+  val_loss: 0.6048539309274583
+  val_score: 0.31796860694885254
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 01:54:40 (running for 00:20:13.02)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.679401 |      0.337448 |   0.604854 |    0.317969 |                    1 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_01-57-01
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 2
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 1340.5533940792084
+  time_this_iter_s: 606.907796382904
+  time_total_s: 1340.5533940792084
+  timestamp: 1675385821
+  timesteps_since_restore: 0
+  train_loss: 0.4256995295697128
+  train_score: 0.36277496814727783
+  training_iteration: 2
+  trial_id: 83c54_00000
+  val_loss: 0.4355534116427104
+  val_score: 0.38720181584358215
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:04:42 (running for 00:30:15.13)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |       0.4257 |      0.362775 |   0.435553 |    0.387202 |                    2 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-07-05
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 3
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 1945.0303845405579
+  time_this_iter_s: 604.4769904613495
+  time_total_s: 1945.0303845405579
+  timestamp: 1675386425
+  timesteps_since_restore: 0
+  train_loss: 0.2710132021085489
+  train_score: 0.46342167258262634
+  training_iteration: 3
+  trial_id: 83c54_00000
+  val_loss: 0.2661620534601666
+  val_score: 0.4995880126953125
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:14:47 (running for 00:40:19.79)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.271013 |      0.463422 |   0.266162 |    0.499588 |                    3 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-17-08
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 4
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 2547.633010864258
+  time_this_iter_s: 602.6026263237
+  time_total_s: 2547.633010864258
+  timestamp: 1675387028
+  timesteps_since_restore: 0
+  train_loss: 0.20287883260481038
+  train_score: 0.5384494066238403
+  training_iteration: 4
+  trial_id: 83c54_00000
+  val_loss: 0.17921149896250832
+  val_score: 0.5832813382148743
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:24:50 (running for 00:50:22.87)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.202879 |      0.538449 |   0.179211 |    0.583281 |                    4 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-27-11
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 5
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 3150.5639369487762
+  time_this_iter_s: 602.9309260845184
+  time_total_s: 3150.5639369487762
+  timestamp: 1675387631
+  timesteps_since_restore: 0
+  train_loss: 0.1591752903838443
+  train_score: 0.5859308242797852
+  training_iteration: 5
+  trial_id: 83c54_00000
+  val_loss: 0.16399737412021273
+  val_score: 0.5918135046958923
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:34:52 (running for 01:00:25.38)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.159175 |      0.585931 |   0.163997 |    0.591814 |                    5 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-37-10
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 6
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 3749.43546128273
+  time_this_iter_s: 598.8715243339539
+  time_total_s: 3749.43546128273
+  timestamp: 1675388230
+  timesteps_since_restore: 0
+  train_loss: 0.1343980468703471
+  train_score: 0.615707278251648
+  training_iteration: 6
+  trial_id: 83c54_00000
+  val_loss: 0.15561431882873414
+  val_score: 0.6286947727203369
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:44:57 (running for 01:10:29.70)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.134398 |      0.615707 |   0.155614 |    0.628695 |                    6 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-47-11
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 7
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 4351.146280527115
+  time_this_iter_s: 601.7108192443848
+  time_total_s: 4351.146280527115
+  timestamp: 1675388831
+  timesteps_since_restore: 0
+  train_loss: 0.12238074357268477
+  train_score: 0.633579671382904
+  training_iteration: 7
+  trial_id: 83c54_00000
+  val_loss: 0.11827787792398817
+  val_score: 0.6477435827255249
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 02:54:58 (running for 01:20:30.91)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.122381 |       0.63358 |   0.118278 |    0.647744 |                    7 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_02-57-13
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 8
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 4953.134724617004
+  time_this_iter_s: 601.9884440898895
+  time_total_s: 4953.134724617004
+  timestamp: 1675389433
+  timesteps_since_restore: 0
+  train_loss: 0.11361150077392912
+  train_score: 0.6455605030059814
+  training_iteration: 8
+  trial_id: 83c54_00000
+  val_loss: 0.5814288586141572
+  val_score: 0.6164249181747437
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:05:00 (running for 01:30:32.82)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.113612 |      0.645561 |   0.581429 |    0.616425 |                    8 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-07-31
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 9
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 5570.64617228508
+  time_this_iter_s: 617.5114476680756
+  time_total_s: 5570.64617228508
+  timestamp: 1675390051
+  timesteps_since_restore: 0
+  train_loss: 0.10187231315209655
+  train_score: 0.6593763828277588
+  training_iteration: 9
+  trial_id: 83c54_00000
+  val_loss: 0.1198408008804397
+  val_score: 0.6665775179862976
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:15:04 (running for 01:40:36.83)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |     0.101872 |      0.659376 |   0.119841 |    0.666578 |                    9 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-17-31
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 10
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 6171.010859489441
+  time_this_iter_s: 600.364687204361
+  time_total_s: 6171.010859489441
+  timestamp: 1675390651
+  timesteps_since_restore: 0
+  train_loss: 0.09136652329835797
+  train_score: 0.6735649108886719
+  training_iteration: 10
+  trial_id: 83c54_00000
+  val_loss: 0.10936247173046308
+  val_score: 0.6801480650901794
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:25:05 (running for 01:50:37.98)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0913665 |      0.673565 |   0.109362 |    0.680148 |                   10 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-27-38
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 11
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 6777.92221736908
+  time_this_iter_s: 606.9113578796387
+  time_total_s: 6777.92221736908
+  timestamp: 1675391258
+  timesteps_since_restore: 0
+  train_loss: 0.08807334578741989
+  train_score: 0.6769323348999023
+  training_iteration: 11
+  trial_id: 83c54_00000
+  val_loss: 0.10720947402573767
+  val_score: 0.685032308101654
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:35:12 (running for 02:00:44.78)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0880733 |      0.676932 |   0.107209 |    0.685032 |                   11 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-37-50
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 12
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 7390.076099872589
+  time_this_iter_s: 612.1538825035095
+  time_total_s: 7390.076099872589
+  timestamp: 1675391870
+  timesteps_since_restore: 0
+  train_loss: 0.07741661666974722
+  train_score: 0.690089762210846
+  training_iteration: 12
+  trial_id: 83c54_00000
+  val_loss: 0.10077178419109374
+  val_score: 0.6964050531387329
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:45:16 (running for 02:10:49.33)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0774166 |       0.69009 |   0.100772 |    0.696405 |                   12 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-47-58
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 13
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 7997.244706869125
+  time_this_iter_s: 607.1686069965363
+  time_total_s: 7997.244706869125
+  timestamp: 1675392478
+  timesteps_since_restore: 0
+  train_loss: 0.07389594763092845
+  train_score: 0.6957393288612366
+  training_iteration: 13
+  trial_id: 83c54_00000
+  val_loss: 0.13725545996474842
+  val_score: 0.6746361255645752
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 03:55:19 (running for 02:20:52.48)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0738959 |      0.695739 |   0.137255 |    0.674636 |                   13 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_03-58-13
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 14
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 8612.612224817276
+  time_this_iter_s: 615.3675179481506
+  time_total_s: 8612.612224817276
+  timestamp: 1675393093
+  timesteps_since_restore: 0
+  train_loss: 0.07057845946985093
+  train_score: 0.6986895799636841
+  training_iteration: 14
+  trial_id: 83c54_00000
+  val_loss: 0.09965564813169223
+  val_score: 0.6983726024627686
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:05:20 (running for 02:30:53.04)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0705785 |       0.69869 |  0.0996556 |    0.698373 |                   14 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-08-26
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 15
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 9225.648841142654
+  time_this_iter_s: 613.0366163253784
+  time_total_s: 9225.648841142654
+  timestamp: 1675393706
+  timesteps_since_restore: 0
+  train_loss: 0.06421781345098107
+  train_score: 0.7056573033332825
+  training_iteration: 15
+  trial_id: 83c54_00000
+  val_loss: 0.12527094408869743
+  val_score: 0.6725430488586426
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:15:22 (running for 02:40:55.60)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0642178 |      0.705657 |   0.125271 |    0.672543 |                   15 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-18-43
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 16
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 9842.231243610382
+  time_this_iter_s: 616.5824024677277
+  time_total_s: 9842.231243610382
+  timestamp: 1675394323
+  timesteps_since_restore: 0
+  train_loss: 0.06014108935376348
+  train_score: 0.7108490467071533
+  training_iteration: 16
+  trial_id: 83c54_00000
+  val_loss: 0.11496964014238781
+  val_score: 0.6891077756881714
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:25:24 (running for 02:50:57.07)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0601411 |      0.710849 |    0.11497 |    0.689108 |                   16 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-28-48
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 17
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 10447.459967374802
+  time_this_iter_s: 605.2287237644196
+  time_total_s: 10447.459967374802
+  timestamp: 1675394928
+  timesteps_since_restore: 0
+  train_loss: 0.05731558755167529
+  train_score: 0.7142925262451172
+  training_iteration: 17
+  trial_id: 83c54_00000
+  val_loss: 0.10698740364658454
+  val_score: 0.708787202835083
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:35:29 (running for 03:01:01.89)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0573156 |      0.714293 |   0.106987 |    0.708787 |                   17 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-38-47
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 18
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 11046.550574541092
+  time_this_iter_s: 599.0906071662903
+  time_total_s: 11046.550574541092
+  timestamp: 1675395527
+  timesteps_since_restore: 0
+  train_loss: 0.04913067073691265
+  train_score: 0.725752592086792
+  training_iteration: 18
+  trial_id: 83c54_00000
+  val_loss: 0.11469309410405537
+  val_score: 0.6921004056930542
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:45:33 (running for 03:11:06.02)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0491307 |      0.725753 |   0.114693 |      0.6921 |                   18 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-48-50
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 19
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 11649.925708770752
+  time_this_iter_s: 603.37513422966
+  time_total_s: 11649.925708770752
+  timestamp: 1675396130
+  timesteps_since_restore: 0
+  train_loss: 0.06056874243282524
+  train_score: 0.7118802666664124
+  training_iteration: 19
+  trial_id: 83c54_00000
+  val_loss: 0.12022587852109046
+  val_score: 0.7096767425537109
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:55:37 (running for 03:21:09.80)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 2.0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 RUNNING)
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status   | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | RUNNING  | 155.185.48.166:3021713 |    0.0605687 |       0.71188 |   0.120226 |    0.709677 |                   19 |
++-------------------------+----------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-58-49
+  done: false
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  hostname: lurcanio
+  iterations_since_restore: 20
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 12249.089715003967
+  time_this_iter_s: 599.1640062332153
+  time_total_s: 12249.089715003967
+  timestamp: 1675396729
+  timesteps_since_restore: 0
+  train_loss: 0.045726700709798396
+  train_score: 0.730302095413208
+  training_iteration: 20
+  trial_id: 83c54_00000
+  val_loss: 0.1040848736606893
+  val_score: 0.7267151474952698
+  warmup_time: 0.0038797855377197266
+  
+Result for train_model_83c54_00000:
+  date: 2023-02-03_04-58-49
+  done: true
+  experiment_id: 6ff58be2bb86429fa4b893adfe7965ab
+  experiment_tag: '0'
+  hostname: lurcanio
+  iterations_since_restore: 20
+  node_ip: 155.185.48.166
+  pid: 3021713
+  time_since_restore: 12249.089715003967
+  time_this_iter_s: 599.1640062332153
+  time_total_s: 12249.089715003967
+  timestamp: 1675396729
+  timesteps_since_restore: 0
+  train_loss: 0.045726700709798396
+  train_score: 0.730302095413208
+  training_iteration: 20
+  trial_id: 83c54_00000
+  val_loss: 0.1040848736606893
+  val_score: 0.7267151474952698
+  warmup_time: 0.0038797855377197266
+  
+== Status ==
+Current time: 2023-02-03 04:58:50 (running for 03:24:22.85)
+Memory usage on this node: 8.9/62.5 GiB 
+Using FIFO scheduling algorithm.
+Resources requested: 0/12 CPUs, 0/2 GPUs, 0.0/28.61 GiB heap, 0.0/14.3 GiB objects (0.0/1.0 accelerator_type:G)
+Result logdir: /homes/fbaraldi/deep-seasonal-color-analysis-system/models/demo/Deeplabv3/train_model_2023-02-03_01-34-27
+Number of trials: 1/1 (1 TERMINATED)
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+| Trial name              | status     | loc                    |   train_loss |   train_score |   val_loss |   val_score |   training_iteration |
+|-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------|
+| train_model_83c54_00000 | TERMINATED | 155.185.48.166:3021713 |    0.0457267 |      0.730302 |   0.104085 |    0.726715 |                   20 |
++-------------------------+------------+------------------------+--------------+---------------+------------+-------------+----------------------+
+
+
