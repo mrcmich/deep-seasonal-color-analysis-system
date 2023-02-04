@@ -8,8 +8,12 @@ import cv2
 import torch
 import utils.utils as utils
 
-# Converts two images (torch.Tensor instances) of shape (D, H, W) in CIELab and then computes the RMSE between them.
+
 def rmse(img1, img2):
+    """
+    .. description::
+    Converts two images (torch.Tensor instances) of shape (D, H, W) in CIELab and then computes the RMSE between them.
+    """
     assert(img1.shape == img2.shape)
 
     _, H, W = img1.shape
@@ -20,30 +24,41 @@ def rmse(img1, img2):
 
     return (((img1_CIELab - img2_CIELab) ** 2).sum() / (H * W)) ** 0.5
 
-# Returns a pytorch tensor containing the average mIoU along a batch of images, or
-# the weighted average if a pytorch tensor of weights is provided.
-# ---
-# predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
-# weights: pytorch tensor of shape (n_labels,).
+
 def batch_mIoU(predictions, targets, weights=None):
+    """
+    .. description::
+    Returns a pytorch tensor containing the average mIoU along a batch of images, or
+    the weighted average if a pytorch tensor of weights is provided.
+
+    .. inputs::
+    predictions:    pytorch tensor of shape (batch_size, n_labels, H, W).
+    targets:        pytorch tensor of shape (batch_size, n_labels, H, W).
+    weights:        pytorch tensor of shape (n_labels,).
+    """
     assert(weights is None or (type(weights) == torch.Tensor and weights.shape == (targets.shape[1],)))
 
     iou = batch_IoU(predictions, targets)
 
     if weights is None:
         return iou.mean()
-    
+
     return utils.tensor_weighted_average(iou, weights)
 
-# Returns a pytorch tensor of shape (n_labels,) containing the IoU for each
-# label along a batch of images.
-# ---
-# predictions, targets: pytorch tensors of shape (batch_size, n_labels, H, W).
+
 def batch_IoU(predictions, targets, _=None):
-    intersection_cardinality = torch.logical_and(predictions, targets).sum(axis=(2, 3)) 
-    union_cardinality = torch.logical_or(predictions, targets).sum(axis=(2, 3)) 
+    """
+    .. description::
+    Returns a pytorch tensor of shape (n_labels,) containing the IoU for each label along a batch of images.
+
+    .. inputs::
+    predictions:    pytorch tensor of shape (batch_size, n_labels, H, W).
+    targets:        pytorch tensor of shape (batch_size, n_labels, H, W).
+    """
+    intersection_cardinality = torch.logical_and(predictions, targets).sum(dim=(2, 3))
+    union_cardinality = torch.logical_or(predictions, targets).sum(dim=(2, 3))
     IoU = intersection_cardinality / union_cardinality
-    
+
     # if there aren't pixels of a certain class in an image, and the model correctly predicts so, 
     # than the IoU should be 1 for that class
     IoU[union_cardinality == 0] = 1.0

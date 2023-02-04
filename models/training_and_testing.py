@@ -16,7 +16,7 @@ def training_or_testing_epoch_(device, model, data_loader, score_fn, loss_fn=Non
     A single epoch of training of model on data_loader. If training is set to False, validation/testing is carried out
     instead, leaving the model's parameters unchanged. In this case, optimizer and loss_fn aren't necessary.
 
-    ..inputs::
+    .. inputs::
     device:         device on which to load data ('cpu' for cpu).
     score_fn:       function to evaluate a batch of predictions against the corresponding batch of targets.
 
@@ -64,7 +64,7 @@ def train_model(config, device, model, dataset, n_epochs, score_fn, loss_fn, opt
     Function for performing either hpo or training of model on dataset. If evaluate is set to True, the dataset is split
     85/15 into a training set and a validation set, otherwise the entire dataset is used.
 
-    ..inputs::
+    .. inputs::
     config:             dict with hyperparameters
     device:             device on which to load data and model ('cpu' for cpu).
     dataset:            instance of class extending torch.utils.data.Dataset.
@@ -157,13 +157,13 @@ def test_model(device, model, dataset, batch_size, score_fn, num_workers=0):
     .. description::
     Function for testing model on dataset.
 
-    ..inputs::
+    .. inputs::
     device:         device on which to load data and model ('cpu' for cpu).
     dataset:        instance of class extending torch.utils.data.Dataset.
     score_fn:       function to evaluate a batch of predictions against the corresponding batch of targets.
     num_workers:    number of workers to use when loading test data.
 
-    ..outputs::
+    .. outputs::
     Returns the average score along dataset's batches.
     """
     dl_test = DataLoader(dataset, batch_size=batch_size, num_workers=num_workers)
@@ -188,14 +188,14 @@ def plot_training_results(results_dict, plotsize, filepath=None, train_fmt='g', 
     .. description::
     Plots training results, as returned from function train_model.
 
-    ..inputs::
+    .. inputs::
     results_dict:           dictionary with keys average_train_loss, average_val_loss, average_train_score,
                             average_val_score, each identifying a python list of losses/scores.
     plotsize:               tuple representing the size (in inches) of the figure containing results_dict's plots.
     train_fmt:              format string for plots of training metrics.
     val_fmt:                format string for plots of validation metrics.
 
-    ..outputs::
+    .. outputs::
     Returns the average score along dataset's batches.
     """
 
@@ -243,7 +243,7 @@ def print_IoU_report(batch_IoU, class_weights=None):
     prints a report of the IoU of each class and the computed mIoU. If class_weights is passed, the function
     also computes the weighted mIoU.
 
-    ..inputs::
+    .. inputs::
     class_weights: optional pytorch tensor of shape (n_classes,) for the computation of the weighted mIoU.
     """
     label_names = list(segmentation_labels.labels.keys())

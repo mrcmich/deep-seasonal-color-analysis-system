@@ -12,9 +12,13 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 
-# Converts two RGB colors, represented by pytorch tensors of shape (3, 1, 1), in CIELab and then computes
-# the euclidean distance between them.
+
 def color_distance(color1_RGB, color2_RGB):
+    """
+    .. description::
+    Converts two RGB colors, represented by pytorch tensors of shape (3, 1, 1), in CIELab and then computes
+    the euclidean distance between them.
+    """
     assert(color1_RGB.shape == (3, 1, 1) and color2_RGB.shape == (3, 1, 1))
     
     color1_RGB_np_HWD = utils.from_DHW_to_HWD(color1_RGB).numpy()
@@ -23,23 +27,35 @@ def color_distance(color1_RGB, color2_RGB):
     color2_CIELab = cv2.cvtColor(color2_RGB_np_HWD, cv2.COLOR_RGB2Lab)
     return np.linalg.norm(color1_CIELab - color2_CIELab)
     
-# Returns a boolean pytorch tensor of shape (H, W), where each pixel (x, y) is True if img[x, y, :] is equal to color_triplet.
-# ---
-# img: pytorch tensor of shape (3, H, W).
-# color_triplet: python list representing a color.
+
 def color_mask(img, color_triplet=[0, 0, 0]):
+    """
+    .. description::
+    Returns a boolean pytorch tensor of shape (H, W), where each pixel (x, y) is True if img[x, y, :] is equal
+    to color_triplet.
+
+    .. inputs::
+    img:                pytorch tensor of shape (3, H, W).
+    color_triplet:      python list representing a color.
+    """
     assert(img.shape[0] == 3 and len(color_triplet) == 3)
 
     ch0, ch1, ch2 = color_triplet
     mask = (img[0] == ch0) * (img[1] == ch1) * (img[2] == ch2)
     return mask
 
-# Given a segmented image (torch.Tensor instance) of shape (3, H, W) and a dictionary of labels, each corresponding to a 
-# different region of an image, returns a pytorch tensor of shape (n_labels, H, W) containing n_labels segmentation masks, 
-# where each one is a boolean pytorch tensor of shape (H, W) identifying pixels which belong to the corresponding label.
-# ---
-# labels: dictionary of labels { label_name (string): color_triplet (list) }.
+
 def compute_segmentation_masks(img_segmented, labels):
+    """
+    .. description::
+    Given a segmented image (torch.Tensor instance) of shape (3, H, W) and a dictionary of labels, each corresponding
+    to a different region of an image, returns a pytorch tensor of shape (n_labels, H, W) containing n_labels
+    segmentation masks, where each one is a boolean pytorch tensor of shape (H, W) identifying pixels which belong to
+    the corresponding label.
+
+    .. inputs::
+    labels: dictionary of labels { label_name (string): color_triplet (list) }.
+    """
     n_labels = len(labels)
     _, H, W = img_segmented.shape
     masks = torch.zeros((n_labels, H, W), dtype=torch.bool)
@@ -50,12 +66,17 @@ def compute_segmentation_masks(img_segmented, labels):
 
     return masks
 
-# Given a boolean pytorch tensor of shape (n_labels, H, W) containing n_labels segmentation masks
-# and a dictionary of labels, returns a RGB image (as a pytorch tensor of shape (3, H, W)) obtained by 
-# assigning a color from labels to each mask.
-# ---
-# labels: dictionary of labels { label_name (string): color_triplet (list) }.
+
 def colorize_segmentation_masks(segmentation_masks, labels):
+    """
+    .. description::
+    Given a boolean pytorch tensor of shape (n_labels, H, W) containing n_labels segmentation masks
+    and a dictionary of labels, returns a RGB image (as a pytorch tensor of shape (3, H, W)) obtained by
+    assigning a color from labels to each mask.
+
+    .. inputs::
+    labels: dictionary of labels { label_name (string): color_triplet (list) }.
+    """
     assert(segmentation_masks.shape[0] == len(labels))
 
     n_labels = segmentation_masks.shape[0]
@@ -63,22 +84,31 @@ def colorize_segmentation_masks(segmentation_masks, labels):
     img_colorized = segmentation_masks.unsqueeze(axis=1) * color_tensor.unsqueeze(axis=2).unsqueeze(axis=3)
     return img_colorized.sum(axis=0).to(torch.uint8)
 
-# Given an image of shape (3, H, W) and a set of masks represented by a boolean pytorch tensor of shape (n_masks, H, W), applies 
-# all masks to the image, resulting in a new image with shape (n_masks, 3, H, W).
-# ---
+
 def apply_masks(img, masks):
+    """
+    .. description::
+    Given an image of shape (3, H, W) and a set of masks represented by a boolean pytorch tensor of shape
+    (n_masks, H, W), applies all masks to the image, resulting in a new image with shape (n_masks, 3, H, W).
+    """
     assert(img.shape[1] == masks.shape[1] and img.shape[2] == masks.shape[2])
 
     img_masked = img * masks.unsqueeze(axis=1)
     return img_masked.to(torch.uint8)
 
-# Given a masked image of shape (n_masks, 3, H, W) and a distance function computing a distance measure between two images, 
-# returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask. When comparing candidates,
-# brighter colors are favored for skin, hair, lips dominants and darker colors are favored for the eyes dominant (this is done by appropriately)
-# weighting the provided distance measure).
-# ---
-# n_candidates: tuple of length n_masks specifying how many candidates to consider for each mask when looking for a dominant.
+
 def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
+    """
+    .. description::
+    Given a masked image of shape (n_masks, 3, H, W) and a distance function computing a distance measure between two
+    images, returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask.
+    When comparing candidates, brighter colors are favored for skin, hair, lips dominants and darker colors are favored
+    for the eyes dominant (this is done by appropriately) weighting the provided distance measure).
+
+    .. inputs::
+    n_candidates:   tuple of length n_masks specifying how many candidates to consider for each mask when looking for a
+                    dominant.
+    """
     assert(img_masked.shape[0] >= 4 and img_masked.shape[0] == len(n_candidates))
 
     IMG_MASKED_EYES_IDX = 3
@@ -105,7 +135,8 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
                 continue
             
             average_brightness_j = cv2.cvtColor(
-                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].mean()
+                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32),
+                cv2.COLOR_RGB2HSV)[:, :, 2].mean()
             reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
 
             if i == IMG_MASKED_EYES_IDX:
