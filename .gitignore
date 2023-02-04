@@ -12,3 +12,4 @@ venv/
 models/demo/Deeplabv3/checkpoint.pt
 models/weights/deeplabv3_ccncsa_demo.pth
 test.py
+rename_plots.sh
