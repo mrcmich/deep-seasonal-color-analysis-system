@@ -73,6 +73,7 @@ def parse_training_or_hpo_arguments():
 
 def parse_retrieval_arguments(train=True):
     parser = argparse.ArgumentParser()
+    parser.add_argument("--clip_model", default='ViT-B-32', choices=list(model_names.CLIP_MODELS_PRETRAINED.keys()), type=str)
     parser.add_argument("--category", default='all', choices=["all", "dresses", "upper_body", "lower_body"], type=str)
     parser.add_argument("--dataroot", type=str, default=config.DRESSCODE_PATH_ON_LAB_SERVER)
     parser.add_argument("--phase", default="test", choices=["train", "test"], type=str)

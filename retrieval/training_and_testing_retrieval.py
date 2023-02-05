@@ -31,9 +31,8 @@ def test_retrieval_model(device, model, tokenizer, dataset, batch_size, num_work
             image_features /= image_features.norm(dim=-1, keepdim=True)
             text_features /= text_features.norm(dim=-1, keepdim=True)
 
-            # text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-            text_probs = (100.0 * text_features @ image_features.T).softmax(dim=-1)
-            predictions = torch.argmax(text_probs, dim=0)
+            text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+            predictions = torch.argmax(text_probs, dim=1)
             accuracy += torch.sum(predictions.cpu() == label_idx).item()
     
     clock_end = time.time()

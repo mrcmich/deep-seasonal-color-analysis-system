@@ -1,14 +1,14 @@
 import torch
 import open_clip
 from models.dataset import DressCodeDataset
-from utils import utils
+from utils import utils, model_names
 from retrieval import training_and_testing_retrieval
 
 
 def main_worker(args):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    clip_model = "ViT-g-14"
-    pretrained = "laion2b_s12b_b42k"
+    clip_model = args.clip_model
+    pretrained = model_names.CLIP_MODELS_PRETRAINED[clip_model]
     model, _, preprocess = open_clip.create_model_and_transforms(clip_model, pretrained=pretrained)
     tokenizer = open_clip.get_tokenizer(clip_model)
     model = model.to(device)
