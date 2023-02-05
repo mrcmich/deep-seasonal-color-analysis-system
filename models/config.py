@@ -2,6 +2,7 @@ import os
 
 ROOT_DIR = os.getcwd() + "/"
 DATASET_PATH = ROOT_DIR + 'headsegmentation_dataset_ccncsa/'
+DRESSCODE_PATH_ON_LAB_SERVER = '/work/CucchiaraYOOX2019/students/DressCode/'
 WEIGHTS_PATH = 'models/weights/'
 PLOTS_PATH = 'models/plots/'
 DEMO_PATH = 'models/demo/'

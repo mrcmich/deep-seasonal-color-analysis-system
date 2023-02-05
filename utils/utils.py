@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from palette_classification import color_processing
 from utils import segmentation_labels, model_names
 from slurm_scripts import slurm_config
+from models import config
 
 
 def tensor_weighted_average(tensor, weights):
@@ -67,6 +68,22 @@ def parse_training_or_hpo_arguments():
     if args.model_name not in slurm_config.configurations[args.config]:
         parser.error(f'Model {args.model_name} not available for configuration {args.config}.')
 
+    return args
+
+
+def parse_retrieval_arguments(train=True):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--category", default='all', choices=["all", "dresses", "upper_body", "lower_body"], type=str)
+    parser.add_argument("--dataroot", type=str, default=config.DRESSCODE_PATH_ON_LAB_SERVER)
+    parser.add_argument("--phase", default="test", choices=["train", "test"], type=str)
+    parser.add_argument("--order", default="unpaired", choices=["paired", "unpaired"], type=str)
+
+    parser.add_argument('--batch_size', type=int, default=8)
+    parser.add_argument('--workers', type=int, default=0)
+
+    parser.add_argument("--n_epochs", type=int, default=5)
+    parser.add_argument("--shuffle", default=True, action='store_true', help='shuffle input data')
+    args = parser.parse_args()
     return args
 
 
