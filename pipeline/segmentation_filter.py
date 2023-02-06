@@ -25,6 +25,11 @@ class SegmentationFilter(AbstractFilter):
     """
     
     def __init__(self, model):
+        """
+        .. description::
+        Constructor method.
+        """
+
         assert(model in ['local', 'cloud'])
 
         n_classes = len(segmentation_labels.labels)

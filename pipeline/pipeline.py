@@ -13,6 +13,7 @@ class Pipeline(AbstractPipeline):
         .. description:: 
         Class constructor.
         """
+        
         self.filters = []
 
     def filters(self):
