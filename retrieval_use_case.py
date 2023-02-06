@@ -17,9 +17,14 @@ def main_worker(args):
                                phase=args.phase,
                                order=args.order)
     
-    print(f"Testing clip model {clip_model} on the test set of DressCode Dataset...")
-    accuracy = training_and_testing_retrieval.test_retrieval_model(device, model, tokenizer, dataset, args.batch_size)
-    print(f"Accuracy = {(100 * accuracy):.2f}%")
+    query = args.query
+    images_path = "retrieval/retrieved_images/"
+    k = 5
+    
+    print(f"Retrieving clothes of type '{query}' from DressCode Dataset...")
+    training_and_testing_retrieval.retrieve_clothes(device=device, model=model, tokenizer=tokenizer, query=query, k=k,
+                                                    dataset=dataset, batch_size=args.batch_size, images_path=images_path)
+    print(f"The retrieved clothes have been saved in {images_path}")
 
 
 if __name__ == '__main__':

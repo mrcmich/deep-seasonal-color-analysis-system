@@ -136,6 +136,7 @@ class DressCodeDataset(Dataset):
             label += "lower body"
 
         result = {
+            'dataroot': dataroot,
             'cloth_name': cloth_name,  # for visualization
             'cloth_img': cloth_img,  # for input
             'label': label,

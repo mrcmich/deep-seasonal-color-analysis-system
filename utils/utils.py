@@ -78,6 +78,7 @@ def parse_retrieval_arguments(train=True):
     parser.add_argument("--dataroot", type=str, default=config.DRESSCODE_PATH_ON_LAB_SERVER)
     parser.add_argument("--phase", default="test", choices=["train", "test"], type=str)
     parser.add_argument("--order", default="unpaired", choices=["paired", "unpaired"], type=str)
+    parser.add_argument("--query", default="dress", choices=["dress", "upper_body", "lower_body"], type=str)
 
     parser.add_argument('--batch_size', type=int, default=8)
     parser.add_argument('--workers', type=int, default=0)
