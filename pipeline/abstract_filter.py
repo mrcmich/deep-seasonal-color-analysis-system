@@ -34,7 +34,7 @@ class AbstractFilter(ABC):
         Abstract method to execute the filter on the provided input.
 
         .. inputs::
-        input: Input of the filter, expected to be the same type returned by method input_type
+        input: Input of the filter, expected to be the same type returned by method input_type.
         """
 
         pass
