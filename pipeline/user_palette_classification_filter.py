@@ -9,7 +9,6 @@ from metrics_and_losses import metrics
 import utils.utils as utils
 from palette_classification import color_processing, palette
 from utils import utils, segmentation_labels
-from typing import OrderedDict
 
 class UserPaletteClassificationFilter(AbstractFilter):
     """
@@ -29,13 +28,10 @@ class UserPaletteClassificationFilter(AbstractFilter):
         to use as reference for classification.
         """
 
-        self.labels = OrderedDict({ 
-            label: segmentation_labels.labels[label] for label in ['skin', 'hair', 'lips', 'eyes'] })
-
-        self.skin_idx = utils.from_key_to_index(self.labels, 'skin')
-        self.hair_idx = utils.from_key_to_index(self.labels, 'hair')
-        self.lips_idx = utils.from_key_to_index(self.labels, 'lips')
-        self.eyes_idx = utils.from_key_to_index(self.labels, 'eyes')
+        relevant_labels = ['skin', 'hair', 'lips', 'eyes']
+        self.relevant_indexes = [ 
+            utils.from_key_to_index(segmentation_labels.labels, label) for label in relevant_labels ]
+        self.skin_idx, self.hair_idx, self.lips_idx, self.eyes_idx = (0, 1, 2, 3)
         self.reference_palettes = reference_palettes
         
     def input_type(self):
@@ -66,8 +62,8 @@ class UserPaletteClassificationFilter(AbstractFilter):
         """
 
         img, masks = input
-        masks = color_processing.compute_segmentation_masks(img, self.labels)
-        img_masked = color_processing.apply_masks(img, masks)
+        relevant_masks = masks[self.relevant_indexes, :, :]
+        img_masked = color_processing.apply_masks(img, relevant_masks)
         
         dominants = color_processing.compute_dominants(
             img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse)

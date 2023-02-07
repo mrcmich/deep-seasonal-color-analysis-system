@@ -133,7 +133,7 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
         reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
 
         min_reconstruction_error = -1 
-        dominant = torch.zeros((3, 1, 1), dtype=torch.uint8)
+        dominant = torch.zeros((3,), dtype=torch.uint8)
 
         for j, reconstruction_j in enumerate(reconstructions):
             if candidates[j].sum() < 20 or candidates[j].sum() > 600:
