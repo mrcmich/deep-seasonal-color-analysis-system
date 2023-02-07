@@ -69,13 +69,14 @@ class UserPaletteClassificationFilter(AbstractFilter):
             img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse)
         dominants_palette = palette.PaletteRGB('dominants', dominants)
         
+        hair_dominant = dominants[self.hair_idx] if relevant_masks[self.hair_idx].sum() > 0 else None
         subtone = palette.compute_subtone(dominants[self.lips_idx])
         intensity = palette.compute_intensity(dominants[self.skin_idx])
         value = palette.compute_value(
-            dominants[self.skin_idx], dominants[self.hair_idx], dominants[self.eyes_idx])
-        contrast = palette.compute_contrast(dominants[self.hair_idx], dominants[self.eyes_idx])
+            dominants[self.skin_idx], hair_dominant, dominants[self.eyes_idx])
+        contrast = palette.compute_contrast(hair_dominant, dominants[self.eyes_idx])
         
-        dominants_palette.compute_metrics_vector(subtone, intensity, value, contrast)
-        user_palette = palette.classify_palette(dominants_palette, self.reference_palettes)
+        with_contrast = dominants_palette.compute_metrics_vector(subtone, intensity, value, contrast)
+        user_palette = palette.classify_palette(dominants_palette, self.reference_palettes, with_contrast)
 
         return user_palette
