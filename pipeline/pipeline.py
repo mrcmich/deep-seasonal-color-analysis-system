@@ -34,7 +34,7 @@ class Pipeline(AbstractPipeline):
         filter: A filter. Filters are expected to implement AbstractFilter's interface.
         """
         
-        assert(len(self.filters) == 0 or self.filters[-1].output_type() == filter.output_type())
+        assert(len(self.filters) == 0 or self.filters[-1].output_type() == filter.input_type())
         self.filters.append(filter)
 
     def execute(self, input):
