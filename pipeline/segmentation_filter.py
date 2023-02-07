@@ -18,10 +18,10 @@ from utils import segmentation_labels
 class SegmentationFilter(AbstractFilter):
     """
     .. description:: 
-    Filter applying semantic segmentation to the input image and returning segmentation masks for said
-    input as output. The segmentation model used for predictions can be configured through the model parameter
-    of the class constructor ('local' for the less accurate but lighter model, 'cloud' for the more accurate
-    but heavier one).
+    Filter applying semantic segmentation to the input image. The filter returns a tuple containing both
+    the input image (converted into a pytorch tensor) and its segmentation masks. The segmentation model used 
+    for predictions can be configured through the model parameter of the class constructor 
+    ('local' for the less accurate but lighter model, 'cloud' for the more accurate but heavier one).
     """
     
     def __init__(self, model):
@@ -60,10 +60,11 @@ class SegmentationFilter(AbstractFilter):
     def output_type(self):
         """
         .. description::
-        Type of segmentation masks the filter returns when executed.
+        Type of couple (image, segmentation masks) the filter returns when executed. The couple is
+        returned as a tuple of two pytorch tensors.
         """
 
-        return torch.Tensor
+        return tuple
 
     def execute(self, input):
         """
@@ -76,16 +77,20 @@ class SegmentationFilter(AbstractFilter):
         """
 
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        input = self.pil_to_tensor(input) / 255
-        input = self.transforms(input)
-        input = torch.unsqueeze(input, axis=0)
+        input = self.pil_to_tensor(input)
+        _, H, W = input.shape
+        resize = T.Compose([T.Resize((H, W))])
+        input_transformed = self.transforms(input / 255)
+        input_transformed = torch.unsqueeze(input_transformed, axis=0)
         input = input.to(device)
+        input_transformed = input_transformed.to(device)
 
         with torch.no_grad():
             self.model.eval()
-            output = self.model(input)[0]
+            output = self.model(input_transformed)[0]
 
         channels_max, _ = torch.max(output, dim=1)
         prediction = (output == channels_max.unsqueeze(axis=1))[0]
-        
-        return prediction
+        prediction = resize(prediction)
+
+        return (input, prediction)
