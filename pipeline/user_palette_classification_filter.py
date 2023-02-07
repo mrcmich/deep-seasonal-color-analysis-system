@@ -5,16 +5,10 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 # ---
 
 from .abstract_filter import AbstractFilter
-import torch
-import cv2
-import torch
 from metrics_and_losses import metrics
 import utils.utils as utils
-import numpy as np
-import matplotlib.pyplot as plt
 from palette_classification import color_processing, palette
 from utils import utils, segmentation_labels
-import glob
 from typing import OrderedDict
 
 class UserPaletteClassificationFilter(AbstractFilter):
