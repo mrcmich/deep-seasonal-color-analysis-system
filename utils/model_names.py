@@ -9,9 +9,9 @@ MODEL_NAMES = {
 }
 
 CLIP_MODELS_PRETRAINED = {
-    'ViT-B-16': 'laion400m_e31',
-    'ViT-B-32': 'laion400m_e31',
-    'ViT-L-14': 'laion400m_e31',
+    'ViT-B-16': 'laion2B_s34B_b88K',
+    'ViT-B-32': 'laion2b_s34b_b79k',
+    'ViT-L-14': 'laion400m_e32',
     'ViT-H-14': 'laion2b_s32b_b79k',
     'ViT-g-14': 'laion2b_s12b_b42k',
     'ViT-bigG-14': 'laion2b_s39b_b160k'

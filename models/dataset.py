@@ -7,7 +7,6 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import os
 from typing import List, Tuple
-import torch
 from torch.utils.data import Dataset
 from PIL import Image
 import xml.etree.ElementTree as ET
