@@ -93,4 +93,4 @@ class SegmentationFilter(AbstractFilter):
         prediction = (output == channels_max.unsqueeze(axis=1))[0]
         prediction = resize(prediction)
 
-        return (input, prediction)
+        return (input.to('cpu'), prediction.to('cpu'))
