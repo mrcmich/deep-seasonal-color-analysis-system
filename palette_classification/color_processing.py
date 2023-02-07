@@ -11,6 +11,7 @@ import cv2
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
+import warnings
 
 
 def color_distance(color1_RGB, color2_RGB):
@@ -122,7 +123,12 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
         kmeans = KMeans(n_clusters=n_candidates[i], n_init=10, random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
-        kmeans.fit(img_masked_i_flattened)
+        
+        # silencing kmeans convergence warnings
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message='Number of distinct clusters*')
+            kmeans.fit(img_masked_i_flattened)
+
         candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
         reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
 
