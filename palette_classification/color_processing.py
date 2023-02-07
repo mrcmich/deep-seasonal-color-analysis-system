@@ -119,11 +119,10 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
         img_masked_i = img_masked[i]
         max_brightness_i = cv2.cvtColor(
             utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
-        kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
+        kmeans = KMeans(n_clusters=n_candidates[i], n_init=10, random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
-        img_masked_i_flattened_sample = shuffle(img_masked_i_flattened, random_state=99, n_samples=round(0.6 * H * W))
-        kmeans.fit(img_masked_i_flattened_sample)
+        kmeans.fit(img_masked_i_flattened)
         candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
         reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
 
