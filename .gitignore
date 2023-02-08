@@ -1,6 +1,7 @@
 .vscode/
 __pycache__/
 headsegmentation_dataset_ccncsa/
+dresscode_test_dataset/
 changelog.txt
 .DS_Store
 debug.py
