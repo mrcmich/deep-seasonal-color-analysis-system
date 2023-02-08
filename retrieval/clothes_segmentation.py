@@ -4,15 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def segment_img_cloth(dataroot, img_name, save_fig_path=None):
+def segment_img_cloth(img_path, save_fig_path=None):
     """
     .. description::
     Function that segments a cloth image from Dress Code Dataset with classic CV operators: adaptive thresholding,
     Canny edge detector and contours tracing.
 
     .. inputs::
-    dataroot:                   path to dataset folder where the images are stored, it doesn't inlcude the '/images' directory.
-    img_name:                   filename of the image to segment.
+    img_path:                   filepath of the image to segment.
     save_fig_path:              path to folder where to save the images of the segmentation's steps, default is None.
 
     .. outputs::
@@ -20,7 +19,6 @@ def segment_img_cloth(dataroot, img_name, save_fig_path=None):
     if save_fig_path is not None saves in the given directory the images of the segmentation's steps.
     """
 
-    img_path = dataroot + "/images/" + img_name
     img = cv2.imread(img_path)
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -74,8 +72,10 @@ def segment_img_cloth(dataroot, img_name, save_fig_path=None):
         plt.subplot(236)
         plt.imshow(seg_mask, cmap='gray')
         plt.title('Segmented Image')
+        
+        img_name = "segmented_" + img_path.split("/")[-1]
 
-        plt.savefig(save_fig_path + "segmented_" + img_name)
+        plt.savefig(save_fig_path + img_name)
     
-    segmentation_mask = seg_mask == 0
+    segmentation_mask = seg_mask == 255
     return torch.from_numpy(segmentation_mask).unsqueeze(0)
