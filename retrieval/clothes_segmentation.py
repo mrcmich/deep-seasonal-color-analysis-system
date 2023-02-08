@@ -47,6 +47,7 @@ def segment_img_cloth(img_path, save_fig_path=None):
     mask = np.pad(mask, (1, 1))
     cv2.floodFill(seg_mask, mask, seedPoint=(0, contour_img.shape[1] - 1), newVal=255)
 
+    seg_mask = np.where(seg_mask == 255, 0, 255)
     if save_fig_path is not None:
         plt.subplot(231)
         plt.imshow(img, cmap='gray')
@@ -68,7 +69,6 @@ def segment_img_cloth(img_path, save_fig_path=None):
         plt.imshow(contour_img, cmap='gray')
         plt.title('Contour Image')
 
-        seg_mask = np.where(seg_mask == 255, 0, 255)
         plt.subplot(236)
         plt.imshow(seg_mask, cmap='gray')
         plt.title('Segmented Image')
