@@ -77,5 +77,5 @@ def segment_img_cloth(dataroot, img_name, save_fig_path=None):
 
         plt.savefig(save_fig_path + "segmented_" + img_name)
     
-    segmentation_mask = seg_mask == 255
-    return torch.from_numpy(segmentation_mask)
+    segmentation_mask = seg_mask == 0
+    return torch.from_numpy(segmentation_mask).unsqueeze(0)
