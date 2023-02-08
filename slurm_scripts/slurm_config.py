@@ -8,16 +8,19 @@ from utils import custom_transforms, model_names
 
 class SlurmConfig:
     def __init__(self,
-                 input_size, image_transform, target_transform,
+                 input_size, image_transform, 
+                 image_transform_inference, # image transform specific for inference
+                 target_transform,
                  use_weighted_loss,  # True in order to use weighted cross entropy loss
                  optimizer,
                  local_dir,  # parameter local_dir of function tune.run
                  tunerun_cfg,  # dictionary to be passed to parameter config of function tune.run
                  is_hpo_cfg  # specifies whether the configuration is for hpo or not)
-                 ):
+                ):
         self.config_dict_ = {
             'input_size': input_size,
             'image_transform': image_transform,
+            'image_transform_inference': image_transform_inference,
             'target_transform': target_transform,
             'weighted_loss': use_weighted_loss,
             'optimizer': optimizer,
@@ -34,11 +37,14 @@ class SlurmConfig:
 
 # config for training of demo models
 GLOBAL_INPUT_SIZE_TRAINING_DEMO = (256, 256)
+GLOBAL_IMAGE_TRANSFORM_TRAINING_DEMO = T.Compose([
+    T.Resize(GLOBAL_INPUT_SIZE_TRAINING_DEMO),
+    T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)
+])
 GLOBAL_CFG_TRAINING_DEMO = SlurmConfig(
     GLOBAL_INPUT_SIZE_TRAINING_DEMO,
-    T.Compose([
-        T.Resize(GLOBAL_INPUT_SIZE_TRAINING_DEMO),
-        T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
+    GLOBAL_IMAGE_TRANSFORM_TRAINING_DEMO,
+    GLOBAL_IMAGE_TRANSFORM_TRAINING_DEMO,
     T.Compose([T.Resize(GLOBAL_INPUT_SIZE_TRAINING_DEMO)]),
     False,
     torch.optim.Adam,
@@ -59,6 +65,9 @@ GLOBAL_CFG_TRAINING_DEMO = SlurmConfig(
 FASTSCNN_INPUT_SIZE_HPO = (256, 256)
 FASTSCNN_CFG_HPO = SlurmConfig(
     FASTSCNN_INPUT_SIZE_HPO,
+    T.Compose([
+        T.Resize(FASTSCNN_INPUT_SIZE_HPO),
+        T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     T.Compose([
         T.Resize(FASTSCNN_INPUT_SIZE_HPO),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
@@ -84,6 +93,10 @@ FASTSCNN_CFG_TRAINING_BEST = SlurmConfig(
         T.Resize(FASTSCNN_INPUT_SIZE_TRAINING_BEST),
         custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
+    T.Compose([
+        T.Resize(FASTSCNN_INPUT_SIZE_TRAINING_BEST),
+        custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
+        T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     T.Compose([T.Resize(FASTSCNN_INPUT_SIZE_TRAINING_BEST)]),
     True,
     torch.optim.Adam,
@@ -102,8 +115,14 @@ FASTSCNN_CFG_TRAINING_BEST = SlurmConfig(
 
 # config for hpo
 UNET_INPUT_SIZE_HPO = (256, 256)
+T.Compose([
+    T.Resize(UNET_INPUT_SIZE_HPO),
+    T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)])
 UNET_CFG_HPO = SlurmConfig(
     UNET_INPUT_SIZE_HPO,
+    T.Compose([
+        T.Resize(UNET_INPUT_SIZE_HPO),
+        T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
     T.Compose([
         T.Resize(UNET_INPUT_SIZE_HPO),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
@@ -127,6 +146,10 @@ UNET_CFG_TRAINING_BEST = SlurmConfig(
     UNET_INPUT_SIZE_TRAINING_BEST,
     T.Compose([
         T.ColorJitter(brightness=0.25, contrast=0.25),
+        T.Resize(UNET_INPUT_SIZE_TRAINING_BEST),
+        custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
+        T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),
+    T.Compose([
         T.Resize(UNET_INPUT_SIZE_TRAINING_BEST),
         custom_transforms.BilateralFilter(sigma_color=50, sigma_space=100, diameter=7),
         T.Normalize(config.NORMALIZE_MEAN, config.NORMALIZE_STD)]),

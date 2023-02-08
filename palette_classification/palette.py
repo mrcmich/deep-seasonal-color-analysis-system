@@ -51,11 +51,16 @@ def compute_subtone(lips_color):
 def compute_contrast(hair_color, eyes_color):
     """
     .. description::
-    Computes contrast (C), defined as the brightness difference between hair and eyes.
+    Computes contrast (C), defined as the brightness difference between hair and eyes. Returns None if
+    hair_color is None (meaning that it's unavailable).
 
     .. inputs::
     hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
     """
+
+    if hair_color is None:
+        return None
+
     hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
     hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
@@ -80,37 +85,54 @@ def compute_intensity(skin_color):
 def compute_value(skin_color, hair_color, eyes_color):
     """
     .. description::
-    Computes value (V), defined as the overall brightness of skin, hair and eyes.
+    Computes value (V), defined as the overall brightness of skin, hair and eyes. If hair_color is None,
+    then the value is computed using only skin_color and eyes_color.
 
     .. inputs::
     skin_color, hair_color, eyes_color: pytorch tensors of shape (3, 1, 1).
     """
+
     skin_color_np_HWD = utils.from_DHW_to_HWD(skin_color).numpy()
-    hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
     eyes_color_np_HWD = utils.from_DHW_to_HWD(eyes_color).numpy()
     skin_color_HSV = cv2.cvtColor((skin_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
-    hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
     eyes_color_HSV = cv2.cvtColor((eyes_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
+
+    if hair_color is None:
+        return (skin_color_HSV[0, 0, 2] + eyes_color_HSV[0, 0, 2]) / 2
+
+    hair_color_np_HWD = utils.from_DHW_to_HWD(hair_color).numpy()
+    hair_color_HSV = cv2.cvtColor((hair_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)
 
     return (skin_color_HSV[0, 0, 2] + hair_color_HSV[0, 0, 2] + eyes_color_HSV[0, 0, 2]) / 3
 
 
-def classify_palette(palette, reference_palettes):
+def classify_palette(palette, reference_palettes, with_contrast=True):
     """
     .. description::
     Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
-    between metrics vectors.
+    between metrics vectors. If palette has metrics vector with form [s0, s1, s2, None] (signaling that
+    it wasn't possible to compute the contrast metrics), then the distance is computed considering only 
+    the first three elements of the two metrics vectors.
+
+    .. inputs::
+    with_contrast:  boolean indicating wether to use the contrast metric during the classification process.
     """
     assert(palette.has_metrics_vector())
 
     min_hamming_distance = -1
     season = PaletteRGB()
     metrics_vector = palette.metrics_vector()
+
+    if with_contrast is False:
+        metrics_vector = metrics_vector[:-1]
     
     for reference_palette in reference_palettes:
         assert(reference_palette.has_metrics_vector())
 
-        reference_metrics_vector = reference_palette.metrics_vector()
+        reference_metrics_vector = reference_palette.metrics_vector() 
+        
+        if with_contrast is False:
+            reference_metrics_vector = reference_metrics_vector[:-1]
 
         if reference_metrics_vector[0] != metrics_vector[0]:
             continue
@@ -169,9 +191,11 @@ class PaletteRGB:
     def compute_metrics_vector(self, subtone, intensity, value, contrast, thresholds=(0.5, 0.5, 0.5)):
         """
         .. description::
-        Returns a binary pytorch tensor obtained by binarizing a specific combination of metrics values. Each metric
-        value (except for the subtone) is converted to 1 if above the corresponding threshold or 0 if at or below said
-        threshold.
+        Computes the metrics vector of the palette, represented by a binary pytorch tensor obtained by 
+        binarizing a specific combination of metrics values. Each metric value (except for the subtone) 
+        is converted to 1 if above the corresponding threshold or 0 if at or below said
+        threshold. Returns False if contrast is None, to indicate that the last element of the metrics vector
+        must be ignored, True otherwise.
 
         .. inputs::
         thresholds:     tuple of thresholds given by (contrast_thresh, intensity_thresh, value_thresh).
@@ -182,9 +206,14 @@ class PaletteRGB:
         sequence[0] = 'warm' == subtone
         sequence[1] = intensity > intensity_thresh
         sequence[2] = value > value_thresh
-        sequence[3] = contrast > contrast_thresh
+        sequence[3] = 0 if contrast is None else contrast > contrast_thresh
 
         self.metrics_vector_ = torch.from_numpy(sequence)
+
+        if contrast is None:
+            return False
+        
+        return True
 
     def save(self, filepath='', delimiter=';'):
         """

@@ -11,6 +11,7 @@ import cv2
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
+import warnings
 
 
 def color_distance(color1_RGB, color2_RGB):
@@ -119,16 +120,20 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
         img_masked_i = img_masked[i]
         max_brightness_i = cv2.cvtColor(
             utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
-        kmeans = KMeans(n_clusters=n_candidates[i], random_state=99)
+        kmeans = KMeans(n_clusters=n_candidates[i], n_init=10, random_state=99)
         mask_i = np.logical_not(color_mask(img_masked_i))                
         img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
-        img_masked_i_flattened_sample = shuffle(img_masked_i_flattened, random_state=99, n_samples=round(0.6 * H * W))
-        kmeans.fit(img_masked_i_flattened_sample)
+        
+        # silencing kmeans convergence warnings
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message='Number of distinct clusters*')
+            kmeans.fit(img_masked_i_flattened)
+
         candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
         reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
 
         min_reconstruction_error = -1 
-        dominant = torch.zeros((3, 1, 1), dtype=torch.uint8)
+        dominant = torch.zeros((3,), dtype=torch.uint8)
 
         for j, reconstruction_j in enumerate(reconstructions):
             if candidates[j].sum() < 20 or candidates[j].sum() > 600:
