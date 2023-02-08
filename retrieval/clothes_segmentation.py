@@ -1,4 +1,5 @@
 import cv2
+import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -77,4 +78,4 @@ def segment_img_cloth(dataroot, img_name, save_fig_path=None):
         plt.savefig(save_fig_path + "segmented_" + img_name)
     
     segmentation_mask = seg_mask == 255
-    return segmentation_mask
+    return torch.from_numpy(segmentation_mask)
