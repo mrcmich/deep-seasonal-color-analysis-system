@@ -18,21 +18,26 @@ class UserPaletteClassificationFilter(AbstractFilter):
     to color harmony theory.
     """
     
-    def __init__(self, reference_palettes):
+    def __init__(self, reference_palettes, thresholds=(0.200, 0.422, 0.390)):
         """
         .. description:: 
         Class constructor.
 
         .. inputs::
         reference_palettes: list of palette objects (instances of palette_classification.palette.PaletteRGB) 
-        to use as reference for classification.
+                            to use as reference for classification.
+        thresholds:         tuple of thresholds to use when binarizing values of metrics contrast, 
+                            intensity, value (values must be between 0 and 1).
         """
+
+        assert(0 <= thresholds[0] <= 1 and 0 <= thresholds[1] <= 1 and 0 <= thresholds[2] <= 1)
 
         relevant_labels = ['skin', 'hair', 'lips', 'eyes']
         self.relevant_indexes = [ 
             utils.from_key_to_index(segmentation_labels.labels, label) for label in relevant_labels ]
         self.skin_idx, self.hair_idx, self.lips_idx, self.eyes_idx = (0, 1, 2, 3)
         self.reference_palettes = reference_palettes
+        self.thresholds = thresholds
         
     def input_type(self):
         """
@@ -76,7 +81,8 @@ class UserPaletteClassificationFilter(AbstractFilter):
             dominants[self.skin_idx], hair_dominant, dominants[self.eyes_idx])
         contrast = palette.compute_contrast(hair_dominant, dominants[self.eyes_idx])
         
-        with_contrast = dominants_palette.compute_metrics_vector(subtone, intensity, value, contrast)
+        with_contrast = dominants_palette.compute_metrics_vector(
+            subtone, intensity, value, contrast, self.thresholds)
         user_palette = palette.classify_palette(dominants_palette, self.reference_palettes, with_contrast)
 
         return user_palette
