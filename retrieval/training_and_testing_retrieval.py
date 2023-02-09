@@ -70,7 +70,7 @@ def test_retrieval_model(device, model, tokenizer, dataset, batch_size, num_work
     return image_text_accuracy, text_image_accuracy
 
 
-def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=32, save_img_path=None, num_workers=0):
+def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=32, save_img_path=None, num_workers=0, verbose=False):
     """
     .. description::
     Function that retrieves images from a dataset given a query string.
@@ -122,8 +122,9 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
     
     clock_end = time.time()
     
-    print(f'Device: {device}.')
-    print(f'Retrieve process completed in around {math.ceil(clock_end - clock_start)} seconds.')
+    if verbose:
+        print(f'Device: {device}.')
+        print(f'Retrieve process completed in around {math.ceil(clock_end - clock_start)} seconds.')
     
     retrieved_img_paths = []
     for i in range(1, k + 1):
