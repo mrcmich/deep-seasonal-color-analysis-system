@@ -9,6 +9,22 @@ from PIL import Image
 
 
 def test_retrieval_model(device, model, tokenizer, dataset, batch_size, num_workers=0):
+    """
+    .. description::
+    Function to evaluate accuracy of a CLIP model on the test set of DressCode Dataset.
+    Both the classification task and retrieval task are evaluated: associate the correct string to one image;
+    and given a string, retrieve the images that better matche with it.
+
+    .. inputs::
+    device:                     cpu or cuda.
+    model:                      CLIP model to test.
+    tokenizer:                  tokenizer relative to CLIP model that process the query strings.
+    dataset:                    DressCode dataset object.
+
+    .. outputs::
+    Returns the two scores of accuracy: image2text and text2image.
+    """
+    
     model = model.to(device)
     model.eval()
     
@@ -54,7 +70,25 @@ def test_retrieval_model(device, model, tokenizer, dataset, batch_size, num_work
     return image_text_accuracy, text_image_accuracy
 
 
-def retrieve_clothes(device, model, tokenizer, query, k, dataset, batch_size, images_path, num_workers=0):
+def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=32, save_img_path=None, num_workers=0):
+    """
+    .. description::
+    Function that retrieves images from a dataset given a query string.
+
+    .. inputs::
+    device:                     cpu or cuda.
+    model:                      CLIP model to use.
+    tokenizer:                  tokenizer relative to CLIP model that process the query strings.
+    query:                      class to search in the dataset (dresses | upper_body | lower_body).
+    dataset:                    DressCode dataset object.
+    k:                          how many images to retrieve.
+    save_img_path:              path to save the images retrieved with their scores, default is None.
+
+    .. outputs::
+    Returns a list of paths of the retrieved images.
+    If save_img_path is not none the retrieved images are saved with their scores.
+    """
+    
     model = model.to(device)
     model.eval()
     
@@ -91,11 +125,16 @@ def retrieve_clothes(device, model, tokenizer, query, k, dataset, batch_size, im
     print(f'Device: {device}.')
     print(f'Retrieve process completed in around {math.ceil(clock_end - clock_start)} seconds.')
     
+    retrieved_img_paths = []
     for i in range(1, k + 1):
         score, img_path = top_k.get()
-        score *= -1
-        img = Image.open(img_path)
-        plt.figure()
-        plt.title(f"Score: {100 * score.item()}%")
-        plt.imshow(img)
-        plt.savefig(images_path + f"image_{i}_{query}.png")
+        retrieved_img_paths.append(img_path)
+        if save_img_path is not None:
+            score *= -1
+            img = Image.open(img_path)
+            plt.figure()
+            plt.title(f"Score: {100 * score.item()}%")
+            plt.imshow(img)
+            plt.savefig(save_img_path + f"image_{i}_{query}.png")
+    
+    return retrieved_img_paths

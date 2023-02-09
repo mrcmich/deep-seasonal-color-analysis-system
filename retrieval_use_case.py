@@ -24,8 +24,8 @@ def main_worker(args):
     images_path = "retrieval/retrieved_images/"
     
     print(f"Retrieving clothes of type '{query}' from DressCode Dataset, using clip model {clip_model} (pretrained on {pretrained})...")
-    training_and_testing_retrieval.retrieve_clothes(device=device, model=model, tokenizer=tokenizer, query=query, k=k,
-                                                    dataset=dataset, batch_size=batch_size, images_path=images_path)
+    training_and_testing_retrieval.retrieve_clothes(device=device, model=model, tokenizer=tokenizer, query=query, dataset=dataset,
+                                                    k=k, batch_size=batch_size, save_img_path=images_path)
     print(f"The retrieved clothes have been saved in '{images_path}'")
 
 
