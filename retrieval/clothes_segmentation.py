@@ -51,27 +51,39 @@ def segment_img_cloth(img_path, save_fig_path=None):
     if save_fig_path is not None:
         plt.subplot(231)
         plt.imshow(img, cmap='gray')
-        plt.title('Original Image')
+        plt.title('Original')
+        plt.xticks([])
+        plt.yticks([])
 
         plt.subplot(232)
         plt.imshow(img_th, cmap='gray')
-        plt.title('Thresholded Image')
+        plt.title('Thresholded')
+        plt.xticks([])
+        plt.yticks([])
 
         plt.subplot(233)
         plt.imshow(edges, cmap='gray')
-        plt.title('Edges Image')
+        plt.title('Edges')
+        plt.xticks([])
+        plt.yticks([])
 
         plt.subplot(234)
         plt.imshow(edges_dilated, cmap='gray')
-        plt.title('Edges Dilated Image')
+        plt.title('Dilated Edges')
+        plt.xticks([])
+        plt.yticks([])
 
         plt.subplot(235)
         plt.imshow(contour_img, cmap='gray')
-        plt.title('Contour Image')
+        plt.title('Contour')
+        plt.xticks([])
+        plt.yticks([])
 
         plt.subplot(236)
         plt.imshow(seg_mask, cmap='gray')
-        plt.title('Segmented Image')
+        plt.title('Segmented')
+        plt.xticks([])
+        plt.yticks([])
         
         img_name = "segmented_" + img_path.split("/")[-1]
 
