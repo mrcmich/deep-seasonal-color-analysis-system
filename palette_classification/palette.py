@@ -106,22 +106,22 @@ def compute_value(skin_color, hair_color, eyes_color):
     return (skin_color_HSV[0, 0, 2] + hair_color_HSV[0, 0, 2] + eyes_color_HSV[0, 0, 2]) / 3
 
 
-def classify_palette(palette, reference_palettes, with_contrast=True):
+def classify_user_palette(user_palette, reference_palettes, with_contrast=True):
     """
     .. description::
-    Assigns to palette a class taken from reference_palettes, by minimizing the Hamming distance
-    between metrics vectors. If palette has metrics vector with form [s0, s1, s2, None] (signaling that
+    Assigns to user_palette a class taken from reference_palettes, by minimizing the Hamming distance
+    between metrics vectors. If user_palette has metrics vector with form [s0, s1, s2, None] (signaling that
     it wasn't possible to compute the contrast metrics), then the distance is computed considering only 
     the first three elements of the two metrics vectors.
 
     .. inputs::
     with_contrast:  boolean indicating wether to use the contrast metric during the classification process.
     """
-    assert(palette.has_metrics_vector())
+    assert(user_palette.has_metrics_vector())
 
     min_hamming_distance = -1
     season = PaletteRGB()
-    metrics_vector = palette.metrics_vector()
+    metrics_vector = user_palette.metrics_vector()
 
     if with_contrast is False:
         metrics_vector = metrics_vector[:-1]
@@ -145,6 +145,20 @@ def classify_palette(palette, reference_palettes, with_contrast=True):
     
     return season
 
+def classify_cloth_palette(cloth_palette, reference_palettes, distance_type='avg'):
+    assert distance_type in ['min', 'max', 'avg']
+
+    closest_palette = None
+    min_palette_distance = -1
+
+    for reference_palette in reference_palettes:
+        palette_distance = cloth_palette.distance_from(reference_palette, distance_type)
+
+        if min_palette_distance == -1 or palette_distance < min_palette_distance:
+            min_palette_distance = palette_distance
+            closest_palette = reference_palette
+    
+    return closest_palette
 
 class PaletteRGB:
     """
@@ -265,3 +279,50 @@ class PaletteRGB:
         plt.yticks([])
         plt.imshow(utils.from_DHW_to_HWD(self.colors_).numpy())
         plt.show()
+
+    def distance_from(self, other_palette, type='avg'):
+        """
+        match each color in self to a color in other_palette;
+        this will be the one with closest hue
+        compute distance between matched colors
+        repeat with next color
+        add distance to distance previously computed
+        """
+        assert type in ['min', 'max', 'avg']
+
+        distances = []
+
+        for color_idx in range(self.n_colors()):
+            min_hue_distance = -1
+            closest_color = None
+            color = torch.unsqueeze(self.colors_[:, :, color_idx], dim=1)
+            color_np_HWD = utils.from_DHW_to_HWD(color).numpy()
+            color_hue = cv2.cvtColor((color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)[0, 0, 0]
+
+            for other_color_idx in range(other_palette.n_colors()):
+                other_color = torch.unsqueeze(other_palette.colors()[:, :, other_color_idx], dim=1)
+                other_color_np_HWD = utils.from_DHW_to_HWD(other_color).numpy()
+                other_color_hue = cv2.cvtColor(
+                    (other_color_np_HWD / 255).astype(np.float32), cv2.COLOR_RGB2HSV)[0, 0, 0]
+                hue_distance = 180 - abs(abs(color_hue - other_color_hue) - 180)
+
+                if min_hue_distance == -1 or hue_distance < min_hue_distance:
+                    min_hue_distance = hue_distance
+                    closest_color = other_color
+            
+            min_color_distance = color_processing.color_distance(color, closest_color)
+            distances.append(min_color_distance)
+        
+        distances = torch.tensor(distances)
+
+        if type == 'min':
+            distance = distances.min()
+        elif type == 'max':
+            distance = distances.max()
+        elif type == 'avg':
+            distance = distances.mean()
+
+        return distance.item()
+
+
+
