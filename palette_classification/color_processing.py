@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 import warnings
 
-
 def color_distance(color1_RGB, color2_RGB):
     """
     .. description::
@@ -67,6 +66,21 @@ def compute_segmentation_masks(img_segmented, labels):
 
     return masks
 
+def erode_segmentation_mask(segmentation_mask, kernel_size):
+    assert(segmentation_mask.shape[0] == 1 and len(segmentation_mask.shape) == 3)
+
+    _, H, W = segmentation_mask.shape
+    kernel = cv2.getStructuringElement(shape=0, ksize=(kernel_size, kernel_size))
+
+    extended_segmentation_mask = segmentation_mask * torch.ones(3, H, W)
+    img_binarized = torch.where(extended_segmentation_mask == True, 255, 0).to(torch.uint8)
+    img_binarized_eroded = cv2.erode(utils.from_DHW_to_HWD(img_binarized).numpy(), kernel=kernel)
+    img_binarized_eroded = utils.from_HWD_to_DHW(torch.from_numpy(img_binarized_eroded))
+    img_binarized_eroded = torch.unsqueeze(img_binarized_eroded, dim=0)
+    img_binarized_eroded = img_binarized_eroded.sum(axis=1)
+    segmentation_mask_eroded = torch.where(img_binarized_eroded > 0, True, False)
+
+    return segmentation_mask_eroded
 
 def colorize_segmentation_masks(segmentation_masks, labels):
     """
@@ -97,54 +111,61 @@ def apply_masks(img, masks):
     img_masked = img * masks.unsqueeze(axis=1)
     return img_masked.to(torch.uint8)
 
+def compute_candidate_dominants_and_reconstructions_(img_masked_i, n_candidates_i, return_recs=True):
+    _, H, W = img_masked_i.shape
+    kmeans = KMeans(n_clusters=n_candidates_i, n_init=10, random_state=99)
+    mask_i = np.logical_not(color_mask(img_masked_i))                
+    img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
+        
+    # silencing kmeans convergence warnings
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message='Number of distinct clusters*')
+        kmeans.fit(img_masked_i_flattened)
 
-def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
+    candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
+    
+    if return_recs is True:
+        reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
+        return candidates, reconstructions
+
+    return candidates, None
+
+def compute_user_embedding(img_masked, n_candidates, distance_fn, debug=False, eyes_idx=3):
     """
     .. description::
-    Given a masked image of shape (n_masks, 3, H, W) and a distance function computing a distance measure between two
-    images, returns a pytorch tensor of shape (n_masks, 3, 1, 1) containing the dominant colors associated to each mask.
+    Given a masked image of shape (4, 3, H, W) and a distance function computing a distance measure between two
+    images, returns a pytorch tensor of shape (4, 3, 1, 1) containing the dominant colors associated to each mask.
     When comparing candidates, brighter colors are favored for skin, hair, lips dominants and darker colors are favored
     for the eyes dominant (this is done by appropriately) weighting the provided distance measure).
 
     .. inputs::
-    n_candidates:   tuple of length n_masks specifying how many candidates to consider for each mask when looking for a
+    n_candidates:   tuple of length 4 specifying how many candidates to consider for each mask when looking for a
                     dominant.
+    eyes_idx:       index of mask selecting the eyes of the user in img_masked.
     """
-    assert(img_masked.shape[0] >= 4 and img_masked.shape[0] == len(n_candidates))
+    assert(img_masked.shape[:2] == (4, 3) and len(n_candidates) == 4)
 
-    IMG_MASKED_EYES_IDX = 3
-    n_masks, _, H, W = img_masked.shape
+    _, _, H, W = img_masked.shape
     dominants = []
 
-    for i in range(n_masks):
-        img_masked_i = img_masked[i]
-        max_brightness_i = cv2.cvtColor(
-            utils.from_DHW_to_HWD(img_masked_i / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
-        kmeans = KMeans(n_clusters=n_candidates[i], n_init=10, random_state=99)
-        mask_i = np.logical_not(color_mask(img_masked_i))                
-        img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
-        
-        # silencing kmeans convergence warnings
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", message='Number of distinct clusters*')
-            kmeans.fit(img_masked_i_flattened)
-
-        candidates = torch.round(torch.from_numpy(kmeans.cluster_centers_) * 255).to(torch.uint8)
-        reconstructions = mask_i * candidates.unsqueeze(axis=2).unsqueeze(axis=3)
+    for i in range(4):
+        max_brightness_i = cv2.cvtColor(utils.from_DHW_to_HWD(
+            img_masked[i] / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].max()
+        candidates, reconstructions = compute_candidate_dominants_and_reconstructions_(
+            img_masked[i], n_candidates[i])
 
         min_reconstruction_error = -1 
         dominant = torch.zeros((3,), dtype=torch.uint8)
 
         for j, reconstruction_j in enumerate(reconstructions):
-            if candidates[j].sum() < 20 or candidates[j].sum() > 600:
+            if candidates[j].sum() < 20 or candidates[j].sum() > 700:
                 continue
             
-            average_brightness_j = cv2.cvtColor(
-                utils.from_DHW_to_HWD(reconstruction_j / 255).numpy().astype(np.float32),
-                cv2.COLOR_RGB2HSV)[:, :, 2].mean()
-            reconstruction_error_j = distance_fn(img_masked_i, reconstruction_j).item()
+            average_brightness_j = cv2.cvtColor(utils.from_DHW_to_HWD(
+                reconstruction_j / 255).numpy().astype(np.float32), cv2.COLOR_RGB2HSV)[:, :, 2].mean()
+            reconstruction_error_j = distance_fn(img_masked[i], reconstruction_j).item()
 
-            if i == IMG_MASKED_EYES_IDX:
+            if i == eyes_idx:
                 # decrease RMSE of darker colors when computing eyes dominant
                 reconstruction_error_j *= (average_brightness_j / max_brightness_i)
             else:
@@ -159,7 +180,7 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
                 plt.subplot(1, 2, 1)
                 plt.imshow(utils.from_DHW_to_HWD(reconstruction_j))
                 plt.subplot(1, 2, 2)
-                plt.imshow(utils.from_DHW_to_HWD(img_masked_i))
+                plt.imshow(utils.from_DHW_to_HWD(img_masked[i]))
                 plt.show() 
 
             if min_reconstruction_error == -1 or reconstruction_error_j < min_reconstruction_error:
@@ -168,4 +189,22 @@ def compute_dominants(img_masked, n_candidates, distance_fn, debug=False):
             
         dominants.append(dominant.tolist())
     
-    return torch.tensor(dominants, dtype=torch.uint8).reshape((n_masks, 3, 1, 1))
+    return torch.tensor(dominants, dtype=torch.uint8).reshape((4, 3, 1, 1))
+
+def compute_cloth_embedding(cloth_img_masked, max_length=10, ignored_colors=[]):
+    assert(cloth_img_masked.shape[:2] == (1, 3))
+
+    _, _, H, W = cloth_img_masked.shape
+    embedding = []
+    
+    cloth_colors, _ = compute_candidate_dominants_and_reconstructions_(
+        cloth_img_masked[0], max_length + 1, return_recs=False)
+
+    for color in cloth_colors:
+        for ignored_color in ignored_colors:
+            color_triplet = color.tolist()
+            
+            if color_triplet != ignored_color:
+                embedding.append(color_triplet)
+
+    return torch.tensor(embedding, dtype=torch.uint8).reshape(len(embedding), 3, 1, 1)

@@ -70,7 +70,7 @@ class UserPaletteClassificationFilter(AbstractFilter):
         relevant_masks = masks[self.relevant_indexes, :, :]
         img_masked = color_processing.apply_masks(img, relevant_masks)
         
-        dominants = color_processing.compute_dominants(
+        dominants = color_processing.compute_user_embedding(
             img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse)
         dominants_palette = palette.PaletteRGB('dominants', dominants)
         
@@ -83,6 +83,6 @@ class UserPaletteClassificationFilter(AbstractFilter):
         
         with_contrast = dominants_palette.compute_metrics_vector(
             subtone, intensity, value, contrast, self.thresholds)
-        user_palette = palette.classify_palette(dominants_palette, self.reference_palettes, with_contrast)
+        user_palette = palette.classify_user_palette(dominants_palette, self.reference_palettes, with_contrast)
 
         return user_palette
