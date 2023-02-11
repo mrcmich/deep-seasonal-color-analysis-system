@@ -96,7 +96,7 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
     
     dl = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=False, num_workers=num_workers)
     text = tokenizer(label).to(device)
-    top_k = queue.PriorityQueue()
+    pq = queue.PriorityQueue()
     
     clock_start = time.time()
     
@@ -117,7 +117,7 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
                 score *= -1
                 img_path = dataroot[idx] + "/images/" + cloth_name[idx]
                 item = (score, img_path)
-                top_k.put(item)
+                pq.put(item)
     
     clock_end = time.time()
     
@@ -127,10 +127,10 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
     
     retrieved_img_paths = []
     i = 0
-    while not top_k.empty():
+    while not pq.empty():
         if i == k:
             break
-        score, img_path = top_k.get()
+        score, img_path = pq.get()
         retrieved_img_paths.append(img_path)
         if save_img_path is not None:
             score *= -1
