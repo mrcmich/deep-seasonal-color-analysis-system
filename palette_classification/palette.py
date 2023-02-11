@@ -282,11 +282,16 @@ class PaletteRGB:
 
     def distance_from(self, other_palette, type='avg'):
         """
-        match each color in self to a color in other_palette;
-        this will be the one with closest hue
-        compute distance between matched colors
-        repeat with next color
-        add distance to distance previously computed
+        .. description::
+        Method computing a distance measure between calling palette and other_palette. Because the
+        two palettes could have a different number of colors, the method first matches each color
+        of the calling palette with one color in other_palette (the one having closest hue), and then
+        computes a distance between colors for each match. From the resulting vector of distances, a 
+        single distance value is returned by applying a function between min(), max(), average().
+
+        .. inputs::
+        type:   type of function to apply in order to get a single distance value; 
+                must be in ['min', 'max', 'avg'].
         """
         assert type in ['min', 'max', 'avg']
 

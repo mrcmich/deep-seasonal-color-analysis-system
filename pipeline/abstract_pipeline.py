@@ -4,7 +4,7 @@ class AbstractPipeline(ABC):
     """
     .. description:: 
     Abstract class defining the standard interface for a pipeline. A pipeline is a sequence
-    of composable filter executed one after the other, such that the input of each filter coincides
+    of composable filters executed one after the other, such that the input of each filter coincides
     with the output of the previous one.
     """
     
