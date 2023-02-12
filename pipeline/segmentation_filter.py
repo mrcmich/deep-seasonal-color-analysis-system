@@ -35,13 +35,13 @@ class SegmentationFilter(AbstractFilter):
         if model == 'local':
             model_name = 'fastscnn_ccncsa_best'
             self.model = fast_scnn.FastSCNN(n_classes)
+            self.model = nn.DataParallel(self.model)
             model_cfg_best = slurm_config.configurations['best']['fastscnn']
         elif model == 'cloud':
             model_name = 'unet_ccncsa_best'
             self.model = unet.UNet(out_channels=n_classes)
             model_cfg_best = slurm_config.configurations['best']['unet']
   
-        self.model = nn.DataParallel(self.model)
         self.model.load_state_dict(torch.load(weights_path + model_name + '.pth'))
         self.pil_to_tensor = T.Compose([T.PILToTensor()])
         self.transforms = model_cfg_best['image_transform_inference']
@@ -65,6 +65,7 @@ class SegmentationFilter(AbstractFilter):
         input_transformed = input_transformed.to(device)
 
         with torch.no_grad():
+            self.model = self.model.to(device)
             self.model.eval()
             output = self.model(input_transformed)[0]
 
