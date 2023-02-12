@@ -1,10 +1,10 @@
 # Deep Seasonal Color Analysis System (DSCAS)
-
-## Introduction
-
 DSCAS is a comprehensive pipeline based on classical and AI techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with configurable filters, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user.
 
 The project is being developed as part of the course on Computer Vision and Cognitive Systems.
+
+## Documentation
+For information about the composition and execution of the pipeline, please see python notebook pipeline_demo.ipynb. 
 
 ## Authors
 
