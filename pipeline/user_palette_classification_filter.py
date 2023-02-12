@@ -15,7 +15,9 @@ class UserPaletteClassificationFilter(AbstractFilter):
     .. description:: 
     Filter taking as input a tuple (image, segmentation_masks) of pytorch tensors (in the format returned by 
     a segmentation filter) of the user and assigning the corresponding palette object according 
-    to color harmony theory. The filter returns said palette object as output.
+    to color harmony theory. The filter returns said palette object as output. Please note that the
+    filter doesn't support execution on gpu, and thus the device parameter of method execute has no
+    effect on execution.
     """
     
     def __init__(self, reference_palettes, thresholds=(0.200, 0.422, 0.390)):
@@ -42,7 +44,7 @@ class UserPaletteClassificationFilter(AbstractFilter):
     def output_type(self):
         return palette.PaletteRGB
 
-    def execute(self, input):
+    def execute(self, input, device=None):
         img, masks = input
         relevant_masks = masks[self.relevant_indexes, :, :]
         img_masked = color_processing.apply_masks(img, relevant_masks)
@@ -60,6 +62,7 @@ class UserPaletteClassificationFilter(AbstractFilter):
         
         with_contrast = dominants_palette.compute_metrics_vector(
             subtone, intensity, value, contrast, self.thresholds)
-        user_palette = palette.classify_user_palette(dominants_palette, self.reference_palettes, with_contrast)
+        user_palette = palette.classify_user_palette(
+            dominants_palette, self.reference_palettes, with_contrast)
 
         return user_palette

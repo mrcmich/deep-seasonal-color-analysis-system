@@ -16,11 +16,11 @@ class Pipeline(AbstractPipeline):
         assert(len(self.filters) == 0 or self.filters[-1].output_type() == filter.input_type())
         self.filters.append(filter)
 
-    def execute(self, input):
+    def execute(self, input, device=None):
         last_output = input
 
         for filter in self.filters:
-            current_output = filter.execute(last_output)
+            current_output = filter.execute(last_output, device)
             last_output = current_output
         
         return last_output

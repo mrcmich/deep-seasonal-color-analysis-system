@@ -22,7 +22,8 @@ class SegmentationFilter(AbstractFilter):
     The filter returns a tuple containing both the input image (converted into a pytorch tensor) and 
     its segmentation masks. The segmentation model used for predictions can be configured through the 
     model parameter of the class constructor ('local' for the less accurate but lighter model, 
-    'cloud' for the more accurate but heavier one).
+    'cloud' for the more accurate but heavier one). Moreover, the filter supports execution both 
+    on cpu and gpu.
     """
     
     def __init__(self, model):
@@ -51,8 +52,10 @@ class SegmentationFilter(AbstractFilter):
     def output_type(self):
         return tuple
 
-    def execute(self, input):
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    def execute(self, input, device=None):
+        if device is None:
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
         input = self.pil_to_tensor(input)
         _, H, W = input.shape
         resize = T.Compose([T.Resize((H, W))])
