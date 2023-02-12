@@ -13,3 +13,4 @@ tensorboardX==2.5.1
 tensorboard==2.11.2
 protobuf==3.20.0
 open-clip-torch==2.11.1
+scikit-image==0.19.3
