@@ -12,6 +12,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 import warnings
+from skimage import color
 
 def color_distance(color1_RGB, color2_RGB):
     """
@@ -20,14 +21,13 @@ def color_distance(color1_RGB, color2_RGB):
     the euclidean distance between them.
     """
     assert(color1_RGB.shape == (3, 1, 1) and color2_RGB.shape == (3, 1, 1))
-    
+
     color1_RGB_np_HWD = utils.from_DHW_to_HWD(color1_RGB).numpy()
     color2_RGB_np_HWD = utils.from_DHW_to_HWD(color2_RGB).numpy()
-    color1_CIELab = cv2.cvtColor(color1_RGB_np_HWD, cv2.COLOR_RGB2Lab)
-    color2_CIELab = cv2.cvtColor(color2_RGB_np_HWD, cv2.COLOR_RGB2Lab)
+    color1_CIELab = color.rgb2lab(color1_RGB_np_HWD)
+    color2_CIELab = color.rgb2lab(color2_RGB_np_HWD)
     return np.linalg.norm(color1_CIELab - color2_CIELab)
     
-
 def color_mask(img, color_triplet=[0, 0, 0]):
     """
     .. description::
