@@ -15,14 +15,11 @@ class UserPaletteClassificationFilter(AbstractFilter):
     .. description:: 
     Filter taking as input a tuple (image, segmentation_masks) of pytorch tensors (in the format returned by 
     a segmentation filter) of the user and assigning the corresponding palette object according 
-    to color harmony theory.
+    to color harmony theory. The filter returns said palette object as output.
     """
     
     def __init__(self, reference_palettes, thresholds=(0.200, 0.422, 0.390)):
         """
-        .. description:: 
-        Class constructor.
-
         .. inputs::
         reference_palettes: list of palette objects (instances of palette_classification.palette.PaletteRGB) 
                             to use as reference for classification.
@@ -40,32 +37,12 @@ class UserPaletteClassificationFilter(AbstractFilter):
         self.thresholds = thresholds
         
     def input_type(self):
-        """
-        .. description::
-        Type of couple (image, segmentation masks) the filter expects to receive when executed. The couple
-        should be a tuple of two pytorch tensors.
-        """
-        
         return tuple
 
     def output_type(self):
-        """
-        .. description::
-        Type of user palette the filter returns when executed.
-        """
-
         return palette.PaletteRGB
 
     def execute(self, input):
-        """
-        .. description::
-        Method to execute the filter on the provided input. The filter takes the input and returns
-        the corresponding palette object.
-
-        .. inputs::
-        input: Input of the filter, expected to be the same type returned by method input_type.
-        """
-
         img, masks = input
         relevant_masks = masks[self.relevant_indexes, :, :]
         img_masked = color_processing.apply_masks(img, relevant_masks)

@@ -67,6 +67,15 @@ def compute_segmentation_masks(img_segmented, labels):
     return masks
 
 def erode_segmentation_mask(segmentation_mask, kernel_size):
+    """
+    .. description::
+    Function taking as input a segmentation mask - a boolean pytorch tensor with shape (1, H, W) - and 
+    applying the erosion operator to said mask. Returns the mask obtained after the erosion process.
+
+    .. inputs:: 
+    kernel_size: size of the erosion kernel.
+    """
+
     assert(segmentation_mask.shape[0] == 1 and len(segmentation_mask.shape) == 3)
 
     _, H, W = segmentation_mask.shape
@@ -92,6 +101,7 @@ def colorize_segmentation_masks(segmentation_masks, labels):
     .. inputs::
     labels: dictionary of labels { label_name (string): color_triplet (list) }.
     """
+
     assert(segmentation_masks.shape[0] == len(labels))
 
     n_labels = segmentation_masks.shape[0]
@@ -111,11 +121,19 @@ def apply_masks(img, masks):
     img_masked = img * masks.unsqueeze(axis=1)
     return img_masked.to(torch.uint8)
 
-def compute_candidate_dominants_and_reconstructions_(img_masked_i, n_candidates_i, return_recs=True):
-    _, H, W = img_masked_i.shape
-    kmeans = KMeans(n_clusters=n_candidates_i, n_init=10, random_state=99)
-    mask_i = np.logical_not(color_mask(img_masked_i))                
-    img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked_i).reshape((H * W, -1)) / 255
+def compute_candidate_dominants_and_reconstructions_(img_masked, n_candidates, return_recs=True):
+    """
+    Function taking as input a masked image img_masked (pytorch tensor of shape (3, H, W)) and using clustering to
+    identify the n_candidates candidate dominant colors in said image. If return_recs is True, the function
+    also computes and returns the reconstructions of the masked image obtained by replacing all 
+    non-black pixels with one of the n_candidates candidate dominants found.
+    Returns a tuple (candidates, None) or (candidates, reconstructions) as output.
+    """
+
+    _, H, W = img_masked.shape
+    kmeans = KMeans(n_clusters=n_candidates, n_init=10, random_state=99)
+    mask_i = np.logical_not(color_mask(img_masked))                
+    img_masked_i_flattened = utils.from_DHW_to_HWD(img_masked).reshape((H * W, -1)) / 255
         
     # silencing kmeans convergence warnings
     with warnings.catch_warnings():

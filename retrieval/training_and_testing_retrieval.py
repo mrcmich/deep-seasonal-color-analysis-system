@@ -96,7 +96,7 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
     
     dl = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=False, num_workers=num_workers)
     text = tokenizer(label).to(device)
-    top_k = queue.PriorityQueue()
+    pq = queue.PriorityQueue()
     
     clock_start = time.time()
     
@@ -113,12 +113,11 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
             text_features /= text_features.norm(dim=-1, keepdim=True)
 
             image_probs = (100.0 * text_features @ image_features.T).softmax(dim=-1)
-            best_of_batch_score, best_of_batch_idx = image_probs.topk(k, dim=-1)
-            for score, idx in zip(best_of_batch_score[0], best_of_batch_idx[0]):
+            for idx, score in enumerate(image_probs[0, :]):
                 score *= -1
                 img_path = dataroot[idx] + "/images/" + cloth_name[idx]
                 item = (score, img_path)
-                top_k.put(item)
+                pq.put(item)
     
     clock_end = time.time()
     
@@ -127,8 +126,11 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
         print(f'Retrieve process completed in around {math.ceil(clock_end - clock_start)} seconds.')
     
     retrieved_img_paths = []
-    for i in range(1, k + 1):
-        score, img_path = top_k.get()
+    i = 0
+    while not pq.empty():
+        if i == k:
+            break
+        score, img_path = pq.get()
         retrieved_img_paths.append(img_path)
         if save_img_path is not None:
             score *= -1
@@ -136,6 +138,7 @@ def retrieve_clothes(device, model, tokenizer, query, dataset, k=5, batch_size=3
             plt.figure()
             plt.title(f"Score: {100 * score.item()}%")
             plt.imshow(img)
-            plt.savefig(save_img_path + f"image_{i}_{query}.png")
+            plt.savefig(save_img_path + f"image_{i + 1}_{query}.png")
+        i += 1
     
     return retrieved_img_paths

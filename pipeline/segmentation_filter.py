@@ -18,18 +18,14 @@ from utils import segmentation_labels
 class SegmentationFilter(AbstractFilter):
     """
     .. description:: 
-    Filter applying semantic segmentation to the input image. The filter returns a tuple containing both
-    the input image (converted into a pytorch tensor) and its segmentation masks. The segmentation model used 
-    for predictions can be configured through the model parameter of the class constructor 
-    ('local' for the less accurate but lighter model, 'cloud' for the more accurate but heavier one).
+    Filter applying semantic segmentation to the input image, expected to be the image of a user.
+    The filter returns a tuple containing both the input image (converted into a pytorch tensor) and 
+    its segmentation masks. The segmentation model used for predictions can be configured through the 
+    model parameter of the class constructor ('local' for the less accurate but lighter model, 
+    'cloud' for the more accurate but heavier one).
     """
     
     def __init__(self, model):
-        """
-        .. description::
-        Constructor method.
-        """
-
         assert(model in ['local', 'cloud'])
 
         n_classes = len(segmentation_labels.labels)
@@ -50,32 +46,12 @@ class SegmentationFilter(AbstractFilter):
         self.transforms = model_cfg_best['image_transform_inference']
        
     def input_type(self):
-        """
-        .. description::
-        Type of input image the filter expects to receive when executed.
-        """
-        
         return PIL.Image.Image
 
     def output_type(self):
-        """
-        .. description::
-        Type of couple (image, segmentation masks) the filter returns when executed. The couple is
-        returned as a tuple of two pytorch tensors.
-        """
-
         return tuple
 
     def execute(self, input):
-        """
-        .. description::
-        Method to execute the filter on the provided input. The filter takes the input and predicts
-        the corresponding segmentation masks using the selected model.
-
-        .. inputs::
-        input: Input of the filter, expected to be the same type returned by method input_type.
-        """
-
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         input = self.pil_to_tensor(input)
         _, H, W = input.shape

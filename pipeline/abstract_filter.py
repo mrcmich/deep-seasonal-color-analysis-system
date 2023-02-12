@@ -31,7 +31,7 @@ class AbstractFilter(ABC):
     def execute(self, input):
         """
         .. description::
-        Abstract method to execute the filter on the provided input.
+        Abstract method called when executing the filter on the provided input.
 
         .. inputs::
         input: Input of the filter, expected to be the same type returned by method input_type.
