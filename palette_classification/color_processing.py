@@ -153,6 +153,7 @@ def compute_user_embedding(img_masked, n_candidates, distance_fn, debug=False, e
     .. description::
     Given a masked image of shape (4, 3, H, W) and a distance function computing a distance measure between two
     images, returns a pytorch tensor of shape (4, 3, 1, 1) containing the dominant colors associated to each mask.
+    The four dominants are ordered as follows: skin dominant, hair dominant, lips dominant, eyes dominant.
     When comparing candidates, brighter colors are favored for skin, hair, lips dominants and darker colors are favored
     for the eyes dominant (this is done by appropriately) weighting the provided distance measure).
 
