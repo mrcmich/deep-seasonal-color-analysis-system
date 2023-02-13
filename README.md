@@ -7,14 +7,17 @@ DSCAS is a comprehensive pipeline based on classical and AI techniques for assig
 + __Dress Code Dataset__: dataset for image-based virtual try-on composed of image pairs coming from different catalogs of YOOX NET-A-PORTER, used for the retrieval component of our system. The dataset contains more than 50k high resolution model clothing images pairs divided into three different categories (i.e. dresses, upper-body clothes, lower-body clothes). For our project, we extracted clothing item images from the test partition of the dataset, obtaining 5400 high resolution clothing item images equally divided into the three categories described previously. Click [here](https://github.com/aimagelab/dress-code) to get access to this dataset.
 
 ## Usage
-For information about the composition and execution of the pipeline, please see python notebook *pipeline_demo.ipynb*. Please note that you'll need to download the dress code dataset if you want to run the notebook. If you want to get a grasp
-of how the system works, you're welcome to read our paper: *Deep_Seasonal_Color_Analysis_System__DSCAS_.pdf*.
+For information about composition and execution of the pipeline, see python notebook *pipeline_demo.ipynb*. Please note that you'll need to download the dress code dataset if you want to run the notebook. If you want to get a grasp
+of how the system works, you're welcome to read the project paper *Deep_Seasonal_Color_Analysis_System__DSCAS.pdf*.
 
 ## Project Structure
 A brief overview of the most relevant files and directories of the project is presented as a tree structure, where elements are accompanied by a comment
 identified by the hashtag character:
 ```bash
 root
+├───Deep_Seasonal_Color_Analysis_System__DSCAS.pdf
+│   # project paper detailing scope and inner workings of our pipeline.
+│
 ├───dresscode_test_dataset/
 │   # directory containing the test partition of the dress code dataset - please note that you'll have to download 
 │   # the dataset from the link provided in the Datasets section if you want to train the face segmentation models yourself.
@@ -135,10 +138,11 @@ root
 │   # python package for palette classification of user and clothing images.
 │   │
 │   ├───clothing_palette_mappings/
-│   │   #
+│   │   # directory containing mappings between clothing item images and their corresponding season palettes as JSON files, 
+│   │   # divided into categories dresses, upper-body and lower-body.
 │   │
 │   └───palettes/
-│       #
+│       # directory containing season palette CSV files and mappings assigning a unique numeric id to each season palette.
 │   
 ├───pipeline/
 │   # python package for implementation of system pipeline and included components.
@@ -147,22 +151,22 @@ root
 │   # python package for clothing segmentation and retrieval.
 │   │
 │   ├───training_and_testing_retrieval.py
-│       #
+│       # python file containing functions for training and evaluation of retrieval component.
 │   
 ├───slurm_scripts/
 │   # python package for scripts to run training and hpo on SLURM.
 │   │
 │   ├───slurm_config.py
-│       #
+│       # python file containing dictionaries for configuration of training and hpo processes.
 │   
 └───utils/
     # python package for utility functions and classes.
     │
     ├───custom_transforms.py
-    │   #
+    │   # python file containining custom data augmentation transforms for face segmentation models.
     │   
     ├───utils.py
-        #
+        # python file containing generic functions used throughout the project.
 ```
 
 ## Authors
