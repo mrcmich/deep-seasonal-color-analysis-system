@@ -32,8 +32,8 @@ root
 │   # evaluating face segmentation models.
 │
 ├───clothes_segmentation_test.py
-│   # python file that segments cloth's images from test partition of the dress code dataset and visualizes
-│   # intermediate steps to evaluate the goodness of the segmentation.
+│   # python file that segments cloth's images from test partition of the dress code dataset and 
+│   # visualizes intermediate steps to evaluate the goodness of the segmentation.
 │
 ├───extract_weights_from_checkpoint.py
 │   # python script for extraction of weights of pre-trained face segmentation models from their 
