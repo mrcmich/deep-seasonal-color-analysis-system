@@ -48,8 +48,8 @@ root
 │
 ├───models_preprocessing_FastSCNN.ipynb
 ├───models_preprocessing_UNet.ipynb
-│   # python notebooks for comparison of different preprocessing and data augmentation transforms for selected 
-│   # face segmentation models.
+│   # python notebooks for comparison of different preprocessing and data augmentation transforms for 
+│   # selected face segmentation models.
 │
 ├───models_test_CGNet_demo.ipynb
 ├───models_test_Deeplabv3_demo.ipynb
@@ -61,8 +61,8 @@ root
 │
 ├───models_test_FastSCNN_best.ipynb
 ├───models_test_UNet_best.ipynb
-│   # python notebooks for evaluation of mIoU of selected face segmentation models after hpo on test partition of 
-│   # face segmentation dataset.
+│   # python notebooks for evaluation of mIoU of selected face segmentation models after hpo on 
+│   # test partition of face segmentation dataset.
 │
 ├───models_training_best_UNet_complete.ipynb
 ├───models_training_best_UNet_validation.ipynb
@@ -72,21 +72,23 @@ root
 │   # python script for training or hpo of face segmentation models.
 │
 ├───palette_classification_cloth_mappings_computation.ipynb
-│   # python notebook for computation and storage of mappings assigning each clothing item of dress code dataset 
-|   # to its corresponding palette for retrieval.
+│   # python notebook for computation and storage of mappings assigning each clothing item of  
+|   # dress code dataset to its corresponding palette for retrieval.
 │
 ├───palette_classification_demo_user.ipynb
 │   # python notebook showcasing the entire user palette classification process.
 │
 ├───palette_classification_user_thresholds_computation.ipynb
-│   # python notebook for computation of user thresholds on training partition of face segmentation dataset, 
-│   # used when thresholding metrics contrast, intensity and value during the user palette classification process.
+│   # python notebook for computation of user thresholds on training partition of 
+│   # face segmentation dataset, used when thresholding metrics contrast, intensity and value during 
+│   # the user palette classification process.
 │
 ├───pipeline_demo.ipynb
 │   # python notebook showcasing usage and results of our pipeline on a real image.
 │
 ├───retrieval_test.py
-│   # python file that tests a given open CLIP model, passed as parameter, over the test partition of the dress code dataset.
+│   # python file that tests a given open CLIP model, passed as parameter, over the test partition 
+│   # of the dress code dataset.
 │
 ├───retrieval_use_case.py
 │   # python file that simulates a retrieval process for a user.
@@ -104,7 +106,8 @@ root
 │   │   # python configuration file for training, evaluation and hpo of face segmentation models.
 │   │
 │   ├───dataset.py
-│   │   # python file containing Dataset classes used to load images from face segmentation and dress code datasets.
+│   │   # python file containing Dataset classes used to load images from face segmentation and 
+│   │   # dress code datasets.
 │   │
 │   ├───training_and_testing.py
 │   │   # python file containing functions for training and evaluation of face segmentation models.
@@ -132,7 +135,8 @@ root
 │   │   # training and hpo of face segmentation models on SLURM.
 │   │
 │   ├───plots/
-│   │   # directory containing plots tracking loss and score of face segmentation models during the training process.
+│   │   # directory containing plots tracking loss and score of face segmentation models during the 
+│   │   # training process.
 │   │
 │   └───weights/
 │       # directory containing the weights of all face segmentation models trained by us.
@@ -141,11 +145,12 @@ root
 │   # python package for palette classification of user and clothing images.
 │   │
 │   ├───clothing_palette_mappings/
-│   │   # directory containing mappings between clothing item images and their corresponding season palettes as JSON files, 
-│   │   # divided into categories dresses, upper-body and lower-body.
+│   │   # directory containing mappings between clothing item images and their corresponding season 
+│   │   # palettes as JSON files,  divided into categories dresses, upper-body and lower-body.
 │   │
 │   └───palettes/
-│       # directory containing season palette CSV files and mappings assigning a unique numeric id to each season palette.
+│       # directory containing season palette CSV files and mappings assigning a unique id 
+│       # to each season palette.
 │   
 ├───pipeline/
 │   # python package for implementation of system pipeline and included components.
