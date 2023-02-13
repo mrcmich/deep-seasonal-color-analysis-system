@@ -50,7 +50,7 @@ class UserPaletteClassificationFilter(AbstractFilter):
         img_masked = color_processing.apply_masks(img, relevant_masks)
         
         dominants = color_processing.compute_user_embedding(
-            img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse)
+            img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse, debug=True)
         dominants_palette = palette.PaletteRGB('dominants', dominants)
         
         hair_dominant = dominants[self.hair_idx] if relevant_masks[self.hair_idx].sum() > 0 else None
@@ -64,5 +64,8 @@ class UserPaletteClassificationFilter(AbstractFilter):
             subtone, intensity, value, contrast, self.thresholds)
         user_palette = palette.classify_user_palette(
             dominants_palette, self.reference_palettes, with_contrast)
+        
+        print(dominants_palette.description())
+        dominants_palette.plot()
 
         return user_palette
