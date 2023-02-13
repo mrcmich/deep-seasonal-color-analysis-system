@@ -1,10 +1,131 @@
 # Deep Seasonal Color Analysis System (DSCAS)
-DSCAS is a comprehensive pipeline based on classical and AI techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with configurable filters, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user.
-
-The project is being developed as part of the course on Computer Vision and Cognitive Systems.
+## Introduction
+DSCAS is a comprehensive pipeline based on classical and AI techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with configurable filters, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user.The project is currently being developed as part of the course on Computer Vision and Cognitive Systems.
 
 ## Documentation
-For information about the composition and execution of the pipeline, please see python notebook pipeline_demo.ipynb. 
+For information about the composition and execution of the pipeline, please see python notebook pipeline_demo.ipynb. If you want to know more
+about the development process and rational behind the system, you're welcome to read our paper: Deep_Seasonal_Color_Analysis_System__DSCAS_.pdf.
+
+## Project Structure
+A brief overview of the most relevant files and directories of the project is presented as a tree structure, where elements are accompanied by a comment
+identified by the hashtag character:
+```bash
+│
+├───class_weights_computation.ipynb
+│   # python notebook for computation of class weights used by weighted mIoU and weighted loss when evaluating 
+|   # face segmentation models.
+│
+├───clothes_segmentation_test.py
+│   # 
+│
+├───extract_weights_from_checkpoint.py
+│   # python script for extraction of weights of pre-trained face segmentation models from their corresponding checkpoints.
+│
+├───mean_std.ipynb
+│   # python notebook for computation of mean and standard deviation of face segmentation dataset images.
+│
+├───models_loss_selection_FastSCNN.ipynb
+├───models_loss_selection_UNet.ipynb
+│   # python notebooks for comparison of standard and weighted loss for selected face segmentation models.
+│
+├───models_preprocessing_FastSCNN.ipynb
+├───models_preprocessing_UNet.ipynb
+│   # python notebooks for comparison of different preprocessing and data augmentation transforms for selected 
+|   # face segmentation models.
+│
+├───models_test_CGNet_demo.ipynb
+├───models_test_Deeplabv3_demo.ipynb
+├───models_test_FastSCNN_demo.ipynb
+├───models_test_LEDNet_demo.ipynb
+├───models_test_UNet_demo.ipynb
+│   # python notebooks for evaluation of mIoU of base face segmentation models on test partition of face segmentation dataset.
+│
+├───models_test_FastSCNN_best.ipynb
+├───models_test_UNet_best.ipynb
+│   # python notebooks for evaluation of mIoU of selected face segmentation models after hpo on test partition of 
+|   # face segmentation dataset.
+|
+├───models_training_best_UNet_complete.ipynb
+├───models_training_best_UNet_validation.ipynb
+│   # python notebooks for training of UNet face segmentation model after hpo on Google Colab.
+│
+├───models_training_or_hpo.py
+│   # python script for training or hpo of face segmentation models.
+│
+├───palette_classification_cloth_mappings_computation.ipynb
+│   # python notebook for computation and storage of mappings assigning each clothing item of dress code dataset 
+|   # to its corresponding palette for retrieval.
+│
+├───palette_classification_demo_user.ipynb
+│   # python notebook showcasing the entire user palette classification process.
+│
+├───palette_classification_user_thresholds_computation.ipynb
+│   # python notebook for computation of user thresholds on training partition of face segmentation dataset, 
+|   # used when thresholding metrics contrast, intensity and value during the user palette classification process.
+│
+├───pipeline_demo.ipynb
+│   # python notebook showcasing usage and results of our pipeline on a real image.
+│
+├───retrieval_test.py
+│   # 
+│
+├───retrieval_use_case.py
+│   # 
+│
+├───metrics_and_losses/
+│   ├───metrics.py
+│       # python file containing evaluation metrics.
+│
+├───models/
+│   # directories and files related to selection, training, hpo and other experiments of face segmentation models.
+│   │
+│   ├───config.py
+│   │   #
+│   │
+│   ├───dataset.py
+│   │   # python file containing Dataset classes used to load images from face segmentation and dress code datasets.
+│   │
+│   ├───training_and_testing.py
+│   │   #
+│   │
+│   ├───cloud/
+│   ├───demo/
+│   ├───hpo/
+│   ├───local/
+│   ├───loss_selection/
+│   ├───outputs/
+│   ├───plots/
+│   ├───preprocessing/
+│   ├───training_best/
+│   └───weights/
+│   
+├───palette_classification/
+│   ├───color_processing.py
+│   ├───palette.py
+│   ├───clothing_palette_mappings/
+│   ├───example_images/
+│   └───palettes/
+│   
+├───pipeline/
+│   
+├───retrieval/
+│   ├───clothes_segmentation.py
+│   ├───training_and_testing_retrieval.py
+│   ├───retrieved_images/
+│   └───segmented_clothes/
+│   
+├───slurm_scripts/
+│   ├───slurm_config.py
+│   ├───hpo/
+│   ├───training_best/
+│   └───training_demo/
+│   
+└───utils/
+    ├───custom_transforms.py
+    ├───model_names.py
+    ├───segmentation_labels.py
+    ├───utils.py
+```
 
 ## Authors
 
