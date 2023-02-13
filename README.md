@@ -15,21 +15,21 @@ A brief overview of the most relevant files and directories of the project is pr
 identified by the hashtag character:
 ```bash
 root
-│
 ├───dresscode_test_dataset/
 │   # directory containing the test partition of the dress code dataset - please note that you'll have to download 
-│   # the dataset yourself from the provided link.
+│   # the dataset from the link provided in the Datasets section if you want to train the face segmentation models yourself.
 │
 ├───headsegmentation_dataset_ccncsa/
 │   # directory containing the face segmentation dataset - please note that you'll have to download 
-│   # the dataset yourself from the provided link.
+│   # the dataset from the link provided in the Datasets section if you want to run the system pipeline.
 │
 ├───class_weights_computation.ipynb
 │   # python notebook for computation of class weights used by weighted mIoU and weighted loss when evaluating 
 │   # face segmentation models.
 │
 ├───clothes_segmentation_test.py
-│   # 
+│   # python file that segments cloth's images from test partition of the dress code dataset and visualizes the intermediate 
+│   # steps to evaluate the goodness of the segmentation.
 │
 ├───extract_weights_from_checkpoint.py
 │   # python script for extraction of weights of pre-trained face segmentation models from their corresponding checkpoints.
@@ -80,37 +80,52 @@ root
 │   # python notebook showcasing usage and results of our pipeline on a real image.
 │
 ├───retrieval_test.py
-│   # 
+│   # python file that tests a given open CLIP model, passed as parameter, over the test partition of the dress code dataset.
 │
 ├───retrieval_use_case.py
-│   # 
+│   # python file that simulates a retrieval process for a user.
 │
 ├───metrics_and_losses/
 │   ├───metrics.py
 │       # python file containing evaluation metrics.
 │
 ├───models/
-│   # directories and files related to selection, training, hpo and other experiments of face segmentation models.
-│   │
 │   ├───config.py
-│   │   #
+│   │   # python configuration file for training, evaluation and hpo of face segmentation models.
 │   │
 │   ├───dataset.py
 │   │   # python file containing Dataset classes used to load images from face segmentation and dress code datasets.
 │   │
 │   ├───training_and_testing.py
-│   │   #
+│   │   # python file containing functions for training and evaluation of face segmentation models.
 │   │
 │   ├───cloud/
-│   ├───demo/
-│   ├───hpo/
 │   ├───local/
-│   ├───loss_selection/
-│   ├───outputs/
-│   ├───plots/
-│   ├───preprocessing/
+│   │   # directories containing models' implementation for both local and cloud face segmentation models.
+│   │   
+│   ├───demo/
+│   │   # directory containing checkpoints from training of demo (base) face segmentation models.
+│   │
 │   ├───training_best/
+│   │   # directory containing checkpoints from training of selected face segmentation models after hpo.
+│   │
+│   ├───hpo/
+│   │   # directory containing checkpoints from hpo of face segmentation models.
+│   │
+│   ├───preprocessing/
+│   ├───loss_selection/
+│   │   # directories containing checkpoints from preprocessing and loss comparison experiments 
+│   │   # of selected face segmentation models.
+│   │
+│   ├───outputs/
+│   │   # directory containing output and error files from execution of scripts to run 
+│   │   # training and hpo of face segmentation models on SLURM.
+│   │
+│   ├───plots/
+│   │   # directory containing plots tracking loss and score of face segmentation models during the training process.
+│   │
 │   └───weights/
+│       # directory containing the weights of all face segmentation models trained by us.
 │   
 ├───palette_classification/
 │   ├───color_processing.py
