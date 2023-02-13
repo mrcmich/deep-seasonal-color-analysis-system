@@ -86,10 +86,14 @@ root
 │   # python file that simulates a retrieval process for a user.
 │
 ├───metrics_and_losses/
+│   # python package for metrics and losses defined by us.
+│   │
 │   ├───metrics.py
 │       # python file containing evaluation metrics.
 │
 ├───models/
+│   # python package for face segmentation models.
+│   │
 │   ├───config.py
 │   │   # python configuration file for training, evaluation and hpo of face segmentation models.
 │   │
@@ -128,31 +132,37 @@ root
 │       # directory containing the weights of all face segmentation models trained by us.
 │   
 ├───palette_classification/
-│   ├───color_processing.py
-│   ├───palette.py
+│   # python package for palette classification of user and clothing images.
+│   │
 │   ├───clothing_palette_mappings/
-│   ├───example_images/
+│   │   #
+│   │
 │   └───palettes/
+│       #
 │   
 ├───pipeline/
+│   # python package for implementation of system pipeline and included components.
 │   
 ├───retrieval/
-│   ├───clothes_segmentation.py
+│   # python package for clothing segmentation and retrieval.
+│   │
 │   ├───training_and_testing_retrieval.py
-│   ├───retrieved_images/
-│   └───segmented_clothes/
+│       #
 │   
 ├───slurm_scripts/
+│   # python package for scripts to run training and hpo on SLURM.
+│   │
 │   ├───slurm_config.py
-│   ├───hpo/
-│   ├───training_best/
-│   └───training_demo/
+│       #
 │   
 └───utils/
+    # python package for utility functions and classes.
+    │
     ├───custom_transforms.py
-    ├───model_names.py
-    ├───segmentation_labels.py
+    │   #
+    │   
     ├───utils.py
+        #
 ```
 
 ## Authors
