@@ -2,14 +2,24 @@
 ## Introduction
 DSCAS is a comprehensive pipeline based on classical and AI techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with configurable filters, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user.The project is currently being developed as part of the course on Computer Vision and Cognitive Systems.
 
-## Documentation
-For information about the composition and execution of the pipeline, please see python notebook pipeline_demo.ipynb. If you want to know more
-about the development process and rational behind the system, you're welcome to read our paper: Deep_Seasonal_Color_Analysis_System__DSCAS_.pdf.
+## Datasets
+{insert description of datasets used and where to find them}
+
+## Usage
+For information about the composition and execution of the pipeline, please see python notebook pipeline_demo.ipynb. If you want to get a grasp
+of how the system works, you're welcome to read our paper: Deep_Seasonal_Color_Analysis_System__DSCAS_.pdf.
 
 ## Project Structure
 A brief overview of the most relevant files and directories of the project is presented as a tree structure, where elements are accompanied by a comment
 identified by the hashtag character:
 ```bash
+root
+│
+├───dresscode_test_dataset/
+│   # directory containing the test partition of the dress code dataset - please note that you'll have to download the dataset yourself from the provided link.
+│
+├───headsegmentation_dataset_ccncsa/
+│   # directory containing the face segmentation dataset - please note that you'll have to download the dataset yourself from the provided link.
 │
 ├───class_weights_computation.ipynb
 │   # python notebook for computation of class weights used by weighted mIoU and weighted loss when evaluating 
