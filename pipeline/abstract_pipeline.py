@@ -21,17 +21,19 @@ class AbstractPipeline(ABC):
         pass
 
     @abstractmethod
-    def execute(self, input, device=None):
+    def execute(self, input, device=None, verbose=False):
         """
         .. description::
         Abstract method to execute all of the pipeline's filters one after the other, in the order
         in which they were added.
 
         .. inputs::
-        input:  Input of the pipeline, coinciding with the input of the first filter.
-        device: For pipeline filters supporting execution both on cpu and gpu, the device on which 
-                to run said execution. If None, device is set to 'cuda' if execution on gpu is 
-                available or 'cpu' otherwise.
+        input:   Input of the pipeline, coinciding with the input of the first filter.
+        device:  For pipeline filters supporting execution both on cpu and gpu, the device on which 
+                 to run said execution. If None, device is set to 'cuda' if execution on gpu is 
+                 available or 'cpu' otherwise.
+        verbose: For pipeline filters supporting this parameter, determines whether to print additional
+                 info during execution or not.
         """
 
         pass

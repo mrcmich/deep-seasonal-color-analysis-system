@@ -19,7 +19,8 @@ class RetrievalFilter(AbstractFilter):
     Filter for retrieving clothing images from a dataset that satisfy a query string, describing 
     the type of clothing in natural language, and belong to a certain palette (passed as input
     to method execute). The filter returns the paths of all compatible clothing images as a list.
-    Moreover, the filter supports execution both on cpu and gpu.
+    Moreover, the filter supports execution both on cpu and gpu. The filter doesn't support
+    the printing of additional information through verbose parameter of method execute.
     """
     
     def __init__(self, cloth_dataset_path, palette_mappings_dict): 
@@ -58,7 +59,7 @@ class RetrievalFilter(AbstractFilter):
     def get_query(self):
         return self.query
 
-    def execute(self, input, device=None):
+    def execute(self, input, device=None, verbose=False):
         assert(self.query is not None)
 
         filtered_cloth_paths = []

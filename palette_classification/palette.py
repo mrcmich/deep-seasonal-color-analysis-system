@@ -39,7 +39,7 @@ def compute_subtone(lips_color):
     assert(lips_color.shape == (3, 1, 1))
 
     peach_color = torch.tensor([255, 230, 182], dtype=torch.uint8).reshape(lips_color.shape)
-    purple_color = torch.tensor([145, 0, 255], dtype=torch.uint8).reshape(lips_color.shape)
+    purple_color = torch.tensor([210, 120, 180], dtype=torch.uint8).reshape(lips_color.shape)
 
     if color_processing.color_distance(lips_color, peach_color) < color_processing.color_distance(lips_color,
                                                                                                   purple_color):

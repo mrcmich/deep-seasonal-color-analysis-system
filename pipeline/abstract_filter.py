@@ -34,10 +34,12 @@ class AbstractFilter(ABC):
         Abstract method called when executing the filter on the provided input.
 
         .. inputs::
-        input: Input of the filter, expected to be the same type returned by method input_type.
-        device: For filters supporting execution both on cpu and gpu, the device on which 
-                to run said execution. If None, device is set to 'cuda' if execution on gpu is 
-                available or 'cpu' otherwise.
+        input:   Input of the filter, expected to be the same type returned by method input_type.
+        device:  For filters supporting execution both on cpu and gpu, the device on which 
+                 to run said execution. If None, device is set to 'cuda' if execution on gpu is 
+                 available or 'cpu' otherwise.
+        verbose: For filters supporting this parameter, determines whether to print additional
+                 info during execution or not.
         """
 
         pass
