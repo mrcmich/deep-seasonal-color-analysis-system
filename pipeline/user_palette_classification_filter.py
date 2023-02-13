@@ -17,7 +17,8 @@ class UserPaletteClassificationFilter(AbstractFilter):
     a segmentation filter) of the user and assigning the corresponding palette object according 
     to color harmony theory. The filter returns said palette object as output. Please note that the
     filter doesn't support execution on gpu, and thus the device parameter of method execute has no
-    effect on execution.
+    effect on execution. The filter supports the printing of additional information through verbose
+    parameter of method execute.
     """
     
     def __init__(self, reference_palettes, thresholds=(0.200, 0.422, 0.390)):
@@ -44,13 +45,13 @@ class UserPaletteClassificationFilter(AbstractFilter):
     def output_type(self):
         return palette.PaletteRGB
 
-    def execute(self, input, device=None):
+    def execute(self, input, device=None, verbose=False):
         img, masks = input
         relevant_masks = masks[self.relevant_indexes, :, :]
         img_masked = color_processing.apply_masks(img, relevant_masks)
         
         dominants = color_processing.compute_user_embedding(
-            img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse, debug=True)
+            img_masked, n_candidates=(3, 3, 3, 3), distance_fn=metrics.rmse, debug=verbose)
         dominants_palette = palette.PaletteRGB('dominants', dominants)
         
         hair_dominant = dominants[self.hair_idx] if relevant_masks[self.hair_idx].sum() > 0 else None
@@ -65,7 +66,8 @@ class UserPaletteClassificationFilter(AbstractFilter):
         user_palette = palette.classify_user_palette(
             dominants_palette, self.reference_palettes, with_contrast)
         
-        print(dominants_palette.description())
-        dominants_palette.plot()
+        if verbose is True:
+            print(dominants_palette.description())
+            dominants_palette.plot()
 
         return user_palette

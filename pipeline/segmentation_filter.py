@@ -23,7 +23,8 @@ class SegmentationFilter(AbstractFilter):
     its segmentation masks. The segmentation model used for predictions can be configured through the 
     model parameter of the class constructor ('local' for the less accurate but lighter model, 
     'cloud' for the more accurate but heavier one). Moreover, the filter supports execution both 
-    on cpu and gpu.
+    on cpu and gpu. The filter doesn't support the printing of additional information through verbose
+    parameter of method execute.
     """
     
     def __init__(self, model):
@@ -52,7 +53,7 @@ class SegmentationFilter(AbstractFilter):
     def output_type(self):
         return tuple
 
-    def execute(self, input, device=None):
+    def execute(self, input, device=None, verbose=False):
         if device is None:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
