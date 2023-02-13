@@ -16,14 +16,16 @@ identified by the hashtag character:
 root
 │
 ├───dresscode_test_dataset/
-│   # directory containing the test partition of the dress code dataset - please note that you'll have to download the dataset yourself from the provided link.
+│   # directory containing the test partition of the dress code dataset - please note that you'll have to download 
+│   # the dataset yourself from the provided link.
 │
 ├───headsegmentation_dataset_ccncsa/
-│   # directory containing the face segmentation dataset - please note that you'll have to download the dataset yourself from the provided link.
+│   # directory containing the face segmentation dataset - please note that you'll have to download 
+│   # the dataset yourself from the provided link.
 │
 ├───class_weights_computation.ipynb
 │   # python notebook for computation of class weights used by weighted mIoU and weighted loss when evaluating 
-|   # face segmentation models.
+│   # face segmentation models.
 │
 ├───clothes_segmentation_test.py
 │   # 
@@ -41,7 +43,7 @@ root
 ├───models_preprocessing_FastSCNN.ipynb
 ├───models_preprocessing_UNet.ipynb
 │   # python notebooks for comparison of different preprocessing and data augmentation transforms for selected 
-|   # face segmentation models.
+│   # face segmentation models.
 │
 ├───models_test_CGNet_demo.ipynb
 ├───models_test_Deeplabv3_demo.ipynb
@@ -53,8 +55,8 @@ root
 ├───models_test_FastSCNN_best.ipynb
 ├───models_test_UNet_best.ipynb
 │   # python notebooks for evaluation of mIoU of selected face segmentation models after hpo on test partition of 
-|   # face segmentation dataset.
-|
+│   # face segmentation dataset.
+│
 ├───models_training_best_UNet_complete.ipynb
 ├───models_training_best_UNet_validation.ipynb
 │   # python notebooks for training of UNet face segmentation model after hpo on Google Colab.
@@ -71,7 +73,7 @@ root
 │
 ├───palette_classification_user_thresholds_computation.ipynb
 │   # python notebook for computation of user thresholds on training partition of face segmentation dataset, 
-|   # used when thresholding metrics contrast, intensity and value during the user palette classification process.
+│   # used when thresholding metrics contrast, intensity and value during the user palette classification process.
 │
 ├───pipeline_demo.ipynb
 │   # python notebook showcasing usage and results of our pipeline on a real image.
