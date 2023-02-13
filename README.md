@@ -19,23 +19,25 @@ root
 │   # project paper detailing scope and inner workings of our pipeline.
 │
 ├───dresscode_test_dataset/
-│   # directory containing the test partition of the dress code dataset - please note that you'll have to download 
-│   # the dataset from the link provided in the Datasets section if you want to train the face segmentation models yourself.
+│   # directory containing the test partition of the dress code dataset - please note that you'll have  
+│   # to download the dataset from the link provided in the Datasets section if you want to train 
+│   # face segmentation models yourself.
 │
 ├───headsegmentation_dataset_ccncsa/
 │   # directory containing the face segmentation dataset - please note that you'll have to download 
 │   # the dataset from the link provided in the Datasets section if you want to run the system pipeline.
 │
 ├───class_weights_computation.ipynb
-│   # python notebook for computation of class weights used by weighted mIoU and weighted loss when evaluating 
-│   # face segmentation models.
+│   # python notebook for computation of class weights used by weighted mIoU and weighted loss when 
+│   # evaluating face segmentation models.
 │
 ├───clothes_segmentation_test.py
-│   # python file that segments cloth's images from test partition of the dress code dataset and visualizes the intermediate 
-│   # steps to evaluate the goodness of the segmentation.
+│   # python file that segments cloth's images from test partition of the dress code dataset and visualizes
+│   # intermediate steps to evaluate the goodness of the segmentation.
 │
 ├───extract_weights_from_checkpoint.py
-│   # python script for extraction of weights of pre-trained face segmentation models from their corresponding checkpoints.
+│   # python script for extraction of weights of pre-trained face segmentation models from their 
+│   # corresponding checkpoints.
 │
 ├───mean_std.ipynb
 │   # python notebook for computation of mean and standard deviation of face segmentation dataset images.
@@ -54,7 +56,8 @@ root
 ├───models_test_FastSCNN_demo.ipynb
 ├───models_test_LEDNet_demo.ipynb
 ├───models_test_UNet_demo.ipynb
-│   # python notebooks for evaluation of mIoU of base face segmentation models on test partition of face segmentation dataset.
+│   # python notebooks for evaluation of mIoU of base face segmentation models on test partition of 
+│   # face segmentation dataset.
 │
 ├───models_test_FastSCNN_best.ipynb
 ├───models_test_UNet_best.ipynb
