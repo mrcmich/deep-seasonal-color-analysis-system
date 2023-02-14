@@ -20,12 +20,13 @@ root
 │
 ├───dresscode_test_dataset/
 │   # directory containing the test partition of the dress code dataset - please note that you'll have  
-│   # to download the dataset from the link provided in the Datasets section if you want to train 
-│   # face segmentation models yourself.
+│   # to download the dataset from the link provided in the Datasets section if you want to run 
+│   # the system pipeline.
 │
 ├───headsegmentation_dataset_ccncsa/
 │   # directory containing the face segmentation dataset - please note that you'll have to download 
-│   # the dataset from the link provided in the Datasets section if you want to run the system pipeline.
+│   # the dataset from the link provided in the Datasets section if you want to train 
+│   # face segmentation models yourself.
 │
 ├───class_weights_computation.ipynb
 │   # python notebook for computation of class weights used by weighted mIoU and weighted loss when 
