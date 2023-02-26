@@ -1,6 +1,6 @@
 # Deep Seasonal Color Analysis System (DSCAS)
 ## Introduction
-DSCAS is a comprehensive pipeline based on classical and Deep Learning techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with a query describing the desired type of clothing, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user. The project is currently being developed as part of the course on Computer Vision and Cognitive Systems.
+DSCAS is a comprehensive pipeline based on classical and Deep Learning techniques for assigning a color palette to a user according to color harmony principles, given a selfie of the user. The assigned palette, together with a query describing the desired type of clothing, is then used to retrieve compatible clothing items from a database of clothes photos which can be suggested to the user. The project was developed as part of the course on Computer Vision and Cognitive Systems.
 
 ## Datasets
 + __Face Segmentation Dataset__: dataset used for segmenting face salient features. The dataset contains 16557 fully pixel-level labeled segmentation images. Facial images are included from different ethnicities, ages and genders making it a well balanced dataset. Also, there is a wide variety of facial poses and different camera angles to provide a good coverage from -90 to 90 degrees face orientations. Click [here](https://store.mut1ny.com/product/face-head-segmentation-dataset-community-edition?v=cd32106bcb6d) to get access to this dataset.
@@ -8,7 +8,7 @@ DSCAS is a comprehensive pipeline based on classical and Deep Learning technique
 
 ## Usage
 For information about composition and execution of the pipeline, see python notebook *pipeline_demo.ipynb*. Please note that you'll need to download the dress code dataset if you want to run the notebook. If you want to get a grasp
-of how the system works, you're welcome to read the project paper *Deep_Seasonal_Color_Analysis_System__DSCAS.pdf*.
+of how the system works, you're welcome to read the project report *Deep_Seasonal_Color_Analysis_System__DSCAS.pdf*.
 
 ## Project Structure
 A brief overview of the most relevant files and directories of the project is presented as a tree structure, where elements are accompanied by a comment
