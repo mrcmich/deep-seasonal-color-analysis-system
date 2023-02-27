@@ -54,15 +54,18 @@ def test_retrieval_model(device, model, tokenizer, dataset, batch_size, num_work
             image_text_accuracy += torch.sum(predictions.cpu() == label_idx).item()
             
             image_probs = (100.0 * text_features @ image_features.T).softmax(dim=-1)
-            predicted_image = torch.argmax(image_probs, dim=-1)
-            ground_truth = label_idx[predicted_image]
-            predictions = torch.arange(3, dtype=torch.int64)
-            text_image_accuracy += torch.sum(predictions.cpu() == ground_truth).item()
+            values, indices = torch.topk(image_probs, image_probs.shape[-1], dim=-1)
+            for cls in range(3):
+                for val, idx in zip(values[cls, :], indices[cls, :]):
+                    if val >= 0.5 and cls == label_idx[idx]:
+                        text_image_accuracy += 1
+                    if val < 0.5 and cls != label_idx[idx]:
+                        text_image_accuracy += 1
 
     clock_end = time.time()
     
     image_text_accuracy /= len(dataset)
-    text_image_accuracy /= 3 * len(dl)
+    text_image_accuracy /= 3 * len(dataset)
     
     print(f'Device: {device}.')
     print(f'Inference completed in around {math.ceil(clock_end - clock_start)} seconds.')
